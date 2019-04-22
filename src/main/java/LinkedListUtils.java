@@ -1,12 +1,6 @@
 import java.util.Collections;
 import java.util.LinkedList;
 
-/*
- * SD2x Homework #1
- * Implement the methods below according to the specification in the assignment description.
- * Please be sure not to change the signature of any of the methods!
- */
-
 public class LinkedListUtils {
 
     public static void insertSorted(LinkedList<Integer> list, int value) {
