@@ -8,28 +8,27 @@ import java.util.Stack;
  */
 
 public class HtmlValidator {
-	
-	public static Stack<HtmlTag> isValidHtml(Queue<HtmlTag> tags) {
-		Stack<HtmlTag> stack = new Stack<>();
 
-		for (HtmlTag tag : tags) {
-			if (tag.isSelfClosing())
-				continue;
+    public static Stack<HtmlTag> isValidHtml(Queue<HtmlTag> tags) {
+        Stack<HtmlTag> stack = new Stack<>();
 
-			if (tag.isOpenTag())
-				stack.push(tag);
-			else {
-				if (stack.isEmpty())
-					return null;
+        for (HtmlTag tag : tags) {
+            if (tag.isSelfClosing())
+                continue;
 
-				if (tag.matches(stack.peek()))
-					stack.pop();
-				else
-					break;
-			}
-		}
+            if (tag.isOpenTag())
+                stack.push(tag);
+            else {
+                if (stack.isEmpty())
+                    return null;
 
-		return stack;
-	}
+                if (tag.matches(stack.peek()))
+                    stack.pop();
+                else
+                    break;
+            }
+        }
+
+        return stack;
+    }
 }
-
