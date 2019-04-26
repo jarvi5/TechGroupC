@@ -50,9 +50,7 @@ public class LinkedListUtils {
         if (one == null || two == null || one.isEmpty() || two.isEmpty()) {
             return false;
         }
-        two.getFirst();
-        boolean flag = true;
-        while (flag) {
+        while (true) {
             int position = one.indexOf(two.getFirst());
             if (position < 0) break;
             if (one.size() - 1 >= two.size() + position - 1) {
