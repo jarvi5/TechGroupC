@@ -1,9 +1,6 @@
 package main;
 
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.ListIterator;
-import java.util.Objects;
 
 /*
  * SD2x Homework #1
@@ -50,16 +47,21 @@ public class LinkedListUtils {
     }
 
     public static boolean containsSubsequence(LinkedList<Integer> one, LinkedList<Integer> two) {
-
-		two.forEach(element->{
-		    if (one.contains(element)){
-		        int index=one.indexOf(element);
-                for (int i = one.indexOf(element); i < one.size(); i++) {
-
+        if (one == null || two == null || one.isEmpty() || two.isEmpty()) {
+            return false;
+        }
+        two.getFirst();
+        boolean flag = true;
+        while (flag) {
+            int position = one.indexOf(two.getFirst());
+            if (position < 0) break;
+            if (one.size() - 1 >= two.size() + position - 1) {
+                if (one.subList(position, two.size() + position).equals(two)) {
+                    return true;
                 }
             }
-        });
-
-        return true; // this line is here only so this code will compile if you don't modify it
+            one.remove(position);
+        }
+        return false;
     }
 }
