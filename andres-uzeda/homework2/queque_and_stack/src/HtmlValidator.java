@@ -14,15 +14,18 @@ public class HtmlValidator {
         for(HtmlTag value:tags) {
             if(itContainsOnlyClosedTags(tags)||itContainsMoreClosedTags(tags)){
                 return null;
-            }else{
-                if(!value.openTag){
-                    if(stackResult.lastElement().element.equals(value.element)){
-                        stackResult.pop();
-                    }
-                }else if(value.openTag && !value.element.equals("!doctype") && !value.element.equals("!--") && !value.element.equals("img") && !value.element.equals("link") && !value.element.equals("meta")){
-                    stackResult.push(value);
-                }
             }
+            if(value.isSelfClosing()){
+                continue;
+            }
+            if(value.isOpenTag() && !value.isSelfClosing()){
+                stackResult.push(value);
+
+            }else if(value.matches(stackResult.peek())){
+                if(stackResult.lastElement().element.equals(value.element)){
+                    stackResult.pop();
+                }
+            } else { break;}
         }
 		return stackResult;
 	}
