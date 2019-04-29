@@ -52,20 +52,18 @@ public class LinkedListUtils {
 	    if (one == null || two == null || one.isEmpty() || two.isEmpty()) {
 	            return false;
 	        }
-	            boolean result = false;	            
-	            for (int i = 0; i <= one.size() - two.size(); i++) {
-	        	for (int j = 0; j < two.size(); j++) {
-	        	if (!one.get(i + j).equals(two.get(j))) {	        	 
-	        	    result = false;
-	        	    break;
-	        	}
-	        	}
-	        	result = true;
-	            }
-	        
-	    if (result) {
-                return true;
+            int start = one.indexOf(two.getFirst());
+            if (start < 0){
+            return false;
             }
-	    return false;             
+	            for (int i = 0; i < two.size(); i++) {
+                    if (start + i >= one.size()){
+                        return false;
+                    }
+	        	    if (!(one.get(start + i).equals(two.get(i))) {
+	        	        return false;
+	        	    }
+                }
+	        	return true;
     }
 }
