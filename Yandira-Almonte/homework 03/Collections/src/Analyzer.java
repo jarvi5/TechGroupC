@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,31 +31,41 @@ public class Analyzer {
 		List<Sentence> sentences = new ArrayList<>();
 		if (filename != null && Paths.get(filename) != null) {
 			try {
-				BufferedReader br = Files.newBufferedReader(Paths.get(filename));
-				List<String> lines = br.lines().collect(Collectors.toList());
+				List<String> lines = Files.newBufferedReader(Paths.get(filename)).lines().collect(Collectors.toList());
 				for (String line : lines) {
 					if (!line.trim().isEmpty()) {
-						StringTokenizer tokens = new StringTokenizer(line);
-						double value = Double.valueOf(tokens.nextToken(" "));
-						int intPart = (int) value;
-						String text = tokens.nextToken("\n").trim();
-						if (value < -2 || value > 2) {
-							continue;
-						} else if (value - intPart != 0)
-							continue;
-						if (text.isEmpty())
-							continue;
-						sentences.add(new Sentence((int) value, text));
-
+						Sentence sentence = getSentence(line);
+						if (sentence != null)
+							sentences.add(sentence);
 					}
 				}
 			} catch (IOException e) {
 				System.out.println("The file doesnot exist.");
-				e.printStackTrace();
+
 			}
 		}
 		return sentences;
 
+	}
+
+	private static Sentence getSentence(String line) {
+		StringTokenizer tokens = new StringTokenizer(line);
+		Sentence sentence = null;
+		try {
+			double value = Double.valueOf(tokens.nextToken(" "));
+			int intPart = (int) value;
+			String text = tokens.nextToken("\n").trim();
+			if (value < -2 || value > 2) {
+				return null;
+			} else if (value - intPart != 0)
+				return null;
+			if (text.isEmpty())
+				return null;
+			sentence = new Sentence((int) value, text);
+		} catch (Exception e) {
+			System.out.println("No more tokens");			
+		}
+		return sentence;
 	}
 
 	/*
@@ -99,8 +111,7 @@ public class Analyzer {
 				}
 			}
 		}
-		return scores; // this line is here only so this code will compile if
-						// you don't modify it
+		return scores; 
 
 	}
 
@@ -109,26 +120,23 @@ public class Analyzer {
 	 */
 	public static double calculateSentenceScore(Map<String, Double> wordScores, String sentence) {
 		double score = 0.0;
-		if (sentence == null)
+		int length = 0;
+		if (sentence == null || wordScores == null || sentence.isEmpty())
 			return score;
-		if (wordScores != null && !sentence.isEmpty()) {
-			StringTokenizer token = new StringTokenizer(sentence, " ");
-			while (token.hasMoreElements()) {
-				String strWord = token.nextToken().toLowerCase();
-				if (!strWord.chars().allMatch(Character::isLetter))
-					continue;
-				else if (wordScores.containsKey(strWord)) {
-					score += wordScores.get(strWord).doubleValue();
-				} else
-					score += 0;
 
+		StringTokenizer token = new StringTokenizer(sentence, " ");
+		length = token.countTokens();
+		while (token.hasMoreElements()) {
+			String strWord = token.nextToken().toLowerCase();
+			if (!strWord.chars().allMatch(Character::isLetter)){
+				length--;
+				continue;
 			}
-
+			else if (wordScores.containsKey(strWord)) {
+				score += wordScores.get(strWord).doubleValue();
+			} 
 		}
-
-		return score; // this line is here only so this code will compile if you
-						// don't modify it
-
+		return score / length;
 	}
 
 	/*
@@ -147,9 +155,9 @@ public class Analyzer {
 		in.close();
 		List<Sentence> sentences = Analyzer.readFile(filename);
 		Set<Word> words = Analyzer.allWords(sentences);
-		// words.forEach(value-> System.out.println(value));
 		Map<String, Double> wordScores = Analyzer.calculateScores(words);
 		double score = Analyzer.calculateSentenceScore(wordScores, sentence);
 		System.out.println("The sentiment score is " + score);
+		
 	}
 }
