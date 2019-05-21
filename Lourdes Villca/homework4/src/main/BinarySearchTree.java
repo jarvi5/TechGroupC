@@ -146,10 +146,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
         if (n.value.equals(val)) {
             return count++;
         } else if (n.value.compareTo(val) > 0) {
-            count++;
+            count ++;
             return calculateDepth(n.leftChild, val, count);
         } else {
-            count++;
+            count ++;
             return calculateDepth(n.rightChild, val, count);
         }
     }
@@ -164,7 +164,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
     protected int getHeightTree(Node node) {
         if (node == null)
             return -1;
-        if(node.rightChild == null && node.leftChild==null){
+        if (node.rightChild == null && node.leftChild == null) {
             return 0;
         }
         int leftCount = getHeightTree(node.leftChild);
@@ -174,20 +174,21 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     // Method #4.
     protected boolean isBalanced(Node n) {
-
-        /* IMPLEMENT THIS METHOD! */
-
-        return true; // this line is here only so this code will compile if you don't modify it
+        if (n == null || !contains(n.value)) {
+            return false;
+        }
+        int heightDiff = Math.abs(getHeightTree(n.leftChild) - getHeightTree(n.rightChild));
+        if (heightDiff <= 1) {
+            return true;
+        } else {
+            return isBalanced(n.leftChild) && isBalanced(n.rightChild);
+        }
 
     }
 
     // Method #5. .
     public boolean isBalanced() {
-
-        /* IMPLEMENT THIS METHOD! */
-
-        return false; // this line is here only so this code will compile if you don't modify it
-
+        return isBalanced(root.leftChild) && isBalanced(root.rightChild);
     }
 
 }
