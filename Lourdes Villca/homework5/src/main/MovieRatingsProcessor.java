@@ -17,10 +17,8 @@ public class MovieRatingsProcessor {
         ArrayList<String> result = new ArrayList<>();
         if (movieRatings == null) return result;
         for (Map.Entry<String, PriorityQueue<Integer>> movie : movieRatings.entrySet()) {
-            PriorityQueue value = movie.getValue();
             if (checkRating(movie.getValue(), rating)) continue;
             result.add(movie.getKey());
-
         }
         return result;
     }

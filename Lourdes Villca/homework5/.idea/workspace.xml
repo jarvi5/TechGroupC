@@ -15,8 +15,8 @@
       <file leaf-file-name="MovieRatingsProcessor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="35" column="46" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="46" />
+            <state relative-caret-position="138">
+              <caret line="34" column="31" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -283,6 +283,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -320,19 +321,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java</url>
-          <line>39</line>
+          <line>37</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java</url>
-          <line>40</line>
+          <line>38</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java</url>
-          <line>36</line>
+          <line>34</line>
           <properties />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
@@ -344,7 +345,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java</url>
-          <line>45</line>
+          <line>43</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
@@ -473,8 +474,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/MovieRatingsProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="35" column="46" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="46" />
+        <state relative-caret-position="138">
+          <caret line="34" column="31" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="31" />
         </state>
       </provider>
     </entry>
