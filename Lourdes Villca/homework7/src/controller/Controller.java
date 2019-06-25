@@ -7,6 +7,8 @@ import view.SearchResult;
 
 import java.util.ArrayList;
 
+import static java.lang.System.out;
+
 public class Controller {
     private Person person;
     private SearchPanel searchPanel;
@@ -27,8 +29,16 @@ public class Controller {
                 navigatePanel.setPersonName(person.getFirstname());
                 navigatePanel.setPersonLastName(person.getLastname());
         });
-        searchPanel.getSearch().addActionListener(e ->
-                searchPerson(searchPanel.getFirstnameTextfield().getText(),searchPanel.getLastnameTextfield().getText()));
+        searchPanel.getSearch().addActionListener(e ->{
+                if(searchPerson(searchPanel.getFirstnameTextfield().getText(),searchPanel.getLastnameTextfield().getText())) {
+                    searchResult.setPersonName(searchPanel.getFirstnameTextfield().getText());
+                    searchResult.setPersonLastName(searchPanel.getLastnameTextfield().getText());
+                }
+                else{
+                    searchResult.setErrorMessage("Person not Found!!!");
+                }
+
+        });
         navigatePanel.getPrevious().addActionListener(e -> {
             nextList(person);
         });
@@ -45,21 +55,27 @@ public class Controller {
     }
 
     private void addPerson(String name, String lastName) {
-        if( personList.isEmpty() )
+        if(personList.isEmpty()){
             person = new Person(name, lastName);
+            personList.add(person);
+            return;
+        }
         for (Person pers : personList) {
-            if (!pers.getFirstname().equals(name) && pers.getLastname().equals(lastName)) {
+            if (!(pers.getFirstname().equals(name) && pers.getLastname().equals(lastName))) {
                 person = new Person(name,lastName);
                 personList.add(person);
+                return;
             }
         }
+        System.out.println(personList.size());
     }
 
     private boolean searchPerson(String name, String lastName) {
         for(Person p: personList){
+            out.println(p.getFirstname());
+            out.println(p.getLastname());
             if(p.getFirstname().equals(name) && p.getLastname().equals(lastName)){
                 return true;
-
             }
         }
         return false;
