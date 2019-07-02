@@ -5,6 +5,9 @@ import view.NavigatePanel;
 import view.SearchPanel;
 import view.SearchResult;
 
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import static java.lang.System.out;
@@ -17,75 +20,91 @@ public class Controller {
     private ArrayList<Person> personList;
 
     public Controller(SearchPanel searchPanel, NavigatePanel navigatePanel, SearchResult resultPanel) {
-        this.searchPanel=searchPanel;
-        this.navigatePanel=navigatePanel;
-        this.searchResult=resultPanel;
+        this.searchPanel = searchPanel;
+        this.navigatePanel = navigatePanel;
+        this.searchResult = resultPanel;
         personList = new ArrayList<>();
-}
+    }
 
     public void initController() {
         searchPanel.getAddButton().addActionListener(e -> {
-                addPerson(searchPanel.getFirstnameTextfield().getText(),searchPanel.getLastnameTextfield().getText());
+            if (verifyTextField(searchPanel.getFirstnameTextfield().getText(), searchPanel.getLastnameTextfield().getText()))
+            {
+                addPerson(searchPanel.getFirstnameTextfield().getText(), searchPanel.getLastnameTextfield().getText());
                 navigatePanel.setPersonName(person.getFirstname());
                 navigatePanel.setPersonLastName(person.getLastname());
+                searchPanel.getFirstnameTextfield().setText("");
+                searchPanel.getLastnameTextfield().setText("");
+            }
         });
-        searchPanel.getSearch().addActionListener(e ->{
-                if(searchPerson(searchPanel.getFirstnameTextfield().getText(),searchPanel.getLastnameTextfield().getText())) {
+        searchPanel.getSearch().addActionListener(e -> {
+            searchResult.setErrorMessage("");
+            if (verifyTextField(searchPanel.getFirstnameTextfield().getText(), searchPanel.getLastnameTextfield().getText())){
+                if (searchPerson(searchPanel.getFirstnameTextfield().getText(), searchPanel.getLastnameTextfield().getText())) {
                     searchResult.setPersonName(searchPanel.getFirstnameTextfield().getText());
                     searchResult.setPersonLastName(searchPanel.getLastnameTextfield().getText());
-                }
-                else{
+                } else {
+                    searchResult.setPersonName(searchPanel.getFirstnameTextfield().getText());
+                    searchResult.setPersonLastName(searchPanel.getLastnameTextfield().getText());
                     searchResult.setErrorMessage("Person not Found!!!");
-                }
+            }}
 
         });
         navigatePanel.getPrevious().addActionListener(e -> {
-            nextList(person);
+            person = previousList(person);
+            navigatePanel.setPersonName(person.getFirstname());
+            navigatePanel.setPersonLastName(person.getLastname());
+        });
+        navigatePanel.getNext().addActionListener(e -> {
+            person = nextList(person);
+            navigatePanel.setPersonName(person.getFirstname());
+            navigatePanel.setPersonLastName(person.getLastname());
         });
     }
 
-    private void saveFirstname() {
-        person.setFirstname(searchPanel.getFirstnameTextfield().getText());
-
-    }
-
-    private void saveLastname() {
-        person.setLastname(searchPanel.getLastnameTextfield().getText());
-
+    private boolean verifyTextField(String name, String lastName) {
+        if (name.isEmpty() || lastName.isEmpty()) {
+            JOptionPane.showMessageDialog(searchPanel, "'Name' and 'Last Name' should not be empty", "Validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     private void addPerson(String name, String lastName) {
-        if(personList.isEmpty()){
+        if (personList.isEmpty()) {
             person = new Person(name, lastName);
             personList.add(person);
             return;
         }
         for (Person pers : personList) {
             if (!(pers.getFirstname().equals(name) && pers.getLastname().equals(lastName))) {
-                person = new Person(name,lastName);
+                person = new Person(name, lastName);
                 personList.add(person);
                 return;
             }
         }
-        System.out.println(personList.size());
     }
 
     private boolean searchPerson(String name, String lastName) {
-        for(Person p: personList){
-            out.println(p.getFirstname());
-            out.println(p.getLastname());
-            if(p.getFirstname().equals(name) && p.getLastname().equals(lastName)){
+        for (Person p : personList) {
+            if (p.getFirstname().equals(name) && p.getLastname().equals(lastName)) {
                 return true;
             }
         }
         return false;
     }
-    private Person nextList(Person p){
-        for(int i = 0; i< personList.size(); i++){
-            if(personList.get(i).getFirstname().equals(personList.get(i).getFirstname()) && p.getLastname().equals(p.getLastname())){
-                return personList.get(i+1);
-            }
+
+    private Person previousList(Person p) {
+        int position = personList.indexOf(p);
+        if(position==0){
+            return personList.get(position);
         }
-        return null;
+        return personList.get(position-1);
+     }
+
+    private Person nextList(Person p) {
+        int position = personList.indexOf(p);
+        if(position==personList.size()-1) return personList.get(position);
+        return personList.get(position+1);
     }
 }

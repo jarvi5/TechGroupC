@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class NavigatePanel extends JPanel{
@@ -20,7 +21,7 @@ public class NavigatePanel extends JPanel{
         next = new JButton("Next");
         setLayout(new GridLayout(0,1));
 
-        Dimension buttonD = new Dimension(200, 100);
+        Dimension buttonD = new Dimension(700, 100);
         setPreferredSize(buttonD);
         setMinimumSize(buttonD);
         setMaximumSize(buttonD);
@@ -30,6 +31,9 @@ public class NavigatePanel extends JPanel{
 
         resultPanel.add(personName);
         resultPanel.add(personLastName);
+
+        TitledBorder titled = new TitledBorder("Navigate List");
+        this.setBorder(titled);
         add(buttonPanel);
         add(resultPanel);
     }

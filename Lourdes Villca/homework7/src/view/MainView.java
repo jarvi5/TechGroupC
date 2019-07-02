@@ -21,7 +21,7 @@ public class MainView extends JFrame {
         frame.add(navigateList);
         frame.add(searchResult);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(700, 500);
         setVisible(true);
         Controller c = new Controller(searchPanel,navigateList,searchResult);
         c.initController();

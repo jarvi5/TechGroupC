@@ -9,6 +9,15 @@ public class Person {
         this.lastname = lastname;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (((Person)obj).getFirstname().equals(firstname) && ((Person)obj).getLastname().equals(lastname)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public String getFirstname() {
         return firstname;
     }
