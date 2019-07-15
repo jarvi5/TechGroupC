@@ -1,7 +1,7 @@
 package controller;
 
 import model.PersonModel;
-import model.Contacts;
+import model.ContactsModel;
 import view.View;
 
 import javax.swing.*;
@@ -9,20 +9,17 @@ import javax.swing.*;
 public class Controller {
     private PersonModel personModel;
     private View view;
-    private Contacts contacts;
-    private JTextArea textArea;
+    private ContactsModel contacts;
 
-
-    public Controller(PersonModel personModel, View view) {
-        this.personModel = personModel;
+    public Controller(ContactsModel contacts, View view) {
         this.view = view;
-        this.contacts = new Contacts();
+        this.contacts = contacts;
         initView();
     }
 
     public void initView() {
-        view.getFirstnameTextField().setText(personModel.getFirstname());
-        view.getLastnameTextField().setText(personModel.getLastname());
+        view.getFirstnameTextField().setText("");
+        view.getLastnameTextField().setText("");
     }
 
     public void initController() {
@@ -50,6 +47,8 @@ public class Controller {
         PersonModel personSearched = this.contacts.searchContact(personModel);
         if (personSearched != null) {
             view.getNameSaveTextArea().setText(personSearched.getFirstname() + " " + personSearched.getLastname());
+        } else {
+            JOptionPane.showMessageDialog(null, "User does not exists", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

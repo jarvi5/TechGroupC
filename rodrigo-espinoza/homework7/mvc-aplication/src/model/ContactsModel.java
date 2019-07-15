@@ -2,26 +2,16 @@ package model;
 
 import java.util.LinkedList;
 
-public class Contacts {
+public class ContactsModel {
     private LinkedList<PersonModel> personModels;
 
-    public Contacts() {
+    public ContactsModel() {
         personModels = new LinkedList<>();
     }
 
     public void addContact(PersonModel user) {
         personModels.add(user);
     }
-/*
-    public String searchContact(String firstname, String lastname) {
-        for (PersonModel userPersonModel : personModels) {
-            if (userPersonModel.getFirstname().toLowerCase().equals(firstname.toLowerCase()) &&
-                    userPersonModel.getLastname().toLowerCase().equals(lastname.toLowerCase())) {
-                personModels.add(userPersonModel);
-            }
-        }
-        return firstname;
-    }*/
 
     public PersonModel searchContact(PersonModel personModel) {
         PersonModel result = null;
