@@ -44,6 +44,4 @@ public class Node<T> {
     public void setChild(Node<T> child) {
         this.child = child;
     }
-
-
 }

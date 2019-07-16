@@ -34,4 +34,12 @@ public class Student {
     public void setCi(String ci) {
         this.ci = ci;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(((Student)o).getCi().equals(ci) && ((Student)o).getLastName().equals(lastName) && ((Student)o).getName().equals(name)){
+            return true;
+        }
+        return false;
+    }
 }

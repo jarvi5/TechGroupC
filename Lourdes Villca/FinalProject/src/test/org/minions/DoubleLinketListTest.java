@@ -3,6 +3,7 @@ package org.minions;
 import org.junit.Before;
 import org.junit.Test;
 import org.minions.model.Student;
+import org.minions.model.Subject;
 
 import static org.junit.Assert.*;
 
@@ -41,7 +42,11 @@ public class DoubleLinketListTest {
 
     @Test
     public void getData() {
-
+        studentList.insertDataAtEnd(student1);
+        studentList.insertDataAtEnd(student2);
+        studentList.insertDataAtEnd(student3);
+        Student response = studentList.getData(student1);
+        assertEquals(student1.getCi(), response.getCi());
     }
 
     @Test
@@ -50,6 +55,13 @@ public class DoubleLinketListTest {
 
     @Test
     public void addChild() {
+        studentList.insertDataAtEnd(student1);
+        studentList.insertDataAtEnd(student2);
+        studentList.insertDataAtEnd(student3);
+        Subject subject1 = new Subject("ProgrammingI", "P-01",89);
+        Subject subject2 = new Subject("English I","E-01",70);
+        studentList.addChild(student2,subject1);
+        studentList.addChild(student2,subject2);
     }
 
     @Test
