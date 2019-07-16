@@ -5,11 +5,11 @@ import model.Subject;
 
 
 public class MultiList {
-    private NodeStudent firstStudent;
-    private NodeStudent lastStudent;
-    private NodeSubject firstSubject;
-    private NodeSubject lastSubject;
-    private NodeStudent current;
+    private NodeStudent<Student,Subject> firstStudent;
+    private NodeStudent<Student,Subject> lastStudent;
+    private NodeSubject<Subject> firstSubject;
+    private NodeSubject<Subject> lastSubject;
+    private NodeStudent<Student,Subject> current;
 
     public void addStudent(Student student) {
         final NodeStudent currentLast = lastStudent;
