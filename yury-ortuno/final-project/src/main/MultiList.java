@@ -7,9 +7,11 @@ import java.util.LinkedList;
  */
 public class MultiList {
     private Node head = null;
+    private Node tail = null;
     private int size = 0;
 
-    private LinkedList linkedList= new LinkedList();
+    private LinkedList linkedList = new LinkedList();
+
     private class Node {
         public Object object;
         public Node next;
@@ -23,8 +25,16 @@ public class MultiList {
 
     public void addFirst(Object object) {
         Node node = new Node(object);
-        node.next = head;
-        head = node;
+        if (head == null) {
+            node.next = null;
+            node.previous = tail;
+            head = node;
+        } else {
+            head.previous = node;
+            node.next = head;
+            node.previous = tail;
+            head = node;
+        }
         size++;
     }
 
