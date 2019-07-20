@@ -1,21 +1,11 @@
-package model;
+package multi_list_library;
 
-public class LinkedList {
+public class DoubleLinkedList<T> {
+    protected Node head;
+    protected Node tail;
+    protected Node actual;
 
-    class Node{
-        Student student;
-        Node next = null;
-        Node previous = null;
-        Node(Student student){
-            this.student = student;
-        }
-    }
-
-    protected Node head = null;
-    protected Node tail = null;
-    protected Node actual = null;
-
-    public void addAStudent(Student student){
+    public void addToBack(T student){
         Node newNode = new Node(student);
         if(tail == null){
             head = newNode;
@@ -30,32 +20,32 @@ public class LinkedList {
     public void printLinkedList(){
         Node current = head;
         while (current != null){
-            System.out.println(current.student.getFirstName());
+            System.out.println(current);
             current =  current.next;
         }
     }
 
-    public Student moveNext(){
+    public Node moveNext(){
         if(actual == null){
             actual = head;
-            return actual.student;
+            return actual;
         }else if(actual.next != null){
             actual = actual.next;
-            return actual.student;
+            return actual;
         }else{
-            return actual.student;
+            return actual;
         }
     }
 
-    public Student movePrevious(){
+    public Node movePrevious(){
         if(actual == null){
             actual = head;
-            return actual.student;
+            return actual;
         }else if(actual.previous != null){
             actual = actual.previous;
-            return actual.student;
+            return actual;
         }else{
-            return actual.student;
+            return actual;
         }
     }
 }
