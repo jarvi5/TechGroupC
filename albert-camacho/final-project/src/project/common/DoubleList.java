@@ -1,6 +1,6 @@
 package project.common;
 
-public interface DoubleList<E> {
+public interface DoubleList<E> extends Iterable<E> {
     boolean add(E element);
     boolean addFirst(E element);
     boolean addLast(E element);

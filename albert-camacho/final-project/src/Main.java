@@ -28,8 +28,12 @@ public class Main {
         System.out.println("empty = " + students.isEmpty());
         System.out.println("size = " + students.getSize());
         System.out.println("List of students.....");
-        for(int i=0; i<students.getSize(); i++) {
-            System.out.println("Student Name = " + students.get(i).getName());
+//        for(int i=0; i<students.getSize(); i++) {
+//            System.out.println("Student Name = " + students.get(i).getName());
+//        }
+
+        for (Student st: students) {
+            System.out.println("Student Name = " + st.getName());
         }
 
         // add at first and end
@@ -76,9 +80,12 @@ public class Main {
         students.addChild(student, new Subject("Fisica"));
         students.addChild(student, quimica);
         subjects = students.getChildList(student);
-        for (int j=0; j<subjects.getSize(); j++) {
-            Subject sbj = subjects.get(j);
-            System.out.println("subject is = " + sbj.getName());
+//        for (int j=0; j<subjects.getSize(); j++) {
+//            Subject sbj = subjects.get(j);
+//            System.out.println("subject is = " + sbj.getName());
+//        }
+        for (Subject sb : subjects){
+            System.out.println("subject is = " + sb.getName());
         }
 
         System.out.println("Removing first child...");

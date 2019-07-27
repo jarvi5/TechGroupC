@@ -3,6 +3,11 @@ package project.common;
 import project.common.node.INode;
 import project.common.node.MultiNode;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+
 public class MultiList<E, V> implements DoubleList<E> {
     private int size;
     private MultiNode<E, V> firstMultiNode;
@@ -195,7 +200,7 @@ public class MultiList<E, V> implements DoubleList<E> {
 
     // Returns the node where the element is hosted, a new node is added if the element
     // doesn't exists in the list.
-    private MultiNode<E, V> getNode(E element){
+    protected MultiNode<E, V> getNode(E element){
         MultiNode<E, V> node = firstMultiNode;
         while (node != null) {
             if (element.equals(node.getElement())){
@@ -224,5 +229,42 @@ public class MultiList<E, V> implements DoubleList<E> {
     // Constructs an IndexOutOfBoundsException detail message.
     private String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+size;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new DoubleListIterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super E> action) {
+        // Add code if this method is needed
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+        // Add code if this method is needed
+        return null;
+    }
+
+    private class DoubleListIterator implements Iterator<E> {
+
+        private INode<E> node = firstMultiNode;
+
+        @Override
+        public boolean hasNext() {
+            return node != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Iterator exceeded.");
+            }
+
+            E element = node.getElement();
+            node = node.getNext();
+            return element;
+        }
     }
 }
