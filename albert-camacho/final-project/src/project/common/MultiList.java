@@ -1,12 +1,12 @@
 package project.common;
 
 import project.common.node.INode;
-import project.common.node.Node;
+import project.common.node.MultiNode;
 
-public class ParentList<E> implements DoubleList<E> {
+public class MultiList<E, V> implements DoubleList<E> {
     private int size;
-    private Node<E, Object> firstNode;
-    private Node<E, Object> lastNode;
+    private MultiNode<E, V> firstMultiNode;
+    private MultiNode<E, V> lastMultiNode;
 
     /**
      * Add an element to the last position of the list.
@@ -26,11 +26,11 @@ public class ParentList<E> implements DoubleList<E> {
     @Override
     public boolean addFirst(E element) {
         if (isEmpty()) {
-            firstNode = lastNode = new Node<>(element);
+            firstMultiNode = lastMultiNode = new MultiNode<>(element);
         } else {
-            firstNode = new Node<>(element, null, firstNode);
-            //firstNode.next.previous = firstNode;
-            firstNode.getNext().setPrevious(firstNode);
+            firstMultiNode = new MultiNode<>(element, null, firstMultiNode);
+            //firstMultiNode.next.previous = firstMultiNode;
+            firstMultiNode.getNext().setPrevious(firstMultiNode);
         }
         size++;
         return true;
@@ -44,11 +44,11 @@ public class ParentList<E> implements DoubleList<E> {
     @Override
     public boolean addLast(E element) {
         if (isEmpty()) {
-            firstNode = lastNode = new Node<>(element);
+            firstMultiNode = lastMultiNode = new MultiNode<>(element);
         } else {
-            lastNode = new Node<>(element,  lastNode, null);
-            //lastNode.previous.next = lastNode;
-            lastNode.getPrevious().setNext(lastNode);
+            lastMultiNode = new MultiNode<>(element, lastMultiNode, null);
+            //lastMultiNode.previous.next = lastMultiNode;
+            lastMultiNode.getPrevious().setNext(lastMultiNode);
         }
         size++;
         return true;
@@ -68,13 +68,13 @@ public class ParentList<E> implements DoubleList<E> {
         int idx = index;
         // Start from first node if True
         if ((size - idx) > size/2){
-            node = firstNode;
+            node = firstMultiNode;
             while (idx > 0) {
                 node = node.getNext();
                 idx--;
             }
         } else {
-            node = lastNode;
+            node = lastMultiNode;
             while (idx < (size -1)) {
                 node = node.getPrevious();
                 idx++;
@@ -89,7 +89,7 @@ public class ParentList<E> implements DoubleList<E> {
      */
     @Override
     public E getFirst() {
-        return firstNode.getElement();
+        return firstMultiNode.getElement();
     }
 
     /**
@@ -98,7 +98,7 @@ public class ParentList<E> implements DoubleList<E> {
      */
     @Override
     public E getLast() {
-        return lastNode.getElement();
+        return lastMultiNode.getElement();
     }
 
     /**
@@ -124,22 +124,23 @@ public class ParentList<E> implements DoubleList<E> {
      * @param element Object that will be deleted
      */
     @Override
-    public void delete(E element) {
-        Node<E, Object> node = getNode(element);
-        // Remove the firstNode
+    public boolean delete(E element) {
+        MultiNode<E, V> node = getNode(element);
+        // Remove the firstMultiNode
         if (node.getPrevious() == null) {
-            firstNode = (Node<E, Object>) node.getNext();
+            firstMultiNode = (MultiNode<E, V>) node.getNext();
         } else {
             node.getPrevious().setNext(node.getNext());
         }
 
         // remove the last node
         if (node.getNext() == null) {
-            lastNode = (Node<E, Object>) node.getPrevious();
+            lastMultiNode = (MultiNode<E, V>) node.getPrevious();
         }else {
             node.getNext().setPrevious(node.getPrevious());
         }
         size--;
+        return true;
     }
 
     /**
@@ -149,18 +150,12 @@ public class ParentList<E> implements DoubleList<E> {
      * @param value Object that will be added.
      * @return True if child was added
      */
-    public boolean addChild(E element, Object value) {
-        Node<E, Object> node = getNode(element);
-        return node.addChild(value);
-    }
-
-    /**
-     * Returns only the first child in the element
-     * @param element Object from which we will retrieve the first child
-     * @return Child object element
-     */
-    public Object getChild(E element) {
-        return getNode(element).getChild().getElement();
+    public boolean addChild(E element, V value) {
+        MultiNode<E, V> node = getNode(element);
+        if (node.getChild() == null){
+            node.setChild(new MultiList<>());
+        }
+        return node.getChild().add(value);
     }
 
     /**
@@ -168,15 +163,11 @@ public class ParentList<E> implements DoubleList<E> {
      * @param element object where the children are stored
      * @return DoubleList of child objects
      */
-    public DoubleList<Object> getChildren(E element) {
-        DoubleList<Object> children = new ParentList<>();
+    public DoubleList<V> getChildList(E element) {
+        DoubleList<V> children = new MultiList<>();
 
         if (hasChild(element)) {
-            INode<Object> node = getNode(element).getChild();
-            while (node != null) {
-                children.add(node.getElement());
-                node = node.getNext();
-            }
+            children = getNode(element).getChild();
         }
         return children;
     }
@@ -191,40 +182,30 @@ public class ParentList<E> implements DoubleList<E> {
     }
 
     /**
-     * Deletes the first child in the element, the next child will be converted to the first
-     * @param element Object from which we will delete the first child
-     */
-    public boolean deleteChild(E element) {
-        if (hasChild(element)) {
-            INode<Object> node = getNode(element).getChild();
-            getNode(element).setChild(node.getNext());
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Deletes a child object from the element
      * @param element Object from which we will delete the first child
      * @param value Child object that will be deleted
      */
-    public boolean deleteChild(E element, Object value) {
-        return getNode(element).deleteChild(value);
+    public boolean deleteChild(E element, V value) {
+        if (hasChild(element)){
+            return getNode(element).getChild().delete(value);
+        }
+        return false;
     }
 
     // Returns the node where the element is hosted, a new node is added if the element
     // doesn't exists in the list.
-    private Node<E, Object> getNode(E element){
-        Node<E, Object> node = firstNode;
+    private MultiNode<E, V> getNode(E element){
+        MultiNode<E, V> node = firstMultiNode;
         while (node != null) {
             if (element.equals(node.getElement())){
                 return node;
             }
-            node = (Node<E, Object>) node.getNext();
+            node = (MultiNode<E, V>) node.getNext();
         }
         // new node is created at end if element doesn't exist
         addLast(element);
-        return lastNode;
+        return lastMultiNode;
     }
 
     // Checks if the given index is in range.  If not, throws an appropriate

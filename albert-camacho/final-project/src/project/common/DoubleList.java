@@ -9,5 +9,5 @@ public interface DoubleList<E> {
     E getLast();
     int getSize();
     boolean isEmpty();
-    void delete(E element);
+    boolean delete(E element);
 }
