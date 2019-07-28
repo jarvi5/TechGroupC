@@ -7,6 +7,8 @@ public interface DoubleList<E> extends Iterable<E> {
     E get(int index);
     E getFirst();
     E getLast();
+    E getNext(E element);
+    E getPrevious(E element);
     int getSize();
     boolean isEmpty();
     boolean delete(E element);

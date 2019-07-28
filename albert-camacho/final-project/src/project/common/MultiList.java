@@ -106,6 +106,24 @@ public class MultiList<E, V> implements DoubleList<E> {
         return lastMultiNode.getElement();
     }
 
+    @Override
+    public E getNext(E element) {
+        if (element != null){
+            INode<E> node = getNode(element).getNext();
+            return (node != null) ? node.getElement() : element;
+        }
+        return null;
+    }
+
+    @Override
+    public E getPrevious(E element) {
+        if (element != null){
+            INode<E> node = getNode(element).getPrevious();
+            return (node != null) ? node.getElement() : element;
+        }
+        return null;
+    }
+
     /**
      * Get the length of the list.
      * @return An integer value that indicates the size

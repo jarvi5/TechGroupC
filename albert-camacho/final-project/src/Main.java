@@ -7,7 +7,7 @@ import project.model.Subject;
 public class Main {
     /**
      * Following is only for testing purposes, it will be removed on next versions
-     * @param args
+     * @param args only for testing purposes
      */
     public static void main(String[] args) {
         test_double_linked_list_structure();
@@ -20,10 +20,10 @@ public class Main {
         System.out.println("empty = " + students.isEmpty());
         System.out.println("adding students ...");
 
-        Student carlos = new Student("Carlos");
-        students.add(new Student("Juan"));
+        Student carlos = new Student("2","Carlos", "dd");
+        students.add(new Student("1","Juan", "test"));
         students.add(carlos);
-        students.add(new Student("Pedro"));
+        students.add(new Student("3","Pedro", "dss"));
 
         System.out.println("empty = " + students.isEmpty());
         System.out.println("size = " + students.getSize());
@@ -38,9 +38,9 @@ public class Main {
 
         // add at first and end
         System.out.println("adding first/end ...");
-        Student albert =  new Student("Albert");
+        Student albert =  new Student("45","Albert", "cass");
         students.addFirst(albert);
-        students.addLast(new Student("Karen"));
+        students.addLast(new Student("22","Karen", "32344"));
         System.out.println("first student = " + students.getFirst().getName());
         System.out.println("last student = " + students.getLast().getName());
         System.out.println("List of students.....");

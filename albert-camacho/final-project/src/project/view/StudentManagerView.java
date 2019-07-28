@@ -1,11 +1,13 @@
 package project.view;
 
+import project.common.IFunction;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.Arrays;
-import java.util.Vector;
+import java.util.*;
 
 public class StudentManagerView {
+
     private JPanel userViewPanel;
     private JPanel addSearchPanel;
     private JPanel subjectPanel;
@@ -30,13 +32,14 @@ public class StudentManagerView {
     private JLabel rfIdLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
+    private JFrame frame;
 
     private DefaultTableModel studentTableModel;
     private DefaultTableModel subjectTableModel;
     private final static Vector<String> studentTableHeader = new Vector<>(Arrays.asList("RFID", "FirstName", "Last Name"));
     private final static Vector<String> subjectTableHeader = new Vector<>(Arrays.asList("ID", "Name"));
 
-    public StudentManagerView() {
+    public StudentManagerView(String title) {
         //clean default text in labels
         rfIdLabel.setText("");
         firstNameLabel.setText("");
@@ -44,6 +47,17 @@ public class StudentManagerView {
         //load tables with default column names
         loadStudentTable();
         loadSubjectTable();
+
+        frame = new JFrame(title);
+        frame.setContentPane(this.userViewPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setResizable(false);
+    }
+
+    public JPanel getUserViewPanel() {
+        return userViewPanel;
     }
 
     private void loadStudentTable(){
@@ -168,12 +182,17 @@ public class StudentManagerView {
         return saveSubjectButton;
     }
 
+    public void showDialog(String title, String msg, String optionMsg) {
+        Map<String, IFunction> strategyMap = new HashMap<>();
+        strategyMap.put("info", () -> JOptionPane.showMessageDialog(frame, msg));
+        strategyMap.put("alert", () -> JOptionPane.showMessageDialog(frame, msg, title, JOptionPane.WARNING_MESSAGE));
+        strategyMap.put("error", () -> JOptionPane.showMessageDialog(frame, msg, title, JOptionPane.ERROR_MESSAGE));
+        strategyMap.put("yesno", () -> JOptionPane.showConfirmDialog(frame, msg, title, JOptionPane.YES_NO_OPTION));
+
+        strategyMap.get(optionMsg).execute();
+    }
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("StudentManagerView");
-        frame.setContentPane(new StudentManagerView().userViewPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setResizable(false);
+        new StudentManagerView("Student Manager View - Test");
     }
 }
