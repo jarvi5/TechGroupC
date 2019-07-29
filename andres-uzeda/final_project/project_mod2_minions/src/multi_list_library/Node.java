@@ -10,7 +10,7 @@ public class Node<T> {
     }
 
     public T getNode() {
-        return node;
+        return this.node;
     }
 
     public void setNode(T node) {

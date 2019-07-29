@@ -1,12 +1,27 @@
 package multi_list_library;
 
 public class DoubleLinkedList<T> {
-    protected Node head;
-    protected Node tail;
-    protected Node actual;
+    private Node head;
+    private Node tail;
+    private Node actual;
 
-    public void addToBack(T student){
-        Node newNode = new Node(student);
+    public DoubleLinkedList() {
+    }
+
+    public Node getActualNode(){
+        return actual;
+    }
+
+    public Node getHeadNode(){
+        return head;
+    }
+
+    public Node getTailNode(){
+        return tail;
+    }
+
+    public void addToBack(T node){
+        Node newNode = new Node(node);
         if(tail == null){
             head = newNode;
         }else{
@@ -17,7 +32,7 @@ public class DoubleLinkedList<T> {
         tail = newNode;
     }
 
-    public void printLinkedList(){
+    public void returnAllNodes(){
         Node current = head;
         while (current != null){
             System.out.println(current);

@@ -7,6 +7,11 @@ public class MultiNode<T1,T2> extends Node{
         child = new DoubleLinkedList<T2>();
     }
 
+    @Override
+    public Object getNode() {
+        return super.getNode();
+    }
+
     public DoubleLinkedList<T2> getChild() {
         return child;
     }

@@ -1,11 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class View {
     // View uses Swing framework to display UI to user
@@ -18,8 +14,8 @@ public class View {
     private JTextField rfidTextfield;
     private JTextField firstNameTextfield;
     private JTextField lastNameTextfield;
-    private JTextField courseTextfield;
-    private JTextField detailCourseTextfield;
+    private JTextArea courseTextfield;
+    private JTextArea detailCourseTextfield;
     private JButton manageStudentButton;
     private JButton nextStudentButton;
     private JButton previousStudentButton;
@@ -43,8 +39,8 @@ public class View {
         rfidTextfield = new JTextField();
         firstNameTextfield = new JTextField();
         lastNameTextfield = new JTextField();
-        courseTextfield = new JTextField();
-        detailCourseTextfield = new JTextField();
+        courseTextfield = new JTextArea();
+        detailCourseTextfield = new JTextArea();
         manageStudentButton = new JButton("Manage Student");
         nextStudentButton = new JButton(">");
         previousStudentButton = new JButton("<");
@@ -110,11 +106,11 @@ public class View {
         return lastNameTextfield;
     }
 
-    public JTextField getCourseTextfield() {
+    public JTextArea getCourseTextfield() {
         return courseTextfield;
     }
 
-    public JTextField getDetailCourseTextfield() {
+    public JTextArea getDetailCourseTextfield() {
         return detailCourseTextfield;
     }
 
@@ -174,11 +170,11 @@ public class View {
         this.lastNameTextfield = lastNameTextfield;
     }
 
-    public void setCourseTextfield(JTextField courseTextfield) {
+    public void setCourseTextfield(JTextArea courseTextfield) {
         this.courseTextfield = courseTextfield;
     }
 
-    public void setDetailCourseTextfield(JTextField detailCourseTextfield) {
+    public void setDetailCourseTextfield(JTextArea detailCourseTextfield) {
         this.detailCourseTextfield = detailCourseTextfield;
     }
 
