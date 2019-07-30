@@ -2,6 +2,7 @@ package project.controller;
 
 import project.model.Student;
 import project.model.StudentManager;
+import project.model.Subject;
 import project.view.StudentManagerView;
 
 import java.util.Vector;
@@ -9,7 +10,6 @@ import java.util.Vector;
 public class StudentController {
     private StudentManager studentManager;
     private StudentManagerView studentManagerView;
-//    private Student currentStudent;
 
     public StudentController(StudentManager model, StudentManagerView view) {
         studentManager = model;
@@ -20,16 +20,27 @@ public class StudentController {
         studentManagerView.getAddStudentButton().addActionListener(e -> addNewStudent());
         studentManagerView.getSearchStudentButton().addActionListener(e -> searchUser());
 
-        studentManagerView.getPreviousStudentButton().addActionListener(e -> {
-            studentManager.previousStudent();
-            updateProfileView();
-        });
         studentManagerView.getNextStudentButton().addActionListener(e -> {
             studentManager.nextStudent();
             updateProfileView();
+            updateSubjectView();
+        });
+        studentManagerView.getPreviousStudentButton().addActionListener(e -> {
+            studentManager.previousStudent();
+            updateProfileView();
+            updateSubjectView();
+        });
+        studentManagerView.getAddSubjectButton().addActionListener(e -> addNewRowInSubjectTable());
+        studentManagerView.getSaveSubjectButton().addActionListener(e -> saveSubject());
+        studentManagerView.getNextSubjectButton().addActionListener(e -> {
+            int idx = studentManagerView.nextSubjectRow();
+            loadSubject(idx);
+        });
+        studentManagerView.getPreviousSubjectButton().addActionListener(e -> {
+            int idx = studentManagerView.previousSubjectRow();
+            loadSubject(idx);
         });
     }
-
 
     private void addNewStudent() {
         String rfId = studentManagerView.getRfIdText();
@@ -71,6 +82,52 @@ public class StudentController {
             studentManagerView.setFirstNameLabelText(student.getName());
             studentManagerView.setLastNameLabelText(student.getLastName());
         }
+    }
+
+    private void addNewRowInSubjectTable() {
+        studentManagerView.addRowSubjectTable();
+        // subject fields are empty
+        studentManagerView.setSubjectIdText("");
+        studentManagerView.setSubjectNameText("");
+        studentManagerView.setSubjectGradeText("");
+    }
+
+    private void saveSubject() {
+        String id = studentManagerView.getSubjectIdText();
+        String name = studentManagerView.getSubjectNameText();
+        String grade = studentManagerView.getSubjectGradeText();
+        int idx = studentManagerView.getSelectedSubjectRow();
+
+        if (studentManager.saveSubject(id, name, grade, idx)) {
+            studentManagerView.showDialog("Add Subject",
+                    String.format("The subject %s was added successfully", name), "info");
+            updateSubjectView();
+        } else {
+            studentManagerView.showDialog("Add Subject",
+                    String.format("The subject %s was not added", name), "error");
+        }
+    }
+
+    private void updateSubjectView() {
+        Vector<Object> subjects = studentManager.getSubjectVector();
+
+        studentManagerView.updateSubjectDataTable(subjects);
+
+    }
+
+    private void loadSubject(int index) {
+        try{
+            Subject subject = studentManager.getSelectedSubject(index);
+            studentManagerView.setSubjectIdText(subject.getId());
+            studentManagerView.setSubjectNameText(subject.getName());
+            studentManagerView.setSubjectGradeText(String.valueOf(subject.getGrade()));
+        } catch (IndexOutOfBoundsException ex) {
+            studentManagerView.setSubjectIdText("");
+            studentManagerView.setSubjectNameText("");
+            studentManagerView.setSubjectGradeText("");
+        }
+
+
     }
 
 }

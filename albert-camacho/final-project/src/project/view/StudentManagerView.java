@@ -56,22 +56,29 @@ public class StudentManagerView {
         frame.setResizable(false);
     }
 
-    public JPanel getUserViewPanel() {
-        return userViewPanel;
-    }
-
     private void loadStudentTable(){
-        studentTableModel = new DefaultTableModel();
+        studentTableModel = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         studentTableModel.setColumnIdentifiers(studentTableHeader);
-
         userTable.setModel(studentTableModel);
+        //userTable.setRowSelectionAllowed(true);
+        userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void loadSubjectTable() {
-        subjectTableModel = new DefaultTableModel();
+        subjectTableModel = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         subjectTableModel.setColumnIdentifiers(subjectTableHeader);
 
-        subjectTable .setModel(subjectTableModel);
+        subjectTable.setModel(subjectTableModel);
+        //subjectTable.setRowSelectionAllowed(true);
+        subjectTable.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     }
 
     public void updateStudentDataTable(Vector data) {
@@ -194,5 +201,35 @@ public class StudentManagerView {
 
     public static void main(String[] args) {
         new StudentManagerView("Student Manager View - Test");
+    }
+
+    public void addRowSubjectTable() {
+        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+        int idx = model.getRowCount();
+        if (idx == 0 || model.getValueAt(idx - 1, 0) != null) {
+            model.addRow(new Object[]{});
+            subjectTable.setRowSelectionInterval(idx, idx);
+        }
+    }
+
+    public int previousSubjectRow() {
+        int index = subjectTable.getSelectedRow();
+        if (index > 0) {
+            index--;
+            subjectTable.setRowSelectionInterval(index, index);
+        }
+        return index;
+    }
+    public int nextSubjectRow() {
+        int index = subjectTable.getSelectedRow();
+        if (index < subjectTableModel.getRowCount() - 1) {
+            index++;
+            subjectTable.setRowSelectionInterval(index, index);
+        }
+        return index;
+    }
+
+    public int getSelectedSubjectRow(){
+        return subjectTable.getSelectedRow();
     }
 }

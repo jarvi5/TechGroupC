@@ -31,9 +31,9 @@ public class MultiList<E, V> implements DoubleList<E> {
     @Override
     public boolean addFirst(E element) {
         if (isEmpty()) {
-            firstMultiNode = lastMultiNode = new MultiNode<>(element);
+            firstMultiNode = lastMultiNode = new MultiNode<>(element, new MultiList<>());
         } else {
-            firstMultiNode = new MultiNode<>(element, null, firstMultiNode);
+            firstMultiNode = new MultiNode<>(element, null, firstMultiNode, new MultiList<>());
             //firstMultiNode.next.previous = firstMultiNode;
             firstMultiNode.getNext().setPrevious(firstMultiNode);
         }
@@ -49,9 +49,9 @@ public class MultiList<E, V> implements DoubleList<E> {
     @Override
     public boolean addLast(E element) {
         if (isEmpty()) {
-            firstMultiNode = lastMultiNode = new MultiNode<>(element);
+            firstMultiNode = lastMultiNode = new MultiNode<>(element, new MultiList<>());
         } else {
-            lastMultiNode = new MultiNode<>(element, lastMultiNode, null);
+            lastMultiNode = new MultiNode<>(element, lastMultiNode, null, new MultiList<>());
             //lastMultiNode.previous.next = lastMultiNode;
             lastMultiNode.getPrevious().setNext(lastMultiNode);
         }
@@ -175,9 +175,9 @@ public class MultiList<E, V> implements DoubleList<E> {
      */
     public boolean addChild(E element, V value) {
         MultiNode<E, V> node = getNode(element);
-        if (node.getChild() == null){
-            node.setChild(new MultiList<>());
-        }
+//        if (node.getChild() == null){
+//            node.setChild(new MultiList<>());
+//        }
         return node.getChild().add(value);
     }
 

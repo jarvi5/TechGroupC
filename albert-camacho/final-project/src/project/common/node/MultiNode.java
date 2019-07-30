@@ -8,14 +8,15 @@ public class MultiNode<E, V> implements INode<E>{
     private DoubleList<V> child;
     private E element;
 
-    public MultiNode(E element) {
-        this(element, null, null);
+    public MultiNode(E element, DoubleList<V> child) {
+        this(element, null, null, child);
     }
 
-    public MultiNode(E element, INode<E> previous, INode<E> next) {
+    public MultiNode(E element, INode<E> previous, INode<E> next, DoubleList<V> child) {
         this.element = element;
         this.previous = previous;
         this.next = next;
+        this.child = child;
     }
 
     @Override

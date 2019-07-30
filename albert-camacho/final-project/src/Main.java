@@ -70,14 +70,14 @@ public class Main {
         DoubleList<Subject> subjects;
         // add child
         System.out.println("Adding child ...");
-        Subject lenguaje = new Subject("Lenguaje");
-        Subject quimica = new Subject("Quimica");
-        Subject geografia = new Subject("Geografia");
+        Subject lenguaje = new Subject("1","Lenguaje", 20);
+        Subject quimica = new Subject("2","Quimica", 45);
+        Subject geografia = new Subject("2","Geografia", 45);
         students.addChild(student, lenguaje);
         //students.deleteChild(student, lenguaje);
-        students.addChild(student, new Subject("Matematicas"));
+        students.addChild(student, new Subject("33","Matematicas", 45));
         students.addChild(student, geografia);
-        students.addChild(student, new Subject("Fisica"));
+        students.addChild(student, new Subject("33","Fisica",452));
         students.addChild(student, quimica);
         subjects = students.getChildList(student);
 //        for (int j=0; j<subjects.getSize(); j++) {
