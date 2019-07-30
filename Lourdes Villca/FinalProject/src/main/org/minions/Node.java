@@ -3,7 +3,7 @@ package org.minions;
 public class Node<T> {
     private Node<T> previous;
     private Node<T> next;
-    private Node<T> child;
+    private ChildNode<T> child;
     private T value;
 
     Node(T value) {
@@ -28,6 +28,9 @@ public class Node<T> {
     public void setNext(Node<T> nextElement) {
         this.next = nextElement;
     }
+    public void setNextChildren(Node<T> nextElement) {
+        this.next = nextElement;
+    }
 
     public T getValue() {
         return value;
@@ -41,7 +44,7 @@ public class Node<T> {
         return child;
     }
 
-    public void setChild(Node<T> child) {
+    public void setChild(ChildNode<T> child) {
         this.child = child;
     }
 }

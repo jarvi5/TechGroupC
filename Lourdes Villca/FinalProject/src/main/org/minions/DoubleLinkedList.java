@@ -1,6 +1,6 @@
 package org.minions;
 
-class DoubleLinketList<T> {
+class DoubleLinkedList<T> {
     protected Node<T> head;
     protected Node<T> tail;
 
@@ -50,7 +50,7 @@ class DoubleLinketList<T> {
         return null;
     }
 
-    public void addChild(T parentData, T childData) {
+/*    public void addChild(T parentData, T childData) {
         Node<T> parentNode = this.getNode(parentData);
         Node<T> newChildNode = new Node<>(childData);
         if (parentNode.getChild() == null) {
@@ -58,7 +58,7 @@ class DoubleLinketList<T> {
         } else {
             parentNode.getChild().setNext(newChildNode);
         }
-    }
+    }*/
 
     public T getElementAt(int index) {
         Node<T> currentNode = head;

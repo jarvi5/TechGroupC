@@ -7,14 +7,14 @@ import org.minions.model.Subject;
 
 import static org.junit.Assert.*;
 
-public class DoubleLinketListTest {
+public class DoubleLinkedListTest {
 
-    private DoubleLinketList<Student> studentList;
+    private DoubleLinkedList<Student> studentList;
     private Student student1, student2, student3;
 
     @Before
     public void setup() {
-        studentList = new DoubleLinketList<>();
+        studentList = new DoubleLinkedList<>();
         student1 = new Student("Miriam", "Huanca", "123455");
         student2 = new Student("Lourdes", "Villca", "123456");
         student3 = new Student("Miriam", "Huanca", "123457");
@@ -60,8 +60,8 @@ public class DoubleLinketListTest {
         studentList.insertDataAtEnd(student3);
         Subject subject1 = new Subject("ProgrammingI", "P-01",89);
         Subject subject2 = new Subject("English I","E-01",70);
-        studentList.addChild(student2,subject1);
-        studentList.addChild(student2,subject2);
+        multilist.addChild(student2,subject1);
+        multili.addChild(student2,subject2);
     }
 
     @Test
