@@ -3,6 +3,8 @@ package project.view;
 import project.common.IFunction;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
 
@@ -95,6 +97,10 @@ public class StudentManagerView {
 
     private void clearTableModel(DefaultTableModel model) {
         model.setRowCount(0);
+    }
+
+    public ListSelectionModel getSubjectTableModel() {
+        return subjectTable.getSelectionModel();
     }
 
     public void setRfidLabelText(String text) {

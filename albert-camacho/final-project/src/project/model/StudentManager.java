@@ -15,11 +15,7 @@ public class StudentManager {
         studentList = new MultiList<>();
     }
 
-//    public MultiList<Student, Subject> getStudentList() {
-//        return studentList;
-//    }
-
-    public boolean addStudent(Student student) {
+    private boolean addStudent(Student student) {
         if (student.getName().length() > 2 && !studentIdExists(student.getRfid()) && student.getRfid().length() > 0) {
             if(currentStudent == null) {
                 currentStudent = student;
@@ -38,15 +34,20 @@ public class StudentManager {
         subjectList = studentList.getChildList(currentStudent);
         Subject subject = new Subject(id, name, Integer.valueOf(grade));
 
-        if (subject.getName().length() > 2 && !subjectIdExists(id) && subject.getId().length() > 0) {
+        if (subjectList.getSize() <= index && subject.getName().length() > 2
+                && !subjectIdExists(id) && subject.getId().length() > 0) {
             if (currentSubject == null) {
                 currentSubject = subject;
             }
-            // add subject at last or update an existing by index
-            if (subjectList.getSize() <= index) {
-                return studentList.addChild(currentStudent, subject);
+            return studentList.addChild(currentStudent, subject);
+        } else {
+            if(subject.getName().length() > 2 && (currentSubject.getId().equals(id) || !subjectIdExists(id))
+                    && subject.getId().length() > 0){
+                currentSubject.setId(subject.getId());
+                currentSubject.setName(subject.getName());
+                currentSubject.setGrade(subject.getGrade());
+                return true;
             }
-            //TODO: add 'else' to retrieve subject by index and update its values
         }
         return false;
     }
@@ -83,17 +84,7 @@ public class StudentManager {
         return currentStudent;
     }
 
-    public Subject nextSubject() {
-        currentSubject = subjectList.getNext(currentSubject);
-        return currentSubject;
-    }
-
-    public Subject previousSubject() {
-        currentSubject = subjectList.getPrevious(currentSubject);
-        return currentSubject;
-    }
-
-    public boolean studentIdExists(String rfId) {
+    private boolean studentIdExists(String rfId) {
         // Returns TRUE if a student with same RFID exists in the list
         for (Student student : studentList) {
             if (rfId.equals(student.getRfid())){
@@ -103,7 +94,7 @@ public class StudentManager {
         return false;
     }
 
-    public boolean subjectIdExists(String id) {
+    private boolean subjectIdExists(String id) {
         // Returns TRUE if a student with same RFID exists in the list
         for (Subject subject : studentList.getChildList(currentStudent)) {
             if (id.equals(subject.getId())){
@@ -126,12 +117,9 @@ public class StudentManager {
     }
 
     public Subject getSelectedSubject(int id) {
-        currentSubject = subjectList.get(id);
+        if (subjectList != null) {
+            currentSubject = subjectList.get(id);
+        }
         return currentSubject;
     }
-
-//    public Subject getCurrentSubject(){
-//        return currentSubject;
-//    }
-
 }

@@ -5,6 +5,7 @@ import project.model.StudentManager;
 import project.model.Subject;
 import project.view.StudentManagerView;
 
+import javax.swing.*;
 import java.util.Vector;
 
 public class StudentController {
@@ -39,6 +40,13 @@ public class StudentController {
         studentManagerView.getPreviousSubjectButton().addActionListener(e -> {
             int idx = studentManagerView.previousSubjectRow();
             loadSubject(idx);
+        });
+        ListSelectionModel model = studentManagerView.getSubjectTableModel();
+        model.addListSelectionListener(e -> {
+            if (!model.isSelectionEmpty()) {
+                int index = model.getMinSelectionIndex();
+                loadSubject(index);
+            }
         });
     }
 
@@ -100,11 +108,11 @@ public class StudentController {
 
         if (studentManager.saveSubject(id, name, grade, idx)) {
             studentManagerView.showDialog("Add Subject",
-                    String.format("The subject %s was added successfully", name), "info");
+                    String.format("The subject %s was saved successfully", name), "info");
             updateSubjectView();
         } else {
             studentManagerView.showDialog("Add Subject",
-                    String.format("The subject %s was not added", name), "error");
+                    String.format("The subject %s was not saved", name), "error");
         }
     }
 
@@ -121,13 +129,10 @@ public class StudentController {
             studentManagerView.setSubjectIdText(subject.getId());
             studentManagerView.setSubjectNameText(subject.getName());
             studentManagerView.setSubjectGradeText(String.valueOf(subject.getGrade()));
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException | NullPointerException ex) {
             studentManagerView.setSubjectIdText("");
             studentManagerView.setSubjectNameText("");
             studentManagerView.setSubjectGradeText("");
         }
-
-
     }
-
 }
