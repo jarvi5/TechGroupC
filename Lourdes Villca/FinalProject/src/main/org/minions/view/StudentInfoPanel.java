@@ -34,7 +34,6 @@ public class StudentInfoPanel extends JPanel{
     }
     public void setLayout(){
         // add UI element to view
-
         GroupLayout layout = new GroupLayout(groupLayoutPanel);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
@@ -60,6 +59,6 @@ public class StudentInfoPanel extends JPanel{
         layout.linkSize(SwingConstants.HORIZONTAL, next, previous);
         groupLayoutPanel.setLayout(layout);
         this.setLayout(new FlowLayout());
-        this.add(groupLayoutPanel, FlowLayout.CENTER);
+        this.add(groupLayoutPanel);
     }
 }

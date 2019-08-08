@@ -26,8 +26,8 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtFirst(student2);
         studentList.insertDataAtFirst(student3);
         assertEquals(student1.getCi(), studentList.getElementAt(2).getCi());
-        assertEquals(student2.getCi(), studentList.getElementAt(0).getCi());
-        assertEquals(student3.getCi(), studentList.getElementAt(1).getCi());
+        assertEquals(student2.getCi(), studentList.getElementAt(1).getCi());
+        assertEquals(student3.getCi(), studentList.getElementAt(0).getCi());
     }
 
     @Test
