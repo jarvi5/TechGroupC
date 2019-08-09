@@ -51,6 +51,7 @@ public class SearchAddStudentPanel extends JPanel {
                         .addComponent(lastnameLabel)
                         .addComponent(lastnameTextfield)
                         .addComponent(search)));
+        layout.linkSize(SwingConstants.HORIZONTAL, add, search);
         this.setLayout(layout);
     }
 }

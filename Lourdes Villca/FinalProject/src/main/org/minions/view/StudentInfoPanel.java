@@ -23,7 +23,6 @@ public class StudentInfoPanel extends JPanel{
         lastnameInfo = new JLabel("Villca");
         next = new JButton("Next");
         previous = new JButton("Previous");
-        groupLayoutPanel = new JPanel();
 
         TitledBorder border = new TitledBorder("Student Information");
         border.setTitleJustification(TitledBorder.LEFT);
@@ -34,8 +33,7 @@ public class StudentInfoPanel extends JPanel{
     }
     public void setLayout(){
         // add UI element to view
-
-        GroupLayout layout = new GroupLayout(groupLayoutPanel);
+        GroupLayout layout = new GroupLayout(this);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
         layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -58,8 +56,6 @@ public class StudentInfoPanel extends JPanel{
                         .addComponent(lastnameLabel)
                         .addComponent(lastnameInfo)));
         layout.linkSize(SwingConstants.HORIZONTAL, next, previous);
-        groupLayoutPanel.setLayout(layout);
-        this.setLayout(new FlowLayout());
-        this.add(groupLayoutPanel, FlowLayout.CENTER);
+        this.setLayout(layout);
     }
 }
