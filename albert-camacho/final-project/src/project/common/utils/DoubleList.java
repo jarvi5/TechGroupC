@@ -1,4 +1,4 @@
-package project.common;
+package project.common.utils;
 
 public interface DoubleList<E> extends Iterable<E> {
     boolean add(E element);
@@ -11,5 +11,6 @@ public interface DoubleList<E> extends Iterable<E> {
     E getPrevious(E element);
     int getSize();
     boolean isEmpty();
-    boolean delete(E element);
+    boolean remove(E element);
+    void clear();
 }

@@ -1,6 +1,6 @@
-import project.common.DoubleList;
+import project.common.utils.DoubleList;
 //import project.common.ParentList;
-import project.common.MultiList;
+import project.common.utils.MultiList;
 import project.model.Student;
 import project.model.Subject;
 
@@ -48,18 +48,18 @@ public class Main {
             System.out.println("Student Name = " + students.get(i).getName());
         }
 
-        // delete first
-        System.out.println("delete first ...");
-        students.delete(albert);
+        // remove first
+        System.out.println("remove first ...");
+        students.remove(albert);
         System.out.println("new first student = " + students.getFirst().getName());
         System.out.println("List of students.....");
         for(int i=0; i<students.getSize(); i++) {
             System.out.println("Student Name = " + students.get(i).getName());
         }
 
-        // delete carlos
-        System.out.println("delete carlos ...");
-        students.delete(carlos);
+        // remove carlos
+        System.out.println("remove carlos ...");
+        students.remove(carlos);
         System.out.println("List of students.....");
         for(int i=0; i<students.getSize(); i++) {
             System.out.println("Student Name = " + students.get(i).getName());

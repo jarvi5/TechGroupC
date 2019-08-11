@@ -1,4 +1,4 @@
-package project.common;
+package project.common.utils;
 
 @FunctionalInterface
 public interface IFunction {
