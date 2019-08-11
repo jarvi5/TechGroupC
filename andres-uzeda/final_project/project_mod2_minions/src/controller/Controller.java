@@ -5,18 +5,19 @@ import model.Student;
 import multi_list_library.DoubleLinkedList;
 import multi_list_library.MultiNode;
 import multi_list_library.Node;
-import view.View;
+import view.View4;
 
 public class Controller {
-    private View view;
+    private View4 view;
     private  DoubleLinkedList<MultiNode> doblete;
-    public Controller(View v) {
+    public Controller(View4 v) {
         view = v;
         initView();
         doblete = new DoubleLinkedList<>();
         Student stu = new Student(12,"Acario","Apa");
         Student stu1 = new Student(12,"Bacario","Bapa");
         Student stu2 = new Student(12,"Cacario","Capa");
+        Student stu3 = new Student(14,"Dacario","Dapa");
         Course math = new Course(182,"Math",100);
         Course science = new Course(166,"Science",90);
         MultiNode multiNodini = new MultiNode(stu);
@@ -26,74 +27,80 @@ public class Controller {
         multiNodini2.getChild().addToBack(math);
         MultiNode multiNodini3 = new MultiNode(stu2);
         multiNodini3.getChild().addToBack(science);
+        MultiNode multiNodini4 = new MultiNode(stu3);
         doblete.addToBack(multiNodini);
         doblete.addToBack(multiNodini2);
         doblete.addToBack(multiNodini3);
+        doblete.addToBack(multiNodini4);
     }
 
     public void initView() {
     }
     public void initController() {
-        view.getNextStudentButton().addActionListener(e -> mainNextResult());
-        view.getPreviousStudentButton().addActionListener(e -> mainPreviousResult());
-        view.getNextCourseButton().addActionListener(e -> childNextResult());
-        view.getPreviousCourseButton().addActionListener(e -> childPreviousResult());
+        view.getPreviousStudentJButton().addActionListener(e -> {
+            previousResult();
+            isItEmptyAChild();
+        });
+        view.getNextStudentJButton().addActionListener(e -> {
+            nextResult();
+            isItEmptyAChild();
+        });
+        view.getPreviousCourseJButton().addActionListener(e -> childPreviousResult());
+        view.getNextCourseJButton().addActionListener(e -> childNextResult());
         /*view.getAddButton().addActionListener();
         view.getSearchButton().addActionListener();
         view.getNextButton().addActionListener();
         view.getPreviousButton().addActionListener();*/
     }
 
-    public void mainNextResult(){
-        nextResult();
-        //TODO: validar si esta vacio el child list y si tiene resultado imprimirlo
-        childListResult();
-    }
-
-    public void mainPreviousResult(){
-        previousResult();
-        childListResult();
+    private void isItEmptyAChild(){
+        if(((MultiNode) doblete.getActualNode().getNode()).getChild().getHeadNode() != null){
+            childListResult();
+        }else{
+            view.getCourseDetailJTextArea().setText("");
+            view.getCourseListJTextArea().setText("");
+        }
     }
 
     private void nextResult(){
         doblete.moveNext();
-        view.getFirstNameTextfield().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getFirstName());
-        view.getLastNameTextfield().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getLastName());
-        view.getRfidTextfield().setText(String.valueOf(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getRfid()));
+        view.getFirstNameJTextField().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getFirstName());
+        view.getLastNameTextField().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getLastName());
+        view.getRfidJTextField().setText(String.valueOf(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getRfid()));
     }
 
     private void previousResult(){
         doblete.movePrevious();
-        view.getFirstNameTextfield().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getFirstName());
-        view.getLastNameTextfield().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getLastName());
-        view.getRfidTextfield().setText(String.valueOf(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getRfid()));
+        view.getFirstNameJTextField().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getFirstName());
+        view.getLastNameTextField().setText(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getLastName());
+        view.getRfidJTextField().setText(String.valueOf(((Student) ((MultiNode) doblete.getActualNode().getNode()).getNode()).getRfid()));
     }
 
     private void childListResult(){
         DoubleLinkedList listChild =((MultiNode) doblete.getActualNode().getNode()).getChild();
         Node current = listChild.getHeadNode();
         String courseList = "";
-        view.getDetailCourseTextfield().setText("");
-        view.getCourseTextfield().setText("");
+        view.getCourseDetailJTextArea().setText("");
+        view.getCourseListJTextArea().setText("");
         while (current != null){
             courseList += ((Course)(current.getNode())).getCourseName() + " ";
             current =  current.next;
         }
-        view.getCourseTextfield().setText(courseList);
+        view.getCourseListJTextArea().setText(courseList);
     }
 
     private void childNextResult(){
         ((MultiNode) doblete.getActualNode().getNode()).getChild().moveNext();
         Node childNode =((MultiNode) doblete.getActualNode().getNode()).getChild().getActualNode();
         String course = ((Course)(childNode.getNode())).getId() +" "+((Course)(childNode.getNode())).getCourseName() + " " + ((Course)(childNode.getNode())).getFinalGrade();
-        view.getDetailCourseTextfield().setText(course);
+        view.getCourseDetailJTextArea().setText(course);
     }
 
     private void childPreviousResult(){
         ((MultiNode) doblete.getActualNode().getNode()).getChild().movePrevious();
         Node childNode =((MultiNode) doblete.getActualNode().getNode()).getChild().getActualNode();
         String course = ((Course)(childNode.getNode())).getId() +" "+((Course)(childNode.getNode())).getCourseName() + " " + ((Course)(childNode.getNode())).getFinalGrade();
-        view.getDetailCourseTextfield().setText(course);
+        view.getCourseDetailJTextArea().setText(course);
     }
 
 }
