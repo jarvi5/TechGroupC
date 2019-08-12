@@ -1,14 +1,13 @@
 package project.view;
 
-import project.common.IFunction;
+import project.common.utils.IFunction;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
 
-public class StudentManagerView {
+public class MainView {
 
     private JPanel userViewPanel;
     private JPanel addSearchPanel;
@@ -37,11 +36,10 @@ public class StudentManagerView {
     private JFrame frame;
 
     private DefaultTableModel studentTableModel;
-    private DefaultTableModel subjectTableModel;
     private final static Vector<String> studentTableHeader = new Vector<>(Arrays.asList("RFID", "FirstName", "Last Name"));
     private final static Vector<String> subjectTableHeader = new Vector<>(Arrays.asList("ID", "Name"));
 
-    public StudentManagerView(String title) {
+    public MainView(String title) {
         //clean default text in labels
         rfIdLabel.setText("");
         firstNameLabel.setText("");
@@ -59,27 +57,20 @@ public class StudentManagerView {
     }
 
     private void loadStudentTable(){
-        studentTableModel = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
+        studentTableModel = new DefaultTableModel();
         studentTableModel.setColumnIdentifiers(studentTableHeader);
         userTable.setModel(studentTableModel);
-        //userTable.setRowSelectionAllowed(true);
         userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
+    // Default view to be displayed at beginning
     private void loadSubjectTable() {
-        subjectTableModel = new DefaultTableModel() {
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
-        subjectTableModel.setColumnIdentifiers(subjectTableHeader);
-
+        DefaultTableModel subjectTableModel = new DefaultTableModel(subjectTableHeader, 0);
         subjectTable.setModel(subjectTableModel);
-        //subjectTable.setRowSelectionAllowed(true);
+    }
+
+    public void loadSubjectTable(AbstractTableModel model) {
+        subjectTable.setModel(model);
         subjectTable.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     }
 
@@ -87,12 +78,6 @@ public class StudentManagerView {
         clearTableModel(studentTableModel);
         studentTableModel.setDataVector(data, studentTableHeader);
         userTable.setModel(studentTableModel);
-    }
-
-    public void updateSubjectDataTable(Vector data) {
-        clearTableModel(subjectTableModel);
-        subjectTableModel.setDataVector(data, subjectTableHeader);
-        subjectTable.setModel(subjectTableModel);
     }
 
     private void clearTableModel(DefaultTableModel model) {
@@ -206,33 +191,11 @@ public class StudentManagerView {
     }
 
     public static void main(String[] args) {
-        new StudentManagerView("Student Manager View - Test");
+        new MainView("Student Manager View - Test");
     }
 
-    public void addRowSubjectTable() {
-        DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
-        int idx = model.getRowCount();
-        if (idx == 0 || model.getValueAt(idx - 1, 0) != null) {
-            model.addRow(new Object[]{});
-            subjectTable.setRowSelectionInterval(idx, idx);
-        }
-    }
-
-    public int previousSubjectRow() {
-        int index = subjectTable.getSelectedRow();
-        if (index > 0) {
-            index--;
-            subjectTable.setRowSelectionInterval(index, index);
-        }
-        return index;
-    }
-    public int nextSubjectRow() {
-        int index = subjectTable.getSelectedRow();
-        if (index < subjectTableModel.getRowCount() - 1) {
-            index++;
-            subjectTable.setRowSelectionInterval(index, index);
-        }
-        return index;
+    public void selectSubjectRow(int index) {
+        subjectTable.setRowSelectionInterval(index, index);
     }
 
     public int getSelectedSubjectRow(){

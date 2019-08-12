@@ -12,9 +12,11 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
     int size;
     INode<E> firstNode;
     INode<E> lastNode;
+    INode<E> current;
 
     /**
      * Add an element to the last position of the list.
+     *
      * @param element Object that will be added
      * @return True if element was added.
      */
@@ -25,6 +27,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     /**
      * Add an element to the first position of the list.
+     *
      * @param element Object that will be added
      * @return True if element was added.
      */
@@ -37,12 +40,14 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             //firstNode.next.previous = firstNode;
             firstNode.getNext().setPrevious(firstNode);
         }
+        current = firstNode;
         size++;
         return true;
     }
 
     /**
      * Add an element to the last position of the list.
+     *
      * @param element Object that will be added
      * @return True if element was added.
      */
@@ -55,12 +60,27 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             //lastNode.previous.next = lastNode;
             lastNode.getPrevious().setNext(lastNode);
         }
+        current = lastNode;
         size++;
         return true;
     }
 
     /**
+     * Get the element in the current node.
+     *
+     * @return E object element.
+     */
+    @Override
+    public E get() {
+        if (current != null) {
+            return current.getElement();
+        }
+        return null;
+    }
+
+    /**
      * Retrieve the element in an specific position.
+     *
      * @param index Position where element is located.
      * @return Element found or an exception if index is out of range.
      */
@@ -72,7 +92,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
         INode<E> node;
         int idx = index;
         // Start from first node if True
-        if ((size - idx) > size/2){
+        if ((size - idx) > size / 2) {
             node = firstNode;
             while (idx > 0) {
                 node = node.getNext();
@@ -80,16 +100,18 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             }
         } else {
             node = lastNode;
-            while (idx < (size -1)) {
+            while (idx < (size - 1)) {
                 node = node.getPrevious();
                 idx++;
             }
         }
-        return node.getElement();
+        current = node;
+        return current.getElement();
     }
 
     /**
      * Get the first element in the list
+     *
      * @return The first element in the list.
      */
     @Override
@@ -99,6 +121,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     /**
      * Get the last element in the list
+     *
      * @return The last element in the list
      */
     @Override
@@ -107,25 +130,42 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
     }
 
     @Override
+    public E getNext() {
+        if (current.getNext() != null) {
+            current = current.getNext();
+        }
+        return current.getElement();
+    }
+
+    @Override
+    public E getPrevious() {
+        if (current.getPrevious() != null) {
+            current = current.getPrevious();
+        }
+        return current.getElement();
+    }
+
+    @Override
     public E getNext(E element) {
-        if (element != null){
-            INode<E> node = firstNode.getNode(element).getNext();
-            return (node != null) ? node.getElement() : element;
+        if (element != null) {
+            current = firstNode.getNode(element).getNext();
+            return current.getElement();
         }
         return null;
     }
 
     @Override
     public E getPrevious(E element) {
-        if (element != null){
-            INode<E> node = firstNode.getNode(element).getPrevious();
-            return (node != null) ? node.getElement() : element;
+        if (element != null) {
+            current = firstNode.getNode(element).getPrevious();
+            return current.getElement();
         }
         return null;
     }
 
     /**
      * Get the length of the list.
+     *
      * @return An integer value that indicates the size
      */
     @Override
@@ -135,6 +175,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     /**
      * Allows to know if the list is empty
+     *
      * @return True if the list is empty
      */
     @Override
@@ -144,6 +185,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     /**
      * Deletes an element in the list
+     *
      * @param element Object that will be deleted
      */
     @Override
@@ -159,18 +201,11 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
         // remove the last node
         if (node.getNext() == null) {
             lastNode = node.getPrevious();
-        }else {
+        } else {
             node.getNext().setPrevious(node.getPrevious());
         }
         size--;
         return true;
-    }
-
-    @Override
-    public void clear() {
-        firstNode = null;
-        lastNode = null;
-        size = 0;
     }
 
     // Checks if the given index is in range.  If not, throws an appropriate
@@ -188,7 +223,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     // Constructs an IndexOutOfBoundsException detail message.
     private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size;
+        return "Index: " + index + ", Size: " + size;
     }
 
     @Override
