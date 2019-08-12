@@ -1,9 +1,8 @@
-package org.minions;
+package org.minions.utils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.minions.model.Student;
-import org.minions.model.Subject;
 
 import static org.junit.Assert.*;
 
@@ -25,9 +24,9 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtFirst(student1);
         studentList.insertDataAtFirst(student2);
         studentList.insertDataAtFirst(student3);
-        assertEquals(student1.getCi(), studentList.getElementAt(2).getCi());
-        assertEquals(student2.getCi(), studentList.getElementAt(0).getCi());
-        assertEquals(student3.getCi(), studentList.getElementAt(1).getCi());
+        assertEquals(student1.getRfid(), studentList.getElementAt(2).getRfid());
+        assertEquals(student2.getRfid(), studentList.getElementAt(0).getRfid());
+        assertEquals(student3.getRfid(), studentList.getElementAt(1).getRfid());
     }
 
     @Test
@@ -35,9 +34,9 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtEnd(student1);
         studentList.insertDataAtEnd(student2);
         studentList.insertDataAtEnd(student3);
-        assertEquals(student1.getCi(),studentList.getElementAt(0).getCi());
-        assertEquals(student2.getCi(),studentList.getElementAt(1).getCi());
-        assertEquals(student3.getCi(),studentList.getElementAt(2).getCi());
+        assertEquals(student1.getRfid(),studentList.getElementAt(0).getRfid());
+        assertEquals(student2.getRfid(),studentList.getElementAt(1).getRfid());
+        assertEquals(student3.getRfid(),studentList.getElementAt(2).getRfid());
     }
 
     @Test
@@ -46,7 +45,7 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtEnd(student2);
         studentList.insertDataAtEnd(student3);
         Student response = studentList.getData(student1);
-        assertEquals(student1.getCi(), response.getCi());
+        assertEquals(student1.getRfid(), response.getRfid());
     }
 
     @Test

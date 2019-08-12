@@ -34,4 +34,8 @@ public class Subject {
     public void setFinalNote(int finalNote) {
         this.finalNote = finalNote;
     }
+    @Override
+    public String toString(){
+        return id  +" - " +name;
+    }
 }

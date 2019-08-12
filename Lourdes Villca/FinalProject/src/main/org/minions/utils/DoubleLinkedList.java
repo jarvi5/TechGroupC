@@ -1,4 +1,4 @@
-package org.minions;
+package org.minions.utils;
 
 class DoubleLinkedList<T> {
     protected Node<T> head;
@@ -56,5 +56,20 @@ class DoubleLinkedList<T> {
             currentNode = currentNode.getNext();
         }
         return currentNode.getValue();
+    }
+
+    public T getNextElement(T data){
+        Node<T> node = getNode(data);
+        if(node.getNext() != null){
+            return node.getNext().getValue();
+        }
+        return null;
+    }
+
+    public T getPreviousElement(T data){
+        Node<T> node = getNode(data);
+        if(node.getPrevious() != null)
+            return node.getPrevious().getValue();
+        return null;
     }
 }

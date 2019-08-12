@@ -1,4 +1,4 @@
-package org.minions;
+package org.minions.utils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,18 +24,18 @@ public class MultiListTest {
         multiList.insertDataAtFirst(student1);
         multiList.insertDataAtFirst(student2);
         multiList.insertDataAtFirst(student3);
-        assertEquals(student1.getCi(), ((Student)multiList.getElementAt(2)).getCi());
-        assertEquals(student2.getCi(), ((Student)multiList.getElementAt(1)).getCi());
-        assertEquals(student3.getCi(), ((Student)multiList.getElementAt(0)).getCi());
+        assertEquals(student1.getRfid(), ((Student)multiList.getElementAt(2)).getRfid());
+        assertEquals(student2.getRfid(), ((Student)multiList.getElementAt(1)).getRfid());
+        assertEquals(student3.getRfid(), ((Student)multiList.getElementAt(0)).getRfid());
     }
     @Test
     public void testInsertDataAtEnd() {
         multiList.insertDataAtEnd(student1);
         multiList.insertDataAtEnd(student2);
         multiList.insertDataAtEnd(student3);
-        assertEquals(student1.getCi(),((Student)multiList.getElementAt(0)).getCi());
-        assertEquals(student2.getCi(),((Student)multiList.getElementAt(1)).getCi());
-        assertEquals(student3.getCi(),((Student)multiList.getElementAt(2)).getCi());
+        assertEquals(student1.getRfid(),((Student)multiList.getElementAt(0)).getRfid());
+        assertEquals(student2.getRfid(),((Student)multiList.getElementAt(1)).getRfid());
+        assertEquals(student3.getRfid(),((Student)multiList.getElementAt(2)).getRfid());
     }
     @Test
     public void testAddChild() {
@@ -44,8 +44,12 @@ public class MultiListTest {
         multiList.insertDataAtFirst(student3);
         Subject subject1 = new Subject("ProgrammingI", "P-01",89);
         Subject subject2 = new Subject("English I","E-01",70);
+        Subject subject3 = new Subject("English II","E-02",75);
+        Subject subject4 = new Subject("Calculo II","C-02",75);
         multiList.addChild(student1,subject1);
         multiList.addChild(student1,subject2);
+        multiList.addChild(student1,subject3);
+        multiList.addChild(student1,subject4);
         assertEquals(subject1.getId(), ((Subject)multiList.getNode(student1).getChild().getValue()).getId());
         assertEquals(subject2.getId(), ((Subject)multiList.getNode(student1).getChild().getNext().getValue()).getId());
     }
