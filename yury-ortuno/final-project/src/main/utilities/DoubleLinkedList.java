@@ -4,6 +4,7 @@ public class DoubleLinkedList<T> {
     private Node head;
     private Node tail;
     private Node tmp;
+    private int size = 0;
 
     public Node getActualNode() {
         return tmp;
@@ -13,12 +14,20 @@ public class DoubleLinkedList<T> {
         return head;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     public Node getTailNode() {
         return tail;
     }
 
     public void addToBack(T node) {
-        Node newNode = new Node(node);
+        Node<T> newNode = new Node<>(node);
         if (tail == null) {
             head = newNode;
         } else {
@@ -27,6 +36,7 @@ public class DoubleLinkedList<T> {
             newNode.next = null;
         }
         tail = newNode;
+        size++;
     }
 
     public void returnAllNodes() {
@@ -37,7 +47,7 @@ public class DoubleLinkedList<T> {
         }
     }
 
-    public Node moveNext() {
+    public Node next() {
         if (tmp == null) {
             tmp = head;
             return tmp;
@@ -49,7 +59,7 @@ public class DoubleLinkedList<T> {
         }
     }
 
-    public Node movePrevious() {
+    public Node previous() {
         if (tmp == null) {
             tmp = head;
             return tmp;
@@ -60,4 +70,6 @@ public class DoubleLinkedList<T> {
             return tmp;
         }
     }
+
+
 }

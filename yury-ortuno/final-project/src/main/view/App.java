@@ -26,6 +26,7 @@ public class App {
     private JTextField CFinalTxt;
     private JTextField CSearchTxt;
     private JPanel mainPanel;
+    private JButton allStudentButton;
 
     public App() {
         JFrame frame = new JFrame("Courses");
@@ -33,6 +34,14 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public JButton getAllStudentButton() {
+        return allStudentButton;
+    }
+
+    public void setAllStudentButton(JButton allStudentButton) {
+        this.allStudentButton = allStudentButton;
     }
 
     public JTextField getRfidTxt() {
