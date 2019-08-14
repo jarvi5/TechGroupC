@@ -1,18 +1,20 @@
 package org.minions.view;
 
+import org.minions.model.Subject;
+import org.minions.utils.DoubleLinkedList;
 import org.minions.utils.MultiList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class SubjectListPanel extends JPanel{
+public class SubjectListPanel extends JPanel {
     private JButton nextButton;
     private JButton previousButton;
     private JButton addSubjectButton;
-    private JList<MultiList> subjectList;
+    private JList<Subject> subjectList;
 
-    SubjectListPanel(){
+    SubjectListPanel() {
         TitledBorder borderSubjectList = new TitledBorder("Subject List");
         borderSubjectList.setTitleJustification(TitledBorder.LEFT);
         borderSubjectList.setTitlePosition(TitledBorder.TOP);
@@ -20,7 +22,7 @@ public class SubjectListPanel extends JPanel{
 
         subjectList = new JList<>();
         subjectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        Dimension dimension = new Dimension(250,100);
+        Dimension dimension = new Dimension(250, 100);
         subjectList.setPreferredSize(dimension);
         subjectList.setMinimumSize(dimension);
         subjectList.setMaximumSize(dimension);
@@ -30,13 +32,14 @@ public class SubjectListPanel extends JPanel{
 
         addSubjectButton = new JButton("Add");
         addSubjectButton.setEnabled(false);
-        Icon nextArrow = new ImageIcon("resources/row_up.png");
-        Icon previousArrow = new ImageIcon("resources/row_down.png");
+        Icon nextArrow = new ImageIcon("resources/row_down.png");
+        Icon previousArrow = new ImageIcon("resources/row_up.png");
         nextButton = new JButton(nextArrow);
         previousButton = new JButton(previousArrow);
         setLayoutPanel();
     }
-    private void setLayoutPanel(){
+
+    private void setLayoutPanel() {
         GroupLayout subjectListLayout = new GroupLayout(this);
         subjectListLayout.setAutoCreateGaps(true);
         subjectListLayout.setAutoCreateContainerGaps(true);
@@ -45,16 +48,15 @@ public class SubjectListPanel extends JPanel{
                 .addGroup(subjectListLayout.createSequentialGroup()
                         .addComponent(subjectList)
                         .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(nextButton)
-                                .addComponent(previousButton))));
-
+                                .addComponent(previousButton)
+                                .addComponent(nextButton))));
         subjectListLayout.setVerticalGroup(subjectListLayout.createSequentialGroup()
                 .addComponent(addSubjectButton)
                 .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(subjectList)
                         .addGroup(subjectListLayout.createSequentialGroup()
-                                .addComponent(nextButton)
-                                .addComponent(previousButton))));
+                                .addComponent(previousButton)
+                                .addComponent(nextButton))));
         subjectListLayout.linkSize(SwingConstants.HORIZONTAL, nextButton, previousButton);
         this.setLayout(subjectListLayout);
     }
@@ -83,11 +85,11 @@ public class SubjectListPanel extends JPanel{
         this.addSubjectButton = addSubjectButton;
     }
 
-    public JList<MultiList> getSubjectList() {
+    public JList<Subject> getSubjectList() {
         return subjectList;
     }
 
-    public void setSubjectList(JList<MultiList> subjectList) {
+    public void setSubjectList(JList<Subject> subjectList) {
         this.subjectList = subjectList;
     }
 

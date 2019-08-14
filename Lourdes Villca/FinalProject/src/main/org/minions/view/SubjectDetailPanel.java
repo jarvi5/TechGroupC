@@ -3,7 +3,7 @@ package org.minions.view;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-public class SubjectDetailPanel extends JPanel{
+public class SubjectDetailPanel extends JPanel {
     private JLabel idLabel;
     private JLabel nameLabel;
     private JLabel finalGradeLabel;
@@ -11,7 +11,7 @@ public class SubjectDetailPanel extends JPanel{
     private JLabel nameInfoLabel;
     private JLabel finalGradeInfoLabel;
 
-    SubjectDetailPanel(){
+    SubjectDetailPanel() {
         TitledBorder borderSubjectDetail = new TitledBorder("Subject Detail");
         borderSubjectDetail.setTitleJustification(TitledBorder.LEFT);
         borderSubjectDetail.setTitlePosition(TitledBorder.TOP);
@@ -21,13 +21,13 @@ public class SubjectDetailPanel extends JPanel{
         nameLabel = new JLabel("Name:");
         finalGradeLabel = new JLabel("Grade:");
 
-        idInfoLabel = new JLabel("133");
-        nameInfoLabel = new JLabel("123123123");
-        finalGradeInfoLabel = new JLabel("100");
+        idInfoLabel = new JLabel();
+        nameInfoLabel = new JLabel();
+        finalGradeInfoLabel = new JLabel();
         setLayoutPanel();
-
     }
-    private void setLayoutPanel(){
+
+    private void setLayoutPanel() {
         GroupLayout subjectDetailLayout = new GroupLayout(this);
         subjectDetailLayout.setAutoCreateGaps(true);
         subjectDetailLayout.setAutoCreateContainerGaps(true);
@@ -54,4 +54,52 @@ public class SubjectDetailPanel extends JPanel{
                         .addComponent(finalGradeInfoLabel)));
         this.setLayout(subjectDetailLayout);
     }
+    public JLabel getIdLabel() {
+        return idLabel;
+    }
+
+    public void setIdLabel(JLabel idLabel) {
+        this.idLabel = idLabel;
+    }
+
+    public JLabel getNameLabel() {
+        return nameLabel;
+    }
+
+    public void setNameLabel(JLabel nameLabel) {
+        this.nameLabel = nameLabel;
+    }
+
+    public JLabel getFinalGradeLabel() {
+        return finalGradeLabel;
+    }
+
+    public void setFinalGradeLabel(JLabel finalGradeLabel) {
+        this.finalGradeLabel = finalGradeLabel;
+    }
+
+    public JLabel getIdInfoLabel() {
+        return idInfoLabel;
+    }
+
+    public void setIdInfoLabel(JLabel idInfoLabel) {
+        this.idInfoLabel = idInfoLabel;
+    }
+
+    public JLabel getNameInfoLabel() {
+        return nameInfoLabel;
+    }
+
+    public void setNameInfoLabel(JLabel nameInfoLabel) {
+        this.nameInfoLabel = nameInfoLabel;
+    }
+
+    public JLabel getFinalGradeInfoLabel() {
+        return finalGradeInfoLabel;
+    }
+
+    public void setFinalGradeInfoLabel(JLabel finalGradeInfoLabel) {
+        this.finalGradeInfoLabel = finalGradeInfoLabel;
+    }
+
 }

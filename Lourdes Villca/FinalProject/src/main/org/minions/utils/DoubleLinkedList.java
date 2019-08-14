@@ -1,8 +1,16 @@
 package org.minions.utils;
 
-class DoubleLinkedList<T> {
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+
+public class DoubleLinkedList<T> implements ListModel {
     protected Node<T> head;
     protected Node<T> tail;
+    protected int size;
+
+    DoubleLinkedList() {
+        this.size = 0;
+    }
 
     public void insertDataAtFirst(T data) {
         Node<T> node = new Node<>(data);
@@ -14,6 +22,7 @@ class DoubleLinkedList<T> {
             head.setPrevious(node);
             head = node;
         }
+        size++;
     }
 
     public void insertDataAtEnd(T data) {
@@ -26,6 +35,7 @@ class DoubleLinkedList<T> {
             tail.setNext(node);
             tail = node;
         }
+        size++;
     }
 
     public T getData(T data) {
@@ -50,7 +60,7 @@ class DoubleLinkedList<T> {
         return null;
     }
 
-    public T getElementAt(int index) {
+    public T getElementAtIndex(int index) {
         Node<T> currentNode = head;
         for (int i = 0; i < index; i++) {
             currentNode = currentNode.getNext();
@@ -58,18 +68,42 @@ class DoubleLinkedList<T> {
         return currentNode.getValue();
     }
 
-    public T getNextElement(T data){
+    public T getNextElement(T data) {
         Node<T> node = getNode(data);
-        if(node.getNext() != null){
+        if (node.getNext() != null) {
             return node.getNext().getValue();
         }
         return null;
     }
 
-    public T getPreviousElement(T data){
+    public T getPreviousElement(T data) {
         Node<T> node = getNode(data);
-        if(node.getPrevious() != null)
+        if (node.getPrevious() != null)
             return node.getPrevious().getValue();
         return null;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public Object getElementAt(int index) {
+        Node currentNode = head;
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.getNext();
+        }
+        return currentNode.getValue();
+    }
+
+    @Override
+    public void addListDataListener(ListDataListener l) {
+
+    }
+
+    @Override
+    public void removeListDataListener(ListDataListener l) {
+
     }
 }

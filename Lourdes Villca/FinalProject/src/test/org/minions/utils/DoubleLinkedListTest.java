@@ -24,9 +24,9 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtFirst(student1);
         studentList.insertDataAtFirst(student2);
         studentList.insertDataAtFirst(student3);
-        assertEquals(student1.getRfid(), studentList.getElementAt(2).getRfid());
-        assertEquals(student2.getRfid(), studentList.getElementAt(0).getRfid());
-        assertEquals(student3.getRfid(), studentList.getElementAt(1).getRfid());
+        assertEquals(student1.getRfid(), studentList.getElementAtIndex(2).getRfid());
+        assertEquals(student2.getRfid(), studentList.getElementAtIndex(0).getRfid());
+        assertEquals(student3.getRfid(), studentList.getElementAtIndex(1).getRfid());
     }
 
     @Test
@@ -34,9 +34,9 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtEnd(student1);
         studentList.insertDataAtEnd(student2);
         studentList.insertDataAtEnd(student3);
-        assertEquals(student1.getRfid(),studentList.getElementAt(0).getRfid());
-        assertEquals(student2.getRfid(),studentList.getElementAt(1).getRfid());
-        assertEquals(student3.getRfid(),studentList.getElementAt(2).getRfid());
+        assertEquals(student1.getRfid(),studentList.getElementAtIndex(0).getRfid());
+        assertEquals(student2.getRfid(),studentList.getElementAtIndex(1).getRfid());
+        assertEquals(student3.getRfid(),studentList.getElementAtIndex(2).getRfid());
     }
 
     @Test

@@ -1,9 +1,9 @@
 package org.minions.controller;
 
+import org.minions.utils.DoubleLinkedList;
 import org.minions.utils.MultiList;
 import org.minions.model.Student;
 import org.minions.model.Subject;
-import org.minions.utils.Node;
 import org.minions.view.AddSubjectDialog;
 import org.minions.view.SearchAddStudentPanel;
 import org.minions.view.StudentInfoPanel;
@@ -12,6 +12,7 @@ import org.minions.view.SubjectPanel;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLOutput;
 
 public class Controller {
     private SearchAddStudentPanel addSearchPanel;
@@ -34,6 +35,25 @@ public class Controller {
         studentInfoPanel.getNextButton().addActionListener(e -> nextStudent());
         studentInfoPanel.getPreviousButton().addActionListener(e -> previousStudent());
         subjectPanel.getSubjectListPanel().getAddSubjectButton().addActionListener(e -> addSubject());
+        //subjectPanel.getSubjectListPanel().getSubjectList().add.addListSelectionListener(e->displaySubjectDetail());
+        subjectPanel.getSubjectListPanel().getNextButton().addActionListener(e->nextSubject());
+    }
+
+    private void nextSubject() {
+        if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
+            Subject subject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(0);
+            int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
+            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(index++);
+
+        }
+    }
+
+    private void displaySubjectDetail() {
+        System.out.println("Click Event");
+        /*Subject subject = (Subject)subjectPanel.getSubjectListPanel().getSubjectList().getSelectedValue().getValue();
+        subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText(subject.getName());
+        subjectPanel.getSubjectDetailPanel().updateUI();*/
+
     }
 
     private void addSubject() {
@@ -47,7 +67,6 @@ public class Controller {
             subjectDialog.dispose();
             updateSubjectContentPanel();
         });
-
     }
 
     private void addStudent() {
@@ -133,11 +152,11 @@ public class Controller {
     }
 
     private void updateSubjectContentPanel() {
-        Node studentNode = studentSubjectList.getNode(student);
-        if (studentNode != null) {
-            subjectPanel.getSubjectListPanel().getSubjectList().setModel(studentNode);
+        DoubleLinkedList subjectList = studentSubjectList.getParentNode(student).getChild();
+        if (subjectList != null) {
+            subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
+            subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
+            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(0);
         }
-
-
     }
 }

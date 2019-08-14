@@ -50,8 +50,8 @@ public class MultiListTest {
         multiList.addChild(student1,subject2);
         multiList.addChild(student1,subject3);
         multiList.addChild(student1,subject4);
-        assertEquals(subject1.getId(), ((Subject)multiList.getNode(student1).getChild().getValue()).getId());
-        assertEquals(subject2.getId(), ((Subject)multiList.getNode(student1).getChild().getNext().getValue()).getId());
+        assertEquals(subject1.getId(), ((Subject)multiList.getParentNode(student1).getChild().getElementAtIndex(0)).getId());
+        assertEquals(subject2.getId(), ((Subject)multiList.getParentNode(student1).getChild().getElementAtIndex(1)).getId());
     }
 
 }
