@@ -12,7 +12,6 @@ import org.minions.view.SubjectPanel;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.SQLOutput;
 
 public class Controller {
     private SearchAddStudentPanel addSearchPanel;
@@ -35,24 +34,39 @@ public class Controller {
         studentInfoPanel.getNextButton().addActionListener(e -> nextStudent());
         studentInfoPanel.getPreviousButton().addActionListener(e -> previousStudent());
         subjectPanel.getSubjectListPanel().getAddSubjectButton().addActionListener(e -> addSubject());
-        //subjectPanel.getSubjectListPanel().getSubjectList().add.addListSelectionListener(e->displaySubjectDetail());
-        subjectPanel.getSubjectListPanel().getNextButton().addActionListener(e->nextSubject());
+        subjectPanel.getSubjectListPanel().getNextButton().addActionListener(e -> nextSubject());
+        subjectPanel.getSubjectListPanel().getPreviousButton().addActionListener(e -> previousSubject());
     }
 
     private void nextSubject() {
         if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
-            Subject subject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(0);
             int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
-            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(index++);
-
+            Subject currentSubject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(index);
+            if (studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getNext() != null) {
+                Subject selectedSubject = (Subject) studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getNext().getValue();
+                subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(selectedSubject, true);
+                displaySubjectDetail(selectedSubject);
+            }
         }
     }
 
-    private void displaySubjectDetail() {
-        System.out.println("Click Event");
-        /*Subject subject = (Subject)subjectPanel.getSubjectListPanel().getSubjectList().getSelectedValue().getValue();
+    private void previousSubject() {
+        if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
+            int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
+            Subject currentSubject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(index);
+            if (studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getPrevious() != null) {
+                Subject selectedSubject = (Subject) studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getPrevious().getValue();
+                subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(selectedSubject, true);
+                displaySubjectDetail(selectedSubject);
+            }
+        }
+    }
+
+    private void displaySubjectDetail(Subject subject) {
+        subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText(subject.getId());
         subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText(subject.getName());
-        subjectPanel.getSubjectDetailPanel().updateUI();*/
+        subjectPanel.getSubjectDetailPanel().getFinalGradeInfoLabel().setText(String.valueOf(subject.getFinalNote()));
+        subjectPanel.getSubjectDetailPanel().updateUI();
 
     }
 
@@ -65,7 +79,8 @@ public class Controller {
             Subject subject = new Subject(name, id, finalGrade);
             studentSubjectList.addChild(student, subject);
             subjectDialog.dispose();
-            updateSubjectContentPanel();
+            updateSubjectContentPanel(subject);
+            displaySubjectDetail(subject);
         });
     }
 
@@ -89,6 +104,10 @@ public class Controller {
 
             subjectPanel.getSubjectListPanel().getAddSubjectButton().setEnabled(true);
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(new DefaultListModel<>());
+
+            subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText("");
+            subjectPanel.getSubjectDetailPanel().getFinalGradeInfoLabel().setText("");
+            subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText("");
         }
     }
 
@@ -157,6 +176,14 @@ public class Controller {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
             subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(0);
+        }
+    }
+    private void updateSubjectContentPanel(Subject subject) {
+        DoubleLinkedList subjectList = studentSubjectList.getParentNode(student).getChild();
+        if (subjectList != null) {
+            subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
+            subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
+            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(subject, true);;
         }
     }
 }
