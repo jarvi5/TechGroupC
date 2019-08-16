@@ -42,8 +42,8 @@ public class Controller {
         if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
             int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
             Subject currentSubject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(index);
-            if (studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getNext() != null) {
-                Subject selectedSubject = (Subject) studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getNext().getValue();
+            if (studentSubjectList.getNode(student).getChild().getNode(currentSubject).getNext() != null) {
+                Subject selectedSubject = (Subject) studentSubjectList.getNode(student).getChild().getNode(currentSubject).getNext().getValue();
                 subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(selectedSubject, true);
                 displaySubjectDetail(selectedSubject);
             }
@@ -54,8 +54,8 @@ public class Controller {
         if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
             int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
             Subject currentSubject = subjectPanel.getSubjectListPanel().getSubjectList().getModel().getElementAt(index);
-            if (studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getPrevious() != null) {
-                Subject selectedSubject = (Subject) studentSubjectList.getParentNode(student).getChild().getNode(currentSubject).getPrevious().getValue();
+            if (studentSubjectList.getNode(student).getChild().getNode(currentSubject).getPrevious() != null) {
+                Subject selectedSubject = (Subject) studentSubjectList.getNode(student).getChild().getNode(currentSubject).getPrevious().getValue();
                 subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(selectedSubject, true);
                 displaySubjectDetail(selectedSubject);
             }
@@ -149,7 +149,7 @@ public class Controller {
     }
 
     private void nextStudent() {
-        Student nextStudent = studentSubjectList.getNextElement(student);
+        Student nextStudent = studentSubjectList.getNode(student).getNext().getValue();
         if (nextStudent != null) {
             studentInfoPanel.getRfidInfoLabel().setText(nextStudent.getRfid());
             studentInfoPanel.getFirstnameInfo().setText(nextStudent.getName());
@@ -160,7 +160,7 @@ public class Controller {
     }
 
     private void previousStudent() {
-        Student previousStudent = studentSubjectList.getPreviousElement(student);
+        Student previousStudent = studentSubjectList.getNode(student).getPrevious().getValue();
         if (previousStudent != null) {
             studentInfoPanel.getRfidInfoLabel().setText(previousStudent.getRfid());
             studentInfoPanel.getFirstnameInfo().setText(previousStudent.getName());
@@ -171,7 +171,7 @@ public class Controller {
     }
 
     private void updateSubjectContentPanel() {
-        DoubleLinkedList subjectList = studentSubjectList.getParentNode(student).getChild();
+        DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
@@ -179,7 +179,7 @@ public class Controller {
         }
     }
     private void updateSubjectContentPanel(Subject subject) {
-        DoubleLinkedList subjectList = studentSubjectList.getParentNode(student).getChild();
+        DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();

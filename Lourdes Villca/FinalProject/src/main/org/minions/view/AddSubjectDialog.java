@@ -34,8 +34,9 @@ public class AddSubjectDialog extends JDialog {
         addButton = new JButton("Add");
         cancelButton = new JButton("Cancel");
         setPanelLayout();
+        this.setTitle("Add Subject");
         this.setVisible(true);
-        this.setSize(300,200);
+        this.setSize(300, 200);
         this.setLocationRelativeTo(null);
     }
 
@@ -48,8 +49,7 @@ public class AddSubjectDialog extends JDialog {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(idLabel)
                         .addComponent(nameLabel)
-                        .addComponent(finalGradeLabel)
-                        .addComponent(addButton))
+                        .addComponent(finalGradeLabel))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(idTxt)
                         .addComponent(checkIdLabel)
@@ -57,7 +57,14 @@ public class AddSubjectDialog extends JDialog {
                         .addComponent(checkNameLabel)
                         .addComponent(finalGradeTxt)
                         .addComponent(checkFinalGradeLabel)
-                        .addComponent(cancelButton)));
+                        .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
+                                        GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(addButton))
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(cancelButton))))
+        );
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(idLabel)
@@ -71,13 +78,15 @@ public class AddSubjectDialog extends JDialog {
                         .addComponent(finalGradeLabel)
                         .addComponent(finalGradeTxt))
                 .addComponent(checkFinalGradeLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
+                        GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(addButton)
                         .addComponent(cancelButton))
         );
         layout.linkSize(SwingConstants.HORIZONTAL, addButton, cancelButton);
         getContentPane().setLayout(layout);
-       //this.add(groupPanel);
+        //this.add(groupPanel);
     }
 
 

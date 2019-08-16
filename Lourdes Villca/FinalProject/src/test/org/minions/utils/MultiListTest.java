@@ -20,24 +20,6 @@ public class MultiListTest {
     }
 
     @Test
-    public void testInsertDataAtFirst() {
-        multiList.insertDataAtFirst(student1);
-        multiList.insertDataAtFirst(student2);
-        multiList.insertDataAtFirst(student3);
-        assertEquals(student1.getRfid(), ((Student)multiList.getElementAt(2)).getRfid());
-        assertEquals(student2.getRfid(), ((Student)multiList.getElementAt(1)).getRfid());
-        assertEquals(student3.getRfid(), ((Student)multiList.getElementAt(0)).getRfid());
-    }
-    @Test
-    public void testInsertDataAtEnd() {
-        multiList.insertDataAtEnd(student1);
-        multiList.insertDataAtEnd(student2);
-        multiList.insertDataAtEnd(student3);
-        assertEquals(student1.getRfid(),((Student)multiList.getElementAt(0)).getRfid());
-        assertEquals(student2.getRfid(),((Student)multiList.getElementAt(1)).getRfid());
-        assertEquals(student3.getRfid(),((Student)multiList.getElementAt(2)).getRfid());
-    }
-    @Test
     public void testAddChild() {
         multiList.insertDataAtFirst(student1);
         multiList.insertDataAtFirst(student2);
@@ -50,8 +32,10 @@ public class MultiListTest {
         multiList.addChild(student1,subject2);
         multiList.addChild(student1,subject3);
         multiList.addChild(student1,subject4);
-        assertEquals(subject1.getId(), ((Subject)multiList.getParentNode(student1).getChild().getElementAtIndex(0)).getId());
-        assertEquals(subject2.getId(), ((Subject)multiList.getParentNode(student1).getChild().getElementAtIndex(1)).getId());
+        assertEquals(subject1.getId(), ((Subject)multiList.getNode(student1).getChild().getElementAtIndex(0)).getId());
+        assertEquals(subject2.getId(), ((Subject)multiList.getNode(student1).getChild().getElementAtIndex(1)).getId());
+        assertEquals(subject3.getId(), ((Subject)multiList.getNode(student1).getChild().getElementAtIndex(2)).getId());
+        assertEquals(subject4.getId(), ((Subject)multiList.getNode(student1).getChild().getElementAtIndex(3)).getId());
     }
 
 }

@@ -7,7 +7,6 @@ import org.minions.model.Student;
 import static org.junit.Assert.*;
 
 public class DoubleLinkedListTest {
-
     private DoubleLinkedList<Student> studentList;
     private Student student1, student2, student3;
 
@@ -25,8 +24,8 @@ public class DoubleLinkedListTest {
         studentList.insertDataAtFirst(student2);
         studentList.insertDataAtFirst(student3);
         assertEquals(student1.getRfid(), studentList.getElementAtIndex(2).getRfid());
-        assertEquals(student2.getRfid(), studentList.getElementAtIndex(0).getRfid());
-        assertEquals(student3.getRfid(), studentList.getElementAtIndex(1).getRfid());
+        assertEquals(student2.getRfid(), studentList.getElementAtIndex(1).getRfid());
+        assertEquals(student3.getRfid(), studentList.getElementAtIndex(0).getRfid());
     }
 
     @Test
@@ -40,7 +39,7 @@ public class DoubleLinkedListTest {
     }
 
     @Test
-    public void getData() {
+    public void testGetData() {
         studentList.insertDataAtEnd(student1);
         studentList.insertDataAtEnd(student2);
         studentList.insertDataAtEnd(student3);
@@ -49,19 +48,12 @@ public class DoubleLinkedListTest {
     }
 
     @Test
-    public void getNode() {
+    public void testGetNode(){
+        studentList.insertDataAtEnd(student1);
+        studentList.insertDataAtEnd(student2);
+        studentList.insertDataAtEnd(student3);
+        assertEquals(student1.getRfid(),((Student)studentList.getNode(student1).getValue()).getRfid());
     }
-
-//    @Test
-//    public void addChild() {
-//        studentList.insertDataAtEnd(student1);
-//        studentList.insertDataAtEnd(student2);
-//        studentList.insertDataAtEnd(student3);
-//        Subject subject1 = new Subject("ProgrammingI", "P-01",89);
-//        Subject subject2 = new Subject("English I","E-01",70);
-//        studentList.addChild(student2,subject1);
-//        studentList.addChild(student2,subject2);
-//    }
 
     @Test
     public void getElementAt() {

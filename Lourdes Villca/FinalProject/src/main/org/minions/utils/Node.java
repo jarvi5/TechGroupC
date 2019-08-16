@@ -1,9 +1,6 @@
 package org.minions.utils;
 
-import javax.swing.*;
-import javax.swing.event.ListDataListener;
-
-public class Node<T>{
+public class Node<T> {
     private Node<T> previous;
     private Node<T> next;
     private DoubleLinkedList child;
