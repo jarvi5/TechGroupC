@@ -1,6 +1,7 @@
 package project.view;
 
 import project.common.utils.IFunction;
+import project.model.DataModel;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -78,6 +79,11 @@ public class MainView {
         clearTableModel(studentTableModel);
         studentTableModel.setDataVector(data, studentTableHeader);
         userTable.setModel(studentTableModel);
+    }
+
+    public void updateStudentDataTable(AbstractTableModel dataModel) {
+        userTable.setModel(dataModel);
+        subjectTable.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
     }
 
     private void clearTableModel(DefaultTableModel model) {

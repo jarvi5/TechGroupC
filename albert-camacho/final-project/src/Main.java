@@ -1,7 +1,7 @@
 import project.common.utils.DoubleList;
 import project.common.utils.MultiList;
-import project.model.Student;
-import project.model.Subject;
+import project.model.datatype.Student;
+import project.model.datatype.Subject;
 
 public class Main {
     /**

@@ -12,7 +12,6 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
     int size;
     INode<E> firstNode;
     INode<E> lastNode;
-    INode<E> current;
 
     /**
      * Add an element to the last position of the list.
@@ -40,7 +39,6 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             //firstNode.next.previous = firstNode;
             firstNode.getNext().setPrevious(firstNode);
         }
-        current = firstNode;
         size++;
         return true;
     }
@@ -60,22 +58,8 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             //lastNode.previous.next = lastNode;
             lastNode.getPrevious().setNext(lastNode);
         }
-        current = lastNode;
         size++;
         return true;
-    }
-
-    /**
-     * Get the element in the current node.
-     *
-     * @return E object element.
-     */
-    @Override
-    public E get() {
-        if (current != null) {
-            return current.getElement();
-        }
-        return null;
     }
 
     /**
@@ -105,8 +89,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
                 idx++;
             }
         }
-        current = node;
-        return current.getElement();
+        return node.getElement();
     }
 
     /**
@@ -127,40 +110,6 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
     @Override
     public E getLast() {
         return lastNode.getElement();
-    }
-
-    @Override
-    public E getNext() {
-        if (current.getNext() != null) {
-            current = current.getNext();
-        }
-        return current.getElement();
-    }
-
-    @Override
-    public E getPrevious() {
-        if (current.getPrevious() != null) {
-            current = current.getPrevious();
-        }
-        return current.getElement();
-    }
-
-    @Override
-    public E getNext(E element) {
-        if (element != null) {
-            current = firstNode.getNode(element).getNext();
-            return current.getElement();
-        }
-        return null;
-    }
-
-    @Override
-    public E getPrevious(E element) {
-        if (element != null) {
-            current = firstNode.getNode(element).getPrevious();
-            return current.getElement();
-        }
-        return null;
     }
 
     /**
@@ -208,6 +157,11 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
         return true;
     }
 
+    @Override
+    public DoubleIterator<E> doubleIterator() {
+        return new DoubleListIterator();
+    }
+
     // Checks if the given index is in range.  If not, throws an appropriate
     // runtime exception.
     private void rangeCheck(int index) {
@@ -228,7 +182,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new DoubleListIterator();
+        return new ListIterator();
     }
 
     @Override
@@ -242,7 +196,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
         return null;
     }
 
-    private class DoubleListIterator implements Iterator<E> {
+    private class ListIterator implements Iterator<E> {
 
         private INode<E> node = firstNode;
 
@@ -260,6 +214,46 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             E element = node.getElement();
             node = node.getNext();
             return element;
+        }
+    }
+
+    private class DoubleListIterator implements DoubleIterator<E> {
+
+        private INode<E> node = firstNode;
+
+        @Override
+        public boolean hasNext() {
+            return node.getNext() != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Iterator exceeded.");
+            }
+
+            node = node.getNext();
+            return node.getElement();
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return node.getPrevious() != null;
+        }
+
+        @Override
+        public E previous() {
+            if (!hasPrevious()) {
+                throw new NoSuchElementException("Iterator exceeded.");
+            }
+
+            node = node.getPrevious();
+            return node.getElement();
+        }
+
+        @Override
+        public void set(E element) {
+            node = firstNode.getNode(element);
         }
     }
 }

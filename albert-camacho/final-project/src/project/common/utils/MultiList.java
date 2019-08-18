@@ -1,5 +1,6 @@
 package project.common.utils;
 
+import project.common.node.INode;
 import project.common.node.MultiNode;
 
 public class MultiList<E, V> extends DoubleLinkedList<E> {
@@ -19,7 +20,6 @@ public class MultiList<E, V> extends DoubleLinkedList<E> {
             //firstNode.next.previous = firstNode;
             firstNode.getNext().setPrevious(firstNode);
         }
-        current = firstNode;
         size++;
         return true;
     }
@@ -39,13 +39,8 @@ public class MultiList<E, V> extends DoubleLinkedList<E> {
             //lastNode.previous.next = lastNode;
             lastNode.getPrevious().setNext(lastNode);
         }
-        current = lastNode;
         size++;
         return true;
-    }
-
-    public boolean addChild(V value) {
-        return addChild(current.getElement(), value);
     }
 
     /**
@@ -58,10 +53,6 @@ public class MultiList<E, V> extends DoubleLinkedList<E> {
      */
     public boolean addChild(E element, V value) {
         return multiNodeOf(element).getChild().add(value);
-    }
-
-    public DoubleList<V> getChildList() {
-        return getChildList(current.getElement());
     }
 
     /**
@@ -88,7 +79,7 @@ public class MultiList<E, V> extends DoubleLinkedList<E> {
     }
 
     private MultiNode<E, V> multiNodeOf(E element) {
-        current = firstNode.getNode(element);
-        return (MultiNode<E, V>) current;
+        INode<E> node = firstNode.getNode(element);
+        return (MultiNode<E, V>) node;
     }
 }

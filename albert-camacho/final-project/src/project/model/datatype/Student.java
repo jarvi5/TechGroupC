@@ -1,4 +1,4 @@
-package project.model;
+package project.model.datatype;
 
 public class Student {
     private String rfid;
