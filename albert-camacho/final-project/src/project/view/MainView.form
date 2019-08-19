@@ -7,7 +7,7 @@
     </constraints>
     <properties>
       <enabled value="true"/>
-      <preferredSize width="642" height="440"/>
+      <preferredSize width="676" height="440"/>
     </properties>
     <border type="none"/>
     <children>
@@ -84,7 +84,7 @@
             <children>
               <component id="7f037" class="javax.swing.JButton" binding="addFirstStudentButton">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Add First"/>
@@ -92,7 +92,7 @@
               </component>
               <component id="66a57" class="javax.swing.JButton" binding="addLastStudentButton">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Add Last"/>
@@ -114,14 +114,13 @@
                   <text value="Remove Last"/>
                 </properties>
               </component>
-              <component id="f0838" class="javax.swing.JButton" binding="saveStudentButton">
+              <hspacer id="9512a">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="22" height="-1"/>
+                  </grid>
                 </constraints>
-                <properties>
-                  <text value="Save"/>
-                </properties>
-              </component>
+              </hspacer>
             </children>
           </grid>
         </children>
@@ -136,7 +135,7 @@
         <properties/>
         <border type="etched" title="Student Subjects"/>
         <children>
-          <grid id="c8310" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="c8310" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -194,9 +193,43 @@
                 </constraints>
                 <properties/>
               </component>
+              <grid id="d7011" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="b0d31" class="javax.swing.JButton" binding="addFirstSubjectButton">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Add First"/>
+                    </properties>
+                  </component>
+                  <component id="63ebd" class="javax.swing.JButton" binding="saveSubjectButton">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Save"/>
+                    </properties>
+                  </component>
+                  <component id="35547" class="javax.swing.JButton" binding="addLastSubjectButton">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="Add Last"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
             </children>
           </grid>
-          <grid id="16e64" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="16e64" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false">
@@ -208,34 +241,34 @@
             <children>
               <component id="aa1e8" class="javax.swing.JButton" binding="previousSubjectButton">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Previous"/>
                 </properties>
               </component>
-              <component id="b0d31" class="javax.swing.JButton" binding="addSubjectButton">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Add"/>
-                </properties>
-              </component>
               <component id="7660f" class="javax.swing.JButton" binding="nextSubjectButton">
                 <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Next"/>
                 </properties>
               </component>
-              <component id="63ebd" class="javax.swing.JButton" binding="saveSubjectButton">
+              <component id="a1924" class="javax.swing.JButton" binding="removeFirstSubjectButton">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Save"/>
+                  <text value="Remove First"/>
+                </properties>
+              </component>
+              <component id="62e8a" class="javax.swing.JButton" binding="removeLastSubjectButton">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Remove Last"/>
                 </properties>
               </component>
             </children>
@@ -243,9 +276,9 @@
           <scrollpane id="82328">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false">
-                <minimum-size width="250" height="-1"/>
-                <preferred-size width="250" height="-1"/>
-                <maximum-size width="250" height="-1"/>
+                <minimum-size width="210" height="-1"/>
+                <preferred-size width="210" height="-1"/>
+                <maximum-size width="210" height="-1"/>
               </grid>
             </constraints>
             <properties/>

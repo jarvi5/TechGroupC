@@ -23,7 +23,7 @@ public class MainView {
     private JButton previousStudentButton;
     private JTable subjectTable;
     private JButton previousSubjectButton;
-    private JButton addSubjectButton;
+    private JButton addFirstSubjectButton;
     private JButton nextSubjectButton;
     private JTextField subjectIdTextField;
     private JTextField subjectNameTextField;
@@ -36,6 +36,9 @@ public class MainView {
     private JButton saveStudentButton;
     private JButton removeStudentFirstButton;
     private JButton removeStudentLastButton;
+    private JButton addLastSubjectButton;
+    private JButton removeFirstSubjectButton;
+    private JButton removeLastSubjectButton;
     private JFrame frame;
 
     private DefaultTableModel studentTableModel;
@@ -184,16 +187,28 @@ public class MainView {
         return previousStudentButton;
     }
 
-    public JButton getPreviousSubjectButton() {
-        return previousSubjectButton;
+    public JButton getAddFirstSubjectButton() {
+        return addFirstSubjectButton;
     }
 
-    public JButton getAddSubjectButton() {
-        return addSubjectButton;
+    public JButton getAddLastSubjectButton() {
+        return addLastSubjectButton;
+    }
+
+    public JButton getRemoveFirstSubjectButton() {
+        return removeFirstSubjectButton;
+    }
+
+    public JButton getRemoveLastSubjectButton() {
+        return removeLastSubjectButton;
     }
 
     public JButton getNextSubjectButton() {
         return nextSubjectButton;
+    }
+
+    public JButton getPreviousSubjectButton() {
+        return previousSubjectButton;
     }
 
     public JButton getSaveSubjectButton() {

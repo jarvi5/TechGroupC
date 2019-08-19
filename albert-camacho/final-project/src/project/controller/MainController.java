@@ -6,7 +6,6 @@ import project.model.datatype.Subject;
 import project.view.MainView;
 
 import javax.swing.*;
-import java.util.Vector;
 
 public class MainController {
     private StudentManager studentManager;
@@ -45,8 +44,6 @@ public class MainController {
             mainView.updateStudentDataTable(studentManager.getDataModel());
         });
 
-//        mainView.getSearchStudentButton().addActionListener(e -> searchUser());
-
         mainView.getNextStudentButton().addActionListener(e -> {
             studentManager.nextStudent();
             updateProfileView();
@@ -59,7 +56,16 @@ public class MainController {
             updateSubjectView();
         });
 
-        mainView.getAddSubjectButton().addActionListener(e -> addNewSubject());
+        mainView.getAddFirstSubjectButton().addActionListener(e -> {
+            addNewSubject(SubjectManager.FIRST_SUBJECT);
+            mainView.selectSubjectRow(0);
+        });
+
+        mainView.getAddLastSubjectButton().addActionListener(e -> {
+            addNewSubject(SubjectManager.LAST_SUBJECT);
+            mainView.selectSubjectRow(subjectManager.getDataModel().getRowCount() - 1);
+        });
+
         mainView.getSaveSubjectButton().addActionListener(e -> saveSubject());
 
         mainView.getNextSubjectButton().addActionListener(e -> {
@@ -110,38 +116,21 @@ public class MainController {
         updateProfileView();
     }
 
-//    private void searchUser() {
-//        String name = mainView.getFirstNameText();
-//        String lastName = mainView.getLastNameText();
-//
-//        Vector students = studentManager.searchStudentBy(name.toLowerCase(), lastName.toLowerCase());
-//        if (!students.isEmpty()) {
-//            displaySearchResult(students);
-//        } else {
-//            mainView.showDialog("Student Search", "Student couldn't be found.", "info");
-//        }
-//    }
-
-    private void displaySearchResult(Vector students) {
-        mainView.updateStudentDataTable(students);
-    }
-
     private void updateProfileView() {
         mainView.setRfidLabelText(studentManager.getStudent().getRfid());
         mainView.setFirstNameLabelText(studentManager.getStudent().getName());
         mainView.setLastNameLabelText(studentManager.getStudent().getLastName());
     }
 
-    private void addNewSubject() {
+    private void addNewSubject(String atPosition) {
         String id = mainView.getSubjectIdText();
         String name = mainView.getSubjectNameText();
         String grade = mainView.getSubjectGradeText();
 
-        if (subjectManager.addSubject(id, name, grade)) {
+        if (subjectManager.addSubject(id, name, grade, atPosition)) {
             mainView.showDialog("Add Subject",
                     String.format("The subject %s was added successfully", name), "info");
             updateSubjectView();
-            mainView.selectSubjectRow(subjectManager.getDataModel().getRowCount() - 1);
         } else {
             mainView.showDialog("Add Subject",
                     String.format("The subject %s was not added", name), "error");
@@ -167,7 +156,7 @@ public class MainController {
     }
 
     private void updateSubjectView() {
-        subjectManager.getDataModel().fireTableDataChanged();
+        //subjectManager.getDataModel().fireTableDataChanged();
         mainView.loadSubjectTable(subjectManager.getDataModel());
     }
 

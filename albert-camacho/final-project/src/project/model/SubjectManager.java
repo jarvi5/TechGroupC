@@ -8,6 +8,8 @@ import project.model.datatype.Subject;
 import java.util.*;
 
 public class SubjectManager implements Observer {
+    public static final String FIRST_SUBJECT = "SubjectAtFirstPosition";
+    public static final String LAST_SUBJECT = "SubjectAtLastPosition";
 
     private DoubleLinkedList<Subject> subjectList;
     private DoubleIterator<Subject> subjectIterator;
@@ -30,17 +32,27 @@ public class SubjectManager implements Observer {
 
         return strategyDataMap;
     }
-    public boolean addSubject(String id, String name, String grade) {
+    public boolean addSubject(String id, String name, String grade, String atPosition) {
         Subject subject = new Subject(id, name, Integer.valueOf(grade));
 
-        if (subject.getName().length() > 2 && !subjectExists(id) && subject.getId().length() > 0) {
-            currentSubject = subject;
-            subjectList.add(subject);
-            subjectIterator.set(subject);
-            subjectDataModel.updateData(subjectList);
-            return true;
+        if (validateNewSubject(subject)) {
+            return addSubjectAt(subject, atPosition);
         }
         return false;
+    }
+
+    private boolean addSubjectAt(Subject subject, String atPosition) {
+        boolean result = atPosition.equals(LAST_SUBJECT) ? subjectList.addLast(subject) : subjectList.addFirst(subject);
+        if (result) {
+            currentSubject = subject;
+            subjectIterator.set(currentSubject);
+            subjectDataModel.updateData(subjectList);
+        }
+        return result;
+    }
+
+    private boolean validateNewSubject(Subject subject) {
+        return (subject.getName().length() > 2 && !subjectExists(subject.getId()) && subject.getId().length() > 0);
     }
 
     public boolean saveSubject(String id, String name, String grade) {
@@ -87,7 +99,9 @@ public class SubjectManager implements Observer {
     @Override
     public void update(Observable observable, Object arg) {
         StudentManager manager = (StudentManager) observable;
-        subjectDataModel.updateData(manager.getSubjectsCurrentStudent());
+        subjectList = (DoubleLinkedList<Subject>) manager.getSubjectsCurrentStudent();
+        subjectDataModel.updateData(subjectList);
+        subjectIterator = subjectList.doubleIterator();
     }
 
     public DataModel getDataModel() {

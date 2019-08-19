@@ -69,7 +69,7 @@ public class StudentManager extends Observable {
             updateCurrentAfterRemoveWith(student, studentList.getLast());
         }
         studentDataModel.updateData(studentList);
-        return String.format("%s %s",student.getName(), student.getLastName());
+        return String.format("%s %s", student.getName(), student.getLastName());
     }
 
     private void updateCurrentAfterRemoveWith(Student student, Student studentToUpdate) {
@@ -79,35 +79,17 @@ public class StudentManager extends Observable {
         }
     }
 
-//    public Vector<Object> searchStudentBy(String name, String lastName) {
-//        Vector<Object> result = new Vector<>();
-//
-//        for (Student student : studentList) {
-//            if (name.contains(student.getName().toLowerCase()) ||
-//                    lastName.contains(student.getLastName().toLowerCase())) {
-//                Vector<String> studentData = new Vector<>();
-//                studentData.add(student.getRfid());
-//                studentData.add(student.getName());
-//                studentData.add(student.getLastName());
-//                result.add(studentData);
-//            }
-//        }
-//        return result;
-//    }
-
     public Student getStudent() {
         return currentStudent;
     }
 
     public void nextStudent() {
-        //studentList.getNext();
         currentStudent = studentIterator.next();
         setChanged();
         notifyObservers();
     }
 
     public void previousStudent() {
-        //studentList.getPrevious();
         currentStudent = studentIterator.previous();
         setChanged();
         notifyObservers();
