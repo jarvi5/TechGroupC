@@ -31,6 +31,16 @@ public class DoubleNode<E> implements INode<E>{
     }
 
     @Override
+    public boolean hasNext() {
+        return next != null;
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return previous != null;
+    }
+
+    @Override
     public void setNext(INode<E> node) {
         next = node;
     }

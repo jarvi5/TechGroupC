@@ -2,6 +2,7 @@ package project.controller;
 
 import project.model.SubjectManager;
 import project.model.StudentManager;
+import project.model.datatype.Student;
 import project.model.datatype.Subject;
 import project.view.MainView;
 
@@ -32,13 +33,13 @@ public class MainController {
             mainView.updateStudentDataTable(studentManager.getDataModel());
         });
 
-        mainView.getRemoveStudentFirstButton().addActionListener( e -> {
+        mainView.getRemoveStudentFirstButton().addActionListener(e -> {
             removeStudent(StudentManager.FIRST_STUDENT);
             updateSubjectView();
             mainView.updateStudentDataTable(studentManager.getDataModel());
         });
 
-        mainView.getRemoveStudentLastButton().addActionListener( e -> {
+        mainView.getRemoveStudentLastButton().addActionListener(e -> {
             removeStudent(StudentManager.LAST_STUDENT);
             updateSubjectView();
             mainView.updateStudentDataTable(studentManager.getDataModel());
@@ -56,15 +57,9 @@ public class MainController {
             updateSubjectView();
         });
 
-        mainView.getAddFirstSubjectButton().addActionListener(e -> {
-            addNewSubject(SubjectManager.FIRST_SUBJECT);
-            mainView.selectSubjectRow(0);
-        });
+        mainView.getAddFirstSubjectButton().addActionListener(e -> addNewSubject(SubjectManager.FIRST_SUBJECT));
 
-        mainView.getAddLastSubjectButton().addActionListener(e -> {
-            addNewSubject(SubjectManager.LAST_SUBJECT);
-            mainView.selectSubjectRow(subjectManager.getDataModel().getRowCount() - 1);
-        });
+        mainView.getAddLastSubjectButton().addActionListener(e -> addNewSubject(SubjectManager.LAST_SUBJECT));
 
         mainView.getSaveSubjectButton().addActionListener(e -> saveSubject());
 
@@ -80,6 +75,18 @@ public class MainController {
             subjectManager.previousSubject();
             loadSubject();
             mainView.selectSubjectRow(idx - 1);
+        });
+
+        mainView.getRemoveFirstSubjectButton().addActionListener(e -> {
+            removeSubject(SubjectManager.FIRST_SUBJECT);
+            updateSubjectView();
+            mainView.updateStudentDataTable(studentManager.getDataModel());
+        });
+
+        mainView.getRemoveLastSubjectButton().addActionListener(e -> {
+            removeSubject(SubjectManager.LAST_SUBJECT);
+            updateSubjectView();
+            mainView.updateStudentDataTable(studentManager.getDataModel());
         });
 
         ListSelectionModel model = mainView.getSubjectTableModel();
@@ -117,9 +124,16 @@ public class MainController {
     }
 
     private void updateProfileView() {
-        mainView.setRfidLabelText(studentManager.getStudent().getRfid());
-        mainView.setFirstNameLabelText(studentManager.getStudent().getName());
-        mainView.setLastNameLabelText(studentManager.getStudent().getLastName());
+        Student student = studentManager.getStudent();
+        if (student != null) {
+            mainView.setRfidLabelText(student.getRfid());
+            mainView.setFirstNameLabelText(student.getName());
+            mainView.setLastNameLabelText(student.getLastName());
+        } else {
+            mainView.setRfidLabelText("");
+            mainView.setFirstNameLabelText("");
+            mainView.setLastNameLabelText("");
+        }
     }
 
     private void addNewSubject(String atPosition) {
@@ -131,6 +145,11 @@ public class MainController {
             mainView.showDialog("Add Subject",
                     String.format("The subject %s was added successfully", name), "info");
             updateSubjectView();
+            if (atPosition.equals(SubjectManager.FIRST_SUBJECT)) {
+                mainView.selectSubjectRow(0);
+            } else {
+                mainView.selectSubjectRow(subjectManager.getDataModel().getRowCount() - 1);
+            }
         } else {
             mainView.showDialog("Add Subject",
                     String.format("The subject %s was not added", name), "error");
@@ -178,5 +197,13 @@ public class MainController {
             mainView.setSubjectNameText("");
             mainView.setSubjectGradeText("");
         }
+    }
+
+    private void removeSubject(String atPosition) {
+        String subjectName = subjectManager.removeSubject(atPosition);
+
+        mainView.showDialog("Delete Subject",
+                String.format("The subject '%s' was deleted successfully", subjectName), "info");
+        updateProfileView();
     }
 }

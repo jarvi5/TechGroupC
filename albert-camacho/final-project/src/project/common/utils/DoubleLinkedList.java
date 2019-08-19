@@ -99,7 +99,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
      */
     @Override
     public E getFirst() {
-        return firstNode.getElement();
+        return (firstNode != null) ? firstNode.getElement() : null;
     }
 
     /**
@@ -109,7 +109,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
      */
     @Override
     public E getLast() {
-        return lastNode.getElement();
+        return (lastNode != null) ? lastNode.getElement() : null;
     }
 
     /**
@@ -159,16 +159,27 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
     @Override
     public void removeFirst() {
-        firstNode.getNext().setPrevious(null);
-        firstNode = firstNode.getNext();
-        size--;
+        if (firstNode != null && firstNode.hasNext()) {
+            firstNode.getNext().setPrevious(null);
+            firstNode = firstNode.getNext();
+            size--;
+        } else {
+            firstNode = lastNode = null;
+            size = 0;
+        }
+
     }
 
     @Override
     public void removeLast() {
-        lastNode.getPrevious().setNext(null);
-        lastNode = lastNode.getPrevious();
-        size--;
+        if (lastNode != null && lastNode.hasPrevious()) {
+            lastNode.getPrevious().setNext(null);
+            lastNode = lastNode.getPrevious();
+            size--;
+        } else {
+            firstNode = lastNode = null;
+            size = 0;
+        }
     }
 
     @Override
@@ -237,7 +248,7 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
         @Override
         public boolean hasNext() {
-            return node.getNext() != null;
+            return (node != null && node.getNext() != null);
         }
 
         @Override
@@ -245,12 +256,12 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             if (hasNext()) {
                 node = node.getNext();
             }
-            return node.getElement();
+            return (node != null) ? node.getElement() : null;
         }
 
         @Override
         public boolean hasPrevious() {
-            return node.getPrevious() != null;
+            return (node != null && node.getPrevious() != null);
         }
 
         @Override
@@ -258,12 +269,12 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
             if (hasPrevious()) {
                 node = node.getPrevious();
             }
-            return node.getElement();
+            return (node != null) ? node.getElement() : null;
         }
 
         @Override
         public void set(E element) {
-            node = firstNode.getNode(element);
+            node = (firstNode != null) ? firstNode.getNode(element) : null;
         }
     }
 }

@@ -4,6 +4,8 @@ public interface INode<E> {
     E getElement();
     INode<E> getNext();
     INode<E> getPrevious();
+    boolean hasNext();
+    boolean hasPrevious();
     void setNext(INode<E> node);
     void setPrevious(INode<E> node);
 

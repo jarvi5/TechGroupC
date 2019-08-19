@@ -52,13 +52,13 @@ public class SubjectManager implements Observer {
     }
 
     private boolean validateNewSubject(Subject subject) {
-        return (subject.getName().length() > 2 && !subjectExists(subject.getId()) && subject.getId().length() > 0);
+        return (subject.getName().length() > 2 && subjectExists(subject.getId()) && subject.getId().length() > 0);
     }
 
     public boolean saveSubject(String id, String name, String grade) {
         Subject subject = new Subject(id, name, Integer.valueOf(grade));
 
-        if (subject.getName().length() > 2 && (currentSubject.getId().equals(id) || !subjectExists(id))
+        if (subject.getName().length() > 2 && (currentSubject.getId().equals(id) || subjectExists(id))
                 && subject.getId().length() > 0) {
             currentSubject.setId(subject.getId());
             currentSubject.setName(subject.getName());
@@ -66,6 +66,27 @@ public class SubjectManager implements Observer {
             return true;
         }
         return false;
+    }
+
+    public String removeSubject(String atPosition) {
+        Subject subject = atPosition.equals(FIRST_SUBJECT) ? subjectList.getFirst() : subjectList.getLast();
+        if (atPosition.equals(FIRST_SUBJECT)) {
+            subjectList.removeFirst();
+            updateCurrentAfterRemoveWith(subject, subjectList.getFirst());
+        } else {
+            subjectList.removeLast();
+            updateCurrentAfterRemoveWith(subject, subjectList.getLast());
+        }
+
+        subjectDataModel.updateData(subjectList);
+        return String.format("%s - %s", subject.getId(), subject.getName());
+    }
+
+    private void updateCurrentAfterRemoveWith(Subject student, Subject subjectToUpdate) {
+        if (currentSubject.equals(student)) {
+            currentSubject = subjectToUpdate;
+            subjectIterator.set(currentSubject);
+        }
     }
 
     public Subject getCurrentSubject() {
@@ -90,10 +111,10 @@ public class SubjectManager implements Observer {
         // Returns TRUE if a student with same RFID exists in the list
         for (Subject subject : subjectList) {
             if (id.equals(subject.getId())) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
