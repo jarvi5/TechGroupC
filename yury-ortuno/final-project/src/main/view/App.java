@@ -27,6 +27,25 @@ public class App {
     private JTextField CSearchTxt;
     private JPanel mainPanel;
     private JButton allStudentButton;
+    private JTable courseInformationTable;
+
+    public JButton getViewGradesButton() {
+        return viewGradesButton;
+    }
+
+    public void setViewGradesButton(JButton viewGradesButton) {
+        this.viewGradesButton = viewGradesButton;
+    }
+
+    private JButton viewGradesButton;
+
+    public JTable getCourseInformationTable() {
+        return courseInformationTable;
+    }
+
+    public void setCourseInformationTable(JTable courseInformationTable) {
+        this.courseInformationTable = courseInformationTable;
+    }
 
     public App() {
         JFrame frame = new JFrame("Courses");

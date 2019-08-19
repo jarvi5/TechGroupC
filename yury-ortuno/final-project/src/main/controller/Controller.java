@@ -1,32 +1,42 @@
 package main.controller;
 
+import main.model.Course;
 import main.model.Student;
 import main.utilities.DoubleLinkedList;
-import main.utilities.Node;
+import main.utilities.MultiList;
+import main.utilities.MultiNode;
 import main.view.App;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class Controller {
     private App view;
-    private DoubleLinkedList<Student> allStudentList;
-    private DoubleLinkedList<Student> studentList;
-    private Node studentTmp;
+    private MultiList<Student, Course> allStudentList;
+    private MultiList<Student, Course> studentList;
+    private MultiNode studentTmp;
+    private DefaultTableModel tableModel;
     private int resultTmp = 1;
 
     public Controller(App view) {
         this.view = view;
-        allStudentList = new DoubleLinkedList<>();
-        studentList = new DoubleLinkedList<>();
+        allStudentList = new MultiList<>();
+        studentList = new MultiList<>();
+        view.getCourseInformationTable().setModel(tableModel);
     }
 
     public void initController() {
+        //section student information
         view.getAddButton().addActionListener(e -> addStudent());
         view.getSearchButton().addActionListener(e -> searchStudentByLastName());
         view.getEditButton().addActionListener(e -> editStudents());
         view.getNextButton().addActionListener(e -> nextStudent());
         view.getBeforeButton().addActionListener(e -> previousStudent());
         view.getAllStudentButton().addActionListener(e -> allStudent());
+        view.getViewGradesButton().addActionListener(e -> generateReportGrades());
+
+        //section course of student
+        view.getCAddBtn().addActionListener(e -> addCourse());
     }
 
     private void addStudent() {
@@ -35,7 +45,7 @@ public class Controller {
         int rfid = Integer.parseInt(view.getRfidTxt().getText());
 
         if (searchByRfid(rfid) == null) {
-            allStudentList.addToBack(new Student(rfid, firstName, lastName));
+            allStudentList.addParent(new Student(rfid, firstName, lastName));
             JOptionPane.showMessageDialog(new JFrame(), "the student was register successful", "Dialog",
                     JOptionPane.INFORMATION_MESSAGE);
             clearInformationStudent();
@@ -62,6 +72,7 @@ public class Controller {
             JOptionPane.showMessageDialog(new JFrame(), "Not found any students", "Dialog",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+        clearInformationStudent();
         view.getSearchStudentTxt().setText("");
     }
 
@@ -84,7 +95,7 @@ public class Controller {
             view.getRfidTxt().setText(String.valueOf(student.getRfid()));
             view.getStudentResult().setText(String.format("%s/%s", ++resultTmp, studentList.getSize()));
             studentTmp = studentTmp.getNext();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(new JFrame(), "Don´t found more student", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -98,18 +109,48 @@ public class Controller {
             view.getRfidTxt().setText(String.valueOf(student.getRfid()));
             view.getStudentResult().setText(String.format("%s/%s", --resultTmp, studentList.getSize()));
             studentTmp = studentTmp.getPrevious();
-        }else {
+        } else {
             JOptionPane.showMessageDialog(new JFrame(), "Don´t found more student", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void allStudent(){
+    private void allStudent() {
         studentList = allStudentList;
+        if (studentList.getSize() > 0) {
+            studentTmp = studentList.getHeadNode();
+            Student student = (Student) studentTmp.getNode();
+            view.getFirstNameTxt().setText(student.getFirstName());
+            view.getLastNameTxt().setText(student.getLastName());
+            view.getRfidTxt().setText(String.valueOf(student.getRfid()));
+            view.getStudentResult().setText(String.format("1/%s", studentList.getSize()));
+        }
+    }
+
+
+    private void addCourse() {
+        int rfidstudent = Integer.parseInt(view.getRfidTxt().getText());
+        int idCourse = Integer.parseInt(view.getCIdTxt().getText());
+        int gradeCourse = Integer.parseInt(view.getCFinalTxt().getText());
+        String courseName = view.getCNameTxt().getText();
+        Student student = searchByRfid(rfidstudent);
+        if (student != null) {
+            allStudentList.addChild(student, new Course(idCourse, courseName, gradeCourse));
+            JOptionPane.showMessageDialog(new JFrame(), "the student was register successful", "Dialog",
+                    JOptionPane.INFORMATION_MESSAGE);
+            clearInformationStudent();
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "the student does not exists, please first add new " +
+                    "srudent", "Dialog", JOptionPane.ERROR_MESSAGE);
+        }
+        view.getRfidTxt().setText("");
+        view.getCIdTxt().setText("");
+        view.getCFinalTxt().setText("");
+        view.getCNameTxt().setText("");
     }
 
     private Student searchByRfid(int rifd) {
-        Node studentNode = allStudentList.getHeadNode();
+        MultiNode studentNode = allStudentList.getHeadNode();
         while (studentNode != null) {
             Student student = (Student) studentNode.getNode();
             if (student.getRfid() == rifd) {
@@ -121,13 +162,13 @@ public class Controller {
         return null;
     }
 
-    private DoubleLinkedList<Student> searchByLastName(String lastName) {
-        Node studentNode = allStudentList.getHeadNode();
-        DoubleLinkedList<Student> searchList = new DoubleLinkedList<>();
+    private MultiList<Student, Course> searchByLastName(String lastName) {
+        MultiNode studentNode = allStudentList.getHeadNode();
+        MultiList<Student, Course> searchList = new MultiList<>();
         while (studentNode != null) {
             Student student = (Student) studentNode.getNode();
             if (student.getLastName().contains(lastName)) {
-                searchList.addToBack(student);
+                searchList.addParent(student);
             }
             studentNode = studentNode.getNext();
 
@@ -136,4 +177,13 @@ public class Controller {
         return searchList;
     }
 
+    private void generateReportGrades() {
+        int rfid = Integer.parseInt(view.getRfidTxt().getText());
+        Student student = searchByRfid(rfid);
+        DoubleLinkedList<Course> courseList = allStudentList.getChildFromParent(student);
+        DefaultTableModel tableModel = new DefaultTableModel(courseList.getSize(), 3);
+        tableModel = new DefaultTableModel(courseList.getSize(), 3);
+        String[] columnNames = { "ID", "Subject", "Grade" };
+
+    }
 }
