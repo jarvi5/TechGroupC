@@ -62,7 +62,7 @@ public class MainView {
         frame.setResizable(false);
     }
 
-    private void loadStudentTable(){
+    private void loadStudentTable() {
         studentTableModel = new DefaultTableModel();
         studentTableModel.setColumnIdentifiers(studentTableHeader);
         userTable.setModel(studentTableModel);
@@ -233,7 +233,7 @@ public class MainView {
         subjectTable.setRowSelectionInterval(index, index);
     }
 
-    public int getSelectedSubjectRow(){
+    public int getSelectedSubjectRow() {
         return subjectTable.getSelectedRow();
     }
 }

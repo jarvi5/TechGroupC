@@ -175,7 +175,6 @@ public class MainController {
     }
 
     private void updateSubjectView() {
-        //subjectManager.getDataModel().fireTableDataChanged();
         mainView.loadSubjectTable(subjectManager.getDataModel());
     }
 

@@ -12,7 +12,7 @@ public class DataModel extends AbstractTableModel {
     private DoubleList doubleList;
     private Map<Integer, IString> strategyMap;
 
-    public DataModel(){
+    public DataModel() {
         strategyMap = new HashMap<>();
     }
 

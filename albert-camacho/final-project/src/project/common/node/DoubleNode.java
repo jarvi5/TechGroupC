@@ -1,6 +1,6 @@
 package project.common.node;
 
-public class DoubleNode<E> implements INode<E>{
+public class DoubleNode<E> implements INode<E> {
     private INode<E> next;
     private INode<E> previous;
     private E element;

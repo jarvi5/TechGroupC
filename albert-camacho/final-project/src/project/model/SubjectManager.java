@@ -32,6 +32,7 @@ public class SubjectManager implements Observer {
 
         return strategyDataMap;
     }
+
     public boolean addSubject(String id, String name, String grade, String atPosition) {
         Subject subject = new Subject(id, name, Integer.valueOf(grade));
 
