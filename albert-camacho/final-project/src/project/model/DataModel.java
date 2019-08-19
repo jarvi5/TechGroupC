@@ -5,15 +5,12 @@ import project.common.utils.IString;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-public class DataModel<E> extends AbstractTableModel {
+public class DataModel extends AbstractTableModel {
     private String[] columnNames;
-    private DoubleList<E> doubleList;
-    private Map<Integer, IString<E>> strategyMap;
-    private Iterator<E> iterator;
-    private E element;
+    private DoubleList doubleList;
+    private Map<Integer, IString> strategyMap;
 
     public DataModel(){
         strategyMap = new HashMap<>();
@@ -28,12 +25,12 @@ public class DataModel<E> extends AbstractTableModel {
         this.columnNames = columnNames;
     }
 
-    public void setStrategyMap(Map<Integer, IString<E>> dataMap) {
+    public void setStrategyMap(Map<Integer, IString> dataMap) {
         strategyMap.clear();
         strategyMap.putAll(dataMap);
     }
 
-    public void updateData(DoubleList<E> list) {
+    public void updateData(DoubleList list) {
         doubleList = list;
         this.fireTableDataChanged();
     }
@@ -59,13 +56,6 @@ public class DataModel<E> extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (rowIndex == 0 && columnIndex == 0) {
-            iterator = doubleList.iterator();
-        }
-        if (columnIndex == 0) {
-            element = iterator.next();
-        }
-
-        return strategyMap.get(columnIndex).ofElement(element);
+        return strategyMap.get(columnIndex).inRow(rowIndex);
     }
 }

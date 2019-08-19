@@ -1,7 +1,6 @@
 package project.controller;
 
 import project.model.SubjectManager;
-import project.model.datatype.Student;
 import project.model.StudentManager;
 import project.model.datatype.Subject;
 import project.view.MainView;
@@ -22,8 +21,26 @@ public class MainController {
     }
 
     public void initController() {
-        mainView.getAddStudentButton().addActionListener(e -> {
-            addNewStudent();
+        mainView.getAddFirstStudentButton().addActionListener(e -> {
+            addNewStudent(StudentManager.FIRST_STUDENT);
+            updateSubjectView();
+            mainView.updateStudentDataTable(studentManager.getDataModel());
+        });
+
+        mainView.getAddLastStudentButton().addActionListener(e -> {
+            addNewStudent(StudentManager.LAST_STUDENT);
+            updateSubjectView();
+            mainView.updateStudentDataTable(studentManager.getDataModel());
+        });
+
+        mainView.getRemoveStudentFirstButton().addActionListener( e -> {
+            removeStudent(StudentManager.FIRST_STUDENT);
+            updateSubjectView();
+            mainView.updateStudentDataTable(studentManager.getDataModel());
+        });
+
+        mainView.getRemoveStudentLastButton().addActionListener( e -> {
+            removeStudent(StudentManager.LAST_STUDENT);
             updateSubjectView();
             mainView.updateStudentDataTable(studentManager.getDataModel());
         });
@@ -68,12 +85,12 @@ public class MainController {
         });
     }
 
-    private void addNewStudent() {
+    private void addNewStudent(String atPosition) {
         String rfId = mainView.getRfIdText();
         String name = mainView.getFirstNameText();
         String lastName = mainView.getLastNameText();
 
-        if (studentManager.addStudent(rfId.trim(), name.trim(), lastName.trim())) {
+        if (studentManager.addStudent(rfId.trim(), name.trim(), lastName.trim(), atPosition)) {
             mainView.setRfIdText("");
             mainView.setFirstNameText("");
             mainView.setLastNameText("");
@@ -83,6 +100,14 @@ public class MainController {
         } else {
             mainView.showDialog("Add Student", "Student couldn't be added", "error");
         }
+    }
+
+    private void removeStudent(String atPosition) {
+        String studentName = studentManager.removeStudent(atPosition);
+
+        mainView.showDialog("Delete Student",
+                String.format("The student '%s' was deleted successfully", studentName), "info");
+        updateProfileView();
     }
 
 //    private void searchUser() {
@@ -102,12 +127,9 @@ public class MainController {
     }
 
     private void updateProfileView() {
-        Student student = studentManager.getCurrentStudent();
-        if (student != null) {
-            mainView.setRfidLabelText(student.getRfid());
-            mainView.setFirstNameLabelText(student.getName());
-            mainView.setLastNameLabelText(student.getLastName());
-        }
+        mainView.setRfidLabelText(studentManager.getStudent().getRfid());
+        mainView.setFirstNameLabelText(studentManager.getStudent().getName());
+        mainView.setLastNameLabelText(studentManager.getStudent().getLastName());
     }
 
     private void addNewSubject() {

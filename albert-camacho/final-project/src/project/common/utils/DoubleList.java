@@ -19,5 +19,9 @@ public interface DoubleList<E> extends Iterable<E> {
 
     boolean remove(E element);
 
+    void removeFirst();
+
+    void removeLast();
+
     DoubleIterator<E> doubleIterator();
 }

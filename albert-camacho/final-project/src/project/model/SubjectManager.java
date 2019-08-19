@@ -9,28 +9,27 @@ import java.util.*;
 
 public class SubjectManager implements Observer {
 
-    private static Map<Integer, IString<Subject>> strategyDataMap;
-    static {
-        Map<Integer, IString<Subject>> map = new HashMap<>();
-        map.put(0, Subject::getId);
-        map.put(1, Subject::getName);
-        map.put(2, element -> String.valueOf(element.getGrade()));
-        strategyDataMap = Collections.unmodifiableMap(map);
-    }
-
     private DoubleLinkedList<Subject> subjectList;
     private DoubleIterator<Subject> subjectIterator;
-    private DataModel<Subject> subjectDataModel;
+    private DataModel subjectDataModel;
     private Subject currentSubject;
 
     public SubjectManager() {
         subjectList = new DoubleLinkedList<>();
         subjectIterator = subjectList.doubleIterator();
 
-        subjectDataModel = new DataModel<>(new String[]{"Id", "Name"});
-        subjectDataModel.setStrategyMap(strategyDataMap);
+        subjectDataModel = new DataModel(new String[]{"Id", "Name"});
+        subjectDataModel.setStrategyMap(buildStrategyMap());
     }
 
+    private Map<Integer, IString> buildStrategyMap() {
+        Map<Integer, IString> strategyDataMap = new HashMap<>();
+        strategyDataMap.put(0, idx -> subjectList.get(idx).getId());
+        strategyDataMap.put(1, idx -> subjectList.get(idx).getName());
+        strategyDataMap.put(2, idx -> String.valueOf(subjectList.get(idx).getGrade()));
+
+        return strategyDataMap;
+    }
     public boolean addSubject(String id, String name, String grade) {
         Subject subject = new Subject(id, name, Integer.valueOf(grade));
 
@@ -91,7 +90,7 @@ public class SubjectManager implements Observer {
         subjectDataModel.updateData(manager.getSubjectsCurrentStudent());
     }
 
-    public DataModel<Subject> getDataModel() {
+    public DataModel getDataModel() {
         return subjectDataModel;
     }
 }

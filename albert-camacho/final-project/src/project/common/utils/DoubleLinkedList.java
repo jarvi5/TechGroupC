@@ -158,6 +158,20 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
     }
 
     @Override
+    public void removeFirst() {
+        firstNode.getNext().setPrevious(null);
+        firstNode = firstNode.getNext();
+        size--;
+    }
+
+    @Override
+    public void removeLast() {
+        lastNode.getPrevious().setNext(null);
+        lastNode = lastNode.getPrevious();
+        size--;
+    }
+
+    @Override
     public DoubleIterator<E> doubleIterator() {
         return new DoubleListIterator();
     }
@@ -228,11 +242,9 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
         @Override
         public E next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException("Iterator exceeded.");
+            if (hasNext()) {
+                node = node.getNext();
             }
-
-            node = node.getNext();
             return node.getElement();
         }
 
@@ -243,11 +255,9 @@ public class DoubleLinkedList<E> implements DoubleList<E> {
 
         @Override
         public E previous() {
-            if (!hasPrevious()) {
-                throw new NoSuchElementException("Iterator exceeded.");
+            if (hasPrevious()) {
+                node = node.getPrevious();
             }
-
-            node = node.getPrevious();
             return node.getElement();
         }
 

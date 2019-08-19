@@ -1,7 +1,6 @@
 package project.view;
 
 import project.common.utils.IFunction;
-import project.model.DataModel;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -17,8 +16,7 @@ public class MainView {
     private JTextField rfIdTextField;
     private JTextField firstNameTextField;
     private JTextField lastNameTextField;
-    private JButton addStudentButton;
-    private JButton searchStudentButton;
+    private JButton addFirstStudentButton;
     private JButton nextStudentButton;
     private JTable userTable;
     private JPanel searchResultPanel;
@@ -34,6 +32,10 @@ public class MainView {
     private JLabel rfIdLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
+    private JButton addLastStudentButton;
+    private JButton saveStudentButton;
+    private JButton removeStudentFirstButton;
+    private JButton removeStudentLastButton;
     private JFrame frame;
 
     private DefaultTableModel studentTableModel;
@@ -154,12 +156,24 @@ public class MainView {
         this.subjectGradeTextField.setText(text);
     }
 
-    public JButton getAddStudentButton() {
-        return addStudentButton;
+    public JButton getAddFirstStudentButton() {
+        return addFirstStudentButton;
     }
 
-    public JButton getSearchStudentButton() {
-        return searchStudentButton;
+    public JButton getAddLastStudentButton() {
+        return addLastStudentButton;
+    }
+
+    public JButton getSaveStudentButton() {
+        return saveStudentButton;
+    }
+
+    public JButton getRemoveStudentFirstButton() {
+        return removeStudentFirstButton;
+    }
+
+    public JButton getRemoveStudentLastButton() {
+        return removeStudentLastButton;
     }
 
     public JButton getNextStudentButton() {
