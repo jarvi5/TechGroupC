@@ -4,6 +4,8 @@ import org.minions.utils.DoubleLinkedList;
 import org.minions.utils.MultiList;
 import org.minions.model.Student;
 import org.minions.model.Subject;
+import org.minions.utils.Node;
+import org.minions.utils.NumericInputVerifier;
 import org.minions.view.AddSubjectDialog;
 import org.minions.view.SearchAddStudentPanel;
 import org.minions.view.StudentInfoPanel;
@@ -30,7 +32,7 @@ public class Controller {
 
     public void initController() {
         addSearchPanel.getAddButton().addActionListener(e -> addStudent());
-        cleanAlertMessage();
+        addEventCleanValidationMessage();
         studentInfoPanel.getNextButton().addActionListener(e -> nextStudent());
         studentInfoPanel.getPreviousButton().addActionListener(e -> previousStudent());
         subjectPanel.getSubjectListPanel().getAddSubjectButton().addActionListener(e -> addSubject());
@@ -75,12 +77,17 @@ public class Controller {
         subjectDialog.getAddButton().addActionListener(e -> {
             String id = subjectDialog.getIdTxt().getText();
             String name = subjectDialog.getNameTxt().getText();
-            int finalGrade = Integer.parseInt(subjectDialog.getFinalGradeTxt().getText());
-            Subject subject = new Subject(name, id, finalGrade);
-            studentSubjectList.addChild(student, subject);
+            String finalGrade = subjectDialog.getFinalGradeTxt().getText();
+            if (checkSubjectFields()) {
+                Subject subject = new Subject(name, id, Double.parseDouble(finalGrade));
+                studentSubjectList.addChild(student, subject);
+                subjectDialog.dispose();
+                updateSubjectContentPanel(subject);
+                displaySubjectDetail(subject);
+            }
+        });
+        subjectDialog.getCancelButton().addActionListener(e -> {
             subjectDialog.dispose();
-            updateSubjectContentPanel(subject);
-            displaySubjectDetail(subject);
         });
     }
 
@@ -90,7 +97,7 @@ public class Controller {
             String lastname = addSearchPanel.getLastnameTxt().getText();
             String ci = addSearchPanel.getRfidTxt().getText();
             student = new Student(name, lastname, ci);
-            studentSubjectList.insertDataAtEnd(student);
+            studentSubjectList.insertElementAtEnd(student);
 
             //Display Student information in the panel
             studentInfoPanel.getRfidInfoLabel().setText(student.getRfid());
@@ -131,6 +138,28 @@ public class Controller {
         return checkedFields;
     }
 
+    private boolean checkSubjectFields() {
+        boolean checkedFields = true;
+        NumericInputVerifier inputVerifier = new NumericInputVerifier();
+        if (!inputVerifier.verify(subjectDialog.getFinalGradeTxt())) {
+            subjectDialog.getCheckFinalGradeLabel().setText("Insert a Valid Numeric field");
+            checkedFields = false;
+        }
+        if (subjectDialog.getIdLabel().getText().isEmpty()) {
+            subjectDialog.getCheckIdLabel().setText("This field should not be empty");
+            checkedFields = false;
+        }
+        if (subjectDialog.getNameTxt().getText().isEmpty()) {
+            subjectDialog.getCheckNameLabel().setText("This field should not be empty");
+            checkedFields = false;
+        }
+        if (subjectDialog.getFinalGradeTxt().getText().isEmpty()) {
+            subjectDialog.getCheckFinalGradeLabel().setText("This field should not be empty");
+            checkedFields = false;
+        }
+        return checkedFields;
+    }
+
     private void addKeyListenerTxt(JTextField textField) {
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -142,32 +171,36 @@ public class Controller {
         });
     }
 
-    private void cleanAlertMessage() {
+    private void addEventCleanValidationMessage() {
         addKeyListenerTxt(addSearchPanel.getRfidTxt());
         addKeyListenerTxt(addSearchPanel.getFirstnameTxt());
         addKeyListenerTxt(addSearchPanel.getLastnameTxt());
     }
 
     private void nextStudent() {
-        Student nextStudent = studentSubjectList.getNode(student).getNext().getValue();
-        if (nextStudent != null) {
-            studentInfoPanel.getRfidInfoLabel().setText(nextStudent.getRfid());
-            studentInfoPanel.getFirstnameInfo().setText(nextStudent.getName());
-            studentInfoPanel.getLastnameInfo().setText(nextStudent.getLastName());
-            student = nextStudent;
+        if (studentSubjectList.getSize() > 0) {
+            Node<Student> nextStudent = studentSubjectList.getNode(student);
+            if (nextStudent.getNext() != null) {
+                studentInfoPanel.getRfidInfoLabel().setText(nextStudent.getNext().getValue().getRfid());
+                studentInfoPanel.getFirstnameInfo().setText(nextStudent.getNext().getValue().getName());
+                studentInfoPanel.getLastnameInfo().setText(nextStudent.getNext().getValue().getLastName());
+                student = nextStudent.getNext().getValue();
+                updateSubjectContentPanel();
+            }
         }
-        updateSubjectContentPanel();
     }
 
     private void previousStudent() {
-        Student previousStudent = studentSubjectList.getNode(student).getPrevious().getValue();
-        if (previousStudent != null) {
-            studentInfoPanel.getRfidInfoLabel().setText(previousStudent.getRfid());
-            studentInfoPanel.getFirstnameInfo().setText(previousStudent.getName());
-            studentInfoPanel.getLastnameInfo().setText(previousStudent.getLastName());
-            student = previousStudent;
+        if (studentSubjectList.getSize() > 0) {
+            Node<Student> studentNode = studentSubjectList.getNode(student);
+            if (studentNode.getPrevious() != null) {
+                studentInfoPanel.getRfidInfoLabel().setText(studentNode.getPrevious().getValue().getRfid());
+                studentInfoPanel.getFirstnameInfo().setText(studentNode.getPrevious().getValue().getName());
+                studentInfoPanel.getLastnameInfo().setText(studentNode.getPrevious().getValue().getLastName());
+                student = studentNode.getPrevious().getValue();
+                updateSubjectContentPanel();
+            }
         }
-        updateSubjectContentPanel();
     }
 
     private void updateSubjectContentPanel() {
@@ -178,12 +211,14 @@ public class Controller {
             subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(0);
         }
     }
+
     private void updateSubjectContentPanel(Subject subject) {
         DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
-            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(subject, true);;
+            subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(subject, true);
+
         }
     }
 }

@@ -1,5 +1,7 @@
 package org.minions.view;
 
+import org.minions.utils.NumericInputVerifier;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,6 +26,7 @@ public class AddSubjectDialog extends JDialog {
         idTxt = new JTextField();
         nameTxt = new JTextField();
         finalGradeTxt = new JTextField();
+        finalGradeTxt.setInputVerifier(new NumericInputVerifier()) ;
         checkIdLabel = new JLabel();
         checkNameLabel = new JLabel();
         checkFinalGradeLabel = new JLabel();

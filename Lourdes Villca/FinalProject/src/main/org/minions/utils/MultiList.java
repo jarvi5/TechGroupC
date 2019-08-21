@@ -5,10 +5,10 @@ public class MultiList<T1, T2> extends DoubleLinkedList<T1> {
         Node<T1> parentNode = getNode(parentData);
         if (parentNode.getChild() == null) {
             DoubleLinkedList<T2> childList = new DoubleLinkedList<>();
-            childList.insertDataAtEnd(childData);
+            childList.insertElementAtEnd(childData);
             parentNode.setChild(childList);
         } else {
-            parentNode.getChild().insertDataAtEnd(childData);
+            parentNode.getChild().insertElementAtEnd(childData);
         }
     }
 

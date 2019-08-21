@@ -78,8 +78,8 @@ public class NodeTest {
         DoubleLinkedList<Subject> subjectList = new DoubleLinkedList<Subject>();
         Subject subject1 = new Subject("Programming I", "P-01", 89);
         Subject subject2 = new Subject("English I", "E-01", 70);
-        subjectList.insertDataAtEnd(subject1);
-        subjectList.insertDataAtEnd(subject2);
+        subjectList.insertElementAtEnd(subject1);
+        subjectList.insertElementAtEnd(subject2);
         studentNode1 = new Node<>(student1);
         studentNode1.setChild(subjectList);
         assertEquals(2, studentNode1.getChild().getSize());
@@ -90,8 +90,8 @@ public class NodeTest {
         DoubleLinkedList<Subject> subjectList = new DoubleLinkedList<Subject>();
         Subject subject1 = new Subject("Programming I", "P-01", 89);
         Subject subject2 = new Subject("English I", "E-01", 70);
-        subjectList.insertDataAtEnd(subject1);
-        subjectList.insertDataAtEnd(subject2);
+        subjectList.insertElementAtEnd(subject1);
+        subjectList.insertElementAtEnd(subject2);
         studentNode1 = new Node<>(student1);
         studentNode1.setChild(subjectList);
         assertEquals(subject1.getId(), ((Subject)studentNode1.getChild().getElementAtIndex(0)).getId());

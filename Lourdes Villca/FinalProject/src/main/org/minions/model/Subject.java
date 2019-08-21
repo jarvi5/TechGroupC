@@ -3,9 +3,9 @@ package org.minions.model;
 public class Subject {
     private String name;
     private String id;
-    private int finalNote;
+    private double finalNote;
 
-    public Subject(String name, String id, int finalNote) {
+    public Subject(String name, String id, double finalNote) {
         this.name = name;
         this.id = id;
         this.finalNote = finalNote;
@@ -27,7 +27,7 @@ public class Subject {
         this.id = id;
     }
 
-    public int getFinalNote() {
+    public double getFinalNote() {
         return finalNote;
     }
 

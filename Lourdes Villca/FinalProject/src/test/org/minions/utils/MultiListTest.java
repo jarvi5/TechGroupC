@@ -21,9 +21,9 @@ public class MultiListTest {
 
     @Test
     public void testAddChild() {
-        multiList.insertDataAtFirst(student1);
-        multiList.insertDataAtFirst(student2);
-        multiList.insertDataAtFirst(student3);
+        multiList.insertElementAtFirst(student1);
+        multiList.insertElementAtFirst(student2);
+        multiList.insertElementAtFirst(student3);
         Subject subject1 = new Subject("ProgrammingI", "P-01",89);
         Subject subject2 = new Subject("English I","E-01",70);
         Subject subject3 = new Subject("English II","E-02",75);

@@ -8,11 +8,19 @@ public class DoubleLinkedList<T> implements ListModel {
     protected Node<T> tail;
     protected int size;
 
+    /**
+     * Constructor that initialize the attributes.
+     */
     DoubleLinkedList() {
         this.size = 0;
     }
 
-    public void insertDataAtFirst(T data) {
+    /**
+     * Method that inserta an element to the first position of the double linked list.
+     *
+     * @param data the object data that will be created and added to the list.
+     */
+    public void insertElementAtFirst(T data) {
         Node<T> node = new Node<>(data);
         if (head == null && tail == null) {
             head = node;
@@ -25,7 +33,12 @@ public class DoubleLinkedList<T> implements ListModel {
         size++;
     }
 
-    public void insertDataAtEnd(T data) {
+    /**
+     * Method that insert and element to the last position of the double linked list.
+     *
+     * @param data object that is created added to the double linked list
+     */
+    public void insertElementAtEnd(T data) {
         Node<T> node = new Node<T>(data);
         if (head == null && tail == null) {
             head = node;
@@ -38,6 +51,12 @@ public class DoubleLinkedList<T> implements ListModel {
         size++;
     }
 
+    /**
+     * Methos that get the data from the double linked list.
+     *
+     * @param data object data that is searched in the list.
+     * @return the data found in the list;
+     */
     public T getData(T data) {
         Node<T> currentNode = head;
         while (currentNode != null) {
@@ -49,6 +68,11 @@ public class DoubleLinkedList<T> implements ListModel {
         return null;
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     */
     public Node<T> getNode(T data) {
         Node<T> currentNode = head;
         while (currentNode != null) {
@@ -59,12 +83,50 @@ public class DoubleLinkedList<T> implements ListModel {
         }
         return null;
     }
+
     public T getElementAtIndex(int index) {
         Node<T> currentNode = head;
         for (int i = 0; i < index; i++) {
             currentNode = currentNode.getNext();
         }
         return currentNode.getValue();
+    }
+
+    public void deleteFirstElement() {
+        if (head == null) {
+            return;
+        } else if (head.equals(tail)) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.getNext();
+            head.setPrevious(null);
+        }
+        size--;
+    }
+
+    public void deleteLastElement() {
+        if (head == null) {
+            return;
+        } else if (head.equals(tail)) {
+            head = null;
+            tail = null;
+        } else {
+            tail = tail.getPrevious();
+            head.setNext(null);
+        }
+        size--;
+    }
+
+    public void deleteElementAtIndex(int index) {
+        Node<T> currentNode = head;
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.getNext();
+        }
+        Node<T> nodeTemp = currentNode.getPrevious();
+        nodeTemp.setPrevious(currentNode.getPrevious());
+        nodeTemp.setNext(currentNode.getNext());
+        size--;
     }
 
     @Override
