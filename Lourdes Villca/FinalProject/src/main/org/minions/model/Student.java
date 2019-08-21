@@ -3,12 +3,12 @@ package org.minions.model;
 public class Student {
     private String name;
     private String lastName;
-    private String ci;
+    private String rfid;
 
-    public Student(String name, String lastName, String ci) {
+    public Student(String name, String lastName, String rfid) {
         this.name = name;
         this.lastName = lastName;
-        this.ci = ci;
+        this.rfid = rfid;
     }
 
     public String getName() {
@@ -27,17 +27,17 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getCi() {
-        return ci;
+    public String getRfid() {
+        return rfid;
     }
 
-    public void setCi(String ci) {
-        this.ci = ci;
+    public void setRfid(String rfid) {
+        this.rfid = rfid;
     }
 
     @Override
     public boolean equals(Object o){
-        if(((Student)o).getCi().equals(ci) && ((Student)o).getLastName().equals(lastName) && ((Student)o).getName().equals(name)){
+        if(((Student)o).getRfid().equals(rfid) && ((Student)o).getLastName().equals(lastName) && ((Student)o).getName().equals(name)){
             return true;
         }
         return false;

@@ -1,85 +1,35 @@
 package org.minions.view;
 
-import org.minions.MultiList;
-
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import java.awt.*;
+
 
 public class SubjectPanel extends JPanel {
-    private JPanel subjectListPanel;
-    private JPanel subjectDetailPanel;
-    private JButton next;
-    private JButton previous;
-    private JList<MultiList> subjectList;
-    private JLabel idLabel;
-    private JLabel name;
-    private JLabel finalGrade;
+    private SubjectListPanel subjectListPanel;
+    private SubjectDetailPanel subjectDetailPanel;
 
     SubjectPanel() {
-        subjectListPanel = new JPanel();
-        TitledBorder borderSubjectList = new TitledBorder("Subject List");
-        borderSubjectList.setTitleJustification(TitledBorder.LEFT);
-        borderSubjectList.setTitlePosition(TitledBorder.TOP);
-        subjectListPanel.setBorder(borderSubjectList);
+        subjectListPanel = new SubjectListPanel();
+        subjectDetailPanel = new SubjectDetailPanel();
 
-        subjectDetailPanel = new JPanel();
-        TitledBorder borderSubjectDetail = new TitledBorder("Subject Detail");
-        borderSubjectDetail.setTitleJustification(TitledBorder.LEFT);
-        borderSubjectDetail.setTitlePosition(TitledBorder.TOP);
-        subjectDetailPanel.setBorder(borderSubjectDetail);
+        GridLayout gridLayout = new GridLayout(0, 2);
+        this.setLayout(gridLayout);
+        this.add(subjectListPanel);
+        this.add(subjectDetailPanel);
+    }
+    public SubjectListPanel getSubjectListPanel() {
+        return subjectListPanel;
+    }
 
-        DefaultListModel listModel = new DefaultListModel();
-        listModel.addElement("Jane Doe");
-        listModel.addElement("John Smith");
-        listModel.addElement("Kathy Green");
+    public void setSubjectListPanel(SubjectListPanel subjectListPanel) {
+        this.subjectListPanel = subjectListPanel;
+    }
 
-        subjectList = new JList<>(listModel);
-        subjectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        subjectList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        subjectList.setVisibleRowCount(-1);
-        JScrollPane listScroller = new JScrollPane(subjectList);
+    public SubjectDetailPanel getSubjectDetailPanel() {
+        return subjectDetailPanel;
+    }
 
-
-
-        next = new JButton("Next");
-        previous = new JButton("Previous");
-        idLabel = new JLabel("TESTTTTTTTTTTTTTTTTT");
-
-        GroupLayout subjectlayout = new GroupLayout(this);
-        subjectlayout.setAutoCreateGaps(true);
-        subjectlayout.setAutoCreateContainerGaps(false);
-        subjectlayout.setHorizontalGroup(subjectlayout.createSequentialGroup()
-                .addComponent(subjectListPanel)
-                .addComponent(subjectDetailPanel));
-        subjectlayout.setVerticalGroup(subjectlayout.createSequentialGroup()
-                .addGroup(subjectlayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(subjectListPanel)
-                        .addComponent(subjectDetailPanel)));
-        subjectlayout.linkSize(SwingConstants.HORIZONTAL, subjectListPanel, subjectDetailPanel);
-        this.setLayout(subjectlayout);
-
-        GroupLayout subjectListLayout = new GroupLayout(subjectListPanel);
-        subjectListLayout.setAutoCreateGaps(true);
-        subjectListLayout.setAutoCreateContainerGaps(true);
-        subjectListLayout.setHorizontalGroup(subjectListLayout.createParallelGroup()
-                .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(subjectList)
-                        .addGroup(subjectListLayout.createSequentialGroup()
-                                .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(next))
-                                .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(previous)))
-        ));
-        subjectListLayout.linkSize(SwingConstants.HORIZONTAL, next, previous, subjectList);
-        subjectListLayout.setVerticalGroup(subjectListLayout.createSequentialGroup()
-                .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(next)
-                        .addComponent(previous))
-                .addGroup(subjectListLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)).
-                        addComponent(subjectList));
-
-        subjectListPanel.setLayout(subjectListLayout);
-
-
+    public void setSubjectDetailPanel(SubjectDetailPanel subjectDetailPanel) {
+        this.subjectDetailPanel = subjectDetailPanel;
     }
 }
