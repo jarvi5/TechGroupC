@@ -25,8 +25,10 @@ public class MainFrame extends JFrame {
         setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(700, 500);
+        this.setLocationRelativeTo(null);
         setVisible(true);
         Controller controller = new Controller(addSearchPanel, studentInfoPanel, subjectPanel);
         controller.initController();
+
     }
 }

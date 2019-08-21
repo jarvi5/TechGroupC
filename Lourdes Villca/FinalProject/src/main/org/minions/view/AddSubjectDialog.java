@@ -26,7 +26,8 @@ public class AddSubjectDialog extends JDialog {
         idTxt = new JTextField();
         nameTxt = new JTextField();
         finalGradeTxt = new JTextField();
-        finalGradeTxt.setInputVerifier(new NumericInputVerifier()) ;
+        //finalGradeTxt.setInputVerifier(new NumericInputVerifier()) ;
+
         checkIdLabel = new JLabel();
         checkNameLabel = new JLabel();
         checkFinalGradeLabel = new JLabel();
@@ -39,7 +40,7 @@ public class AddSubjectDialog extends JDialog {
         setPanelLayout();
         this.setTitle("Add Subject");
         this.setVisible(true);
-        this.setSize(300, 200);
+        this.setSize(300, 250);
         this.setLocationRelativeTo(null);
     }
 
@@ -89,7 +90,6 @@ public class AddSubjectDialog extends JDialog {
         );
         layout.linkSize(SwingConstants.HORIZONTAL, addButton, cancelButton);
         getContentPane().setLayout(layout);
-        //this.add(groupPanel);
     }
 
 

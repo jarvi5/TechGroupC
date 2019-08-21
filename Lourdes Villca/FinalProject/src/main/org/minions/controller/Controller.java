@@ -75,17 +75,18 @@ public class Controller {
     private void addSubject() {
         subjectDialog = new AddSubjectDialog();
         subjectDialog.getAddButton().addActionListener(e -> {
-            String id = subjectDialog.getIdTxt().getText();
-            String name = subjectDialog.getNameTxt().getText();
-            String finalGrade = subjectDialog.getFinalGradeTxt().getText();
             if (checkSubjectFields()) {
+                String id = subjectDialog.getIdTxt().getText();
+                String name = subjectDialog.getNameTxt().getText();
+                String finalGrade = subjectDialog.getFinalGradeTxt().getText();
                 Subject subject = new Subject(name, id, Double.parseDouble(finalGrade));
                 studentSubjectList.addChild(student, subject);
                 subjectDialog.dispose();
-                updateSubjectContentPanel(subject);
+                updateSubjectInfoContentPanel(subject);
                 displaySubjectDetail(subject);
             }
         });
+        addListenerCleanValidationMessage();
         subjectDialog.getCancelButton().addActionListener(e -> {
             subjectDialog.dispose();
         });
@@ -142,10 +143,10 @@ public class Controller {
         boolean checkedFields = true;
         NumericInputVerifier inputVerifier = new NumericInputVerifier();
         if (!inputVerifier.verify(subjectDialog.getFinalGradeTxt())) {
-            subjectDialog.getCheckFinalGradeLabel().setText("Insert a Valid Numeric field");
+            subjectDialog.getCheckFinalGradeLabel().setText("Insert a valid Numeric field");
             checkedFields = false;
         }
-        if (subjectDialog.getIdLabel().getText().isEmpty()) {
+        if (subjectDialog.getIdTxt().getText().isEmpty()) {
             subjectDialog.getCheckIdLabel().setText("This field should not be empty");
             checkedFields = false;
         }
@@ -160,7 +161,7 @@ public class Controller {
         return checkedFields;
     }
 
-    private void addKeyListenerTxt(JTextField textField) {
+    private void addKeyListenerTxtStudent(JTextField textField) {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent arg0) {
@@ -172,9 +173,26 @@ public class Controller {
     }
 
     private void addEventCleanValidationMessage() {
-        addKeyListenerTxt(addSearchPanel.getRfidTxt());
-        addKeyListenerTxt(addSearchPanel.getFirstnameTxt());
-        addKeyListenerTxt(addSearchPanel.getLastnameTxt());
+        addKeyListenerTxtStudent(addSearchPanel.getRfidTxt());
+        addKeyListenerTxtStudent(addSearchPanel.getFirstnameTxt());
+        addKeyListenerTxtStudent(addSearchPanel.getLastnameTxt());
+    }
+
+    private void addKeyListenerTxtSubject(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent arg0) {
+                subjectDialog.getCheckIdLabel().setText("");
+                subjectDialog.getCheckNameLabel().setText("");
+                subjectDialog.getCheckFinalGradeLabel().setText("");
+            }
+        });
+    }
+
+    private void addListenerCleanValidationMessage() {
+        addKeyListenerTxtSubject(subjectDialog.getIdTxt());
+        addKeyListenerTxtSubject(subjectDialog.getNameTxt());
+        addKeyListenerTxtSubject(subjectDialog.getFinalGradeTxt());
     }
 
     private void nextStudent() {
@@ -185,7 +203,7 @@ public class Controller {
                 studentInfoPanel.getFirstnameInfo().setText(nextStudent.getNext().getValue().getName());
                 studentInfoPanel.getLastnameInfo().setText(nextStudent.getNext().getValue().getLastName());
                 student = nextStudent.getNext().getValue();
-                updateSubjectContentPanel();
+                updateSubjectListContentPanel();
             }
         }
     }
@@ -198,27 +216,38 @@ public class Controller {
                 studentInfoPanel.getFirstnameInfo().setText(studentNode.getPrevious().getValue().getName());
                 studentInfoPanel.getLastnameInfo().setText(studentNode.getPrevious().getValue().getLastName());
                 student = studentNode.getPrevious().getValue();
-                updateSubjectContentPanel();
+                updateSubjectListContentPanel();
             }
         }
     }
 
-    private void updateSubjectContentPanel() {
+    private void updateSubjectListContentPanel() {
         DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
             subjectPanel.getSubjectListPanel().getSubjectList().setSelectedIndex(0);
+            displaySubjectDetail((Subject) subjectList.getElementAtIndex(0));
+        } else {
+            subjectPanel.getSubjectListPanel().getSubjectList().setModel(new DefaultListModel<>());
+            cleanSubjectDetail();
         }
     }
 
-    private void updateSubjectContentPanel(Subject subject) {
+    private void cleanSubjectDetail() {
+        subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText("");
+        subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText("");
+        subjectPanel.getSubjectDetailPanel().getFinalGradeInfoLabel().setText("");
+        subjectPanel.getSubjectDetailPanel().updateUI();
+    }
+
+    private void updateSubjectInfoContentPanel(Subject subject) {
         DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(subjectList);
             subjectPanel.getSubjectListPanel().getSubjectList().updateUI();
             subjectPanel.getSubjectListPanel().getSubjectList().setSelectedValue(subject, true);
-
+            displaySubjectDetail((Subject) subjectList.getElementAtIndex(0));
         }
     }
 }
