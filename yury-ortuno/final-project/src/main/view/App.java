@@ -28,6 +28,9 @@ public class App {
     private JPanel mainPanel;
     private JButton allStudentButton;
     private JTable courseInformationTable;
+    private JButton viewGradesButton;
+    private JTable allStudentTable;
+
 
     public JButton getViewGradesButton() {
         return viewGradesButton;
@@ -36,8 +39,6 @@ public class App {
     public void setViewGradesButton(JButton viewGradesButton) {
         this.viewGradesButton = viewGradesButton;
     }
-
-    private JButton viewGradesButton;
 
     public JTable getCourseInformationTable() {
         return courseInformationTable;
@@ -245,5 +246,13 @@ public class App {
 
     public void setMainPanel(JPanel mainPanel) {
         this.mainPanel = mainPanel;
+    }
+
+    public JTable getAllStudentTable() {
+        return allStudentTable;
+    }
+
+    public void setAllStudentTable(JTable allStudentTable) {
+        this.allStudentTable = allStudentTable;
     }
 }

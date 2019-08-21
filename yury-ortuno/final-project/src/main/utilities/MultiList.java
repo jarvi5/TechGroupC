@@ -48,6 +48,7 @@ public class MultiList<T1, T2> {
                 }
                 return true;
             }
+            current = current.getNext();
         }
         return false;
 

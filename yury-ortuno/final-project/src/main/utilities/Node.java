@@ -2,8 +2,8 @@ package main.utilities;
 
 public class Node<T1> {
     private T1 node;
-    public Node next = null;
-    public Node previous = null;
+    private Node next = null;
+    private Node previous = null;
 
     public Node(T1 node) {
         this.node = node;
