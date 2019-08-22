@@ -1,10 +1,11 @@
 package org.minions.view;
 
-import org.minions.utils.NumericInputVerifier;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class that is charge to design the Subject Dialog.
+ */
 public class AddSubjectDialog extends JDialog {
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -18,6 +19,9 @@ public class AddSubjectDialog extends JDialog {
     private JButton addButton;
     private JButton cancelButton;
 
+    /**
+     * Constructor that initialize the components.
+     */
     public AddSubjectDialog() {
         // Create UI elements
         idLabel = new JLabel("ID :");
@@ -26,7 +30,6 @@ public class AddSubjectDialog extends JDialog {
         idTxt = new JTextField();
         nameTxt = new JTextField();
         finalGradeTxt = new JTextField();
-        //finalGradeTxt.setInputVerifier(new NumericInputVerifier()) ;
 
         checkIdLabel = new JLabel();
         checkNameLabel = new JLabel();
@@ -40,12 +43,14 @@ public class AddSubjectDialog extends JDialog {
         setPanelLayout();
         this.setTitle("Add Subject");
         this.setVisible(true);
-        this.setSize(300, 250);
+        this.setSize(300, 220);
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Method that set the Layout
+     */
     private void setPanelLayout() {
-        // addButton UI element to view
         GroupLayout layout = new GroupLayout(getContentPane());
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);

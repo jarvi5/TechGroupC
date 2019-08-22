@@ -5,10 +5,17 @@ import org.minions.controller.Controller;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class that represent the main Frame.
+ */
 public class MainFrame extends JFrame {
     private SearchAddStudentPanel addSearchPanel;
     private StudentInfoPanel studentInfoPanel;
     private SubjectPanel subjectPanel;
+
+    /**
+     * Constructor that initialize the components.
+     */
     public MainFrame(){
         super("Student - Subject");
         addSearchPanel = new SearchAddStudentPanel();

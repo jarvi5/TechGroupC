@@ -15,6 +15,9 @@ import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Method that manage flow communication between the view and model
+ */
 public class Controller {
     private SearchAddStudentPanel addSearchPanel;
     private StudentInfoPanel studentInfoPanel;
@@ -23,6 +26,13 @@ public class Controller {
     private Student student;
     private MultiList<Student, Subject> studentSubjectList;
 
+    /**
+     * Consctructor that Initialize the attributes.
+     *
+     * @param addSearchPanel   Panel that have the add and search Student.
+     * @param studentInfoPanel Panel that Display the Student Information.
+     * @param subjectPanel     Panel that display all the Subject Information.
+     */
     public Controller(SearchAddStudentPanel addSearchPanel, StudentInfoPanel studentInfoPanel, SubjectPanel subjectPanel) {
         this.addSearchPanel = addSearchPanel;
         this.studentInfoPanel = studentInfoPanel;
@@ -30,6 +40,9 @@ public class Controller {
         this.studentSubjectList = new MultiList<>();
     }
 
+    /**
+     * Method that initialize the controller, add events to all components.
+     */
     public void initController() {
         addSearchPanel.getAddButton().addActionListener(e -> addStudent());
         addEventCleanValidationMessage();
@@ -38,8 +51,33 @@ public class Controller {
         subjectPanel.getSubjectListPanel().getAddSubjectButton().addActionListener(e -> addSubject());
         subjectPanel.getSubjectListPanel().getNextButton().addActionListener(e -> nextSubject());
         subjectPanel.getSubjectListPanel().getPreviousButton().addActionListener(e -> previousSubject());
+        addSearchPanel.getSearchButton().addActionListener(e -> searchStudent());
     }
 
+    /**
+     * Method that search a student given any of its attributes.
+     */
+    private void searchStudent() {
+        cleanValidationMessage();
+        String name = addSearchPanel.getFirstnameTxt().getText();
+        String lastname = addSearchPanel.getLastnameTxt().getText();
+        String rfid = addSearchPanel.getRfidTxt().getText();
+        for (int i = 0; i < studentSubjectList.getSize(); i++) {
+            student = (Student) studentSubjectList.getElementAt(i);
+            if (!name.isEmpty() && student.getName().equals(name) ||
+                    !lastname.isEmpty() && student.getLastName().equals(lastname) ||
+                    !rfid.isEmpty() && student.getRfid().equals(rfid)) {
+                updateStudentInfoPanel();
+                updateSubjectListContentPanel();
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(addSearchPanel, "Student Not found", "Alert", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Method that navigate through the Subject List and go to the next element from the current selected Subject.
+     */
     private void nextSubject() {
         if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
             int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
@@ -52,6 +90,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that navigate through the Subject List and go to the previous element from the current selected Subject.
+     */
     private void previousSubject() {
         if (subjectPanel.getSubjectListPanel().getSubjectList().getModel().getSize() > 0) {
             int index = subjectPanel.getSubjectListPanel().getSubjectList().getSelectedIndex();
@@ -64,14 +105,21 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that display the Subject Detail on the UI  given the Subject Object.
+     *
+     * @param subject Subject Object Information.
+     */
     private void displaySubjectDetail(Subject subject) {
         subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText(subject.getId());
         subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText(subject.getName());
         subjectPanel.getSubjectDetailPanel().getFinalGradeInfoLabel().setText(String.valueOf(subject.getFinalNote()));
         subjectPanel.getSubjectDetailPanel().updateUI();
-
     }
 
+    /**
+     * Method that add subject to the linked list.
+     */
     private void addSubject() {
         subjectDialog = new AddSubjectDialog();
         subjectDialog.getAddButton().addActionListener(e -> {
@@ -82,6 +130,7 @@ public class Controller {
                 Subject subject = new Subject(name, id, Double.parseDouble(finalGrade));
                 studentSubjectList.addChild(student, subject);
                 subjectDialog.dispose();
+                //update the subject information detail
                 updateSubjectInfoContentPanel(subject);
                 displaySubjectDetail(subject);
             }
@@ -92,6 +141,9 @@ public class Controller {
         });
     }
 
+    /**
+     * Method that add student in the linked list
+     */
     private void addStudent() {
         if (checkStudentFields()) {
             String name = addSearchPanel.getFirstnameTxt().getText();
@@ -101,44 +153,50 @@ public class Controller {
             studentSubjectList.insertElementAtEnd(student);
 
             //Display Student information in the panel
-            studentInfoPanel.getRfidInfoLabel().setText(student.getRfid());
-            studentInfoPanel.getFirstnameInfo().setText(student.getName());
-            studentInfoPanel.getLastnameInfo().setText(student.getLastName());
+            updateStudentInfoPanel();
 
             //Clean fields
             addSearchPanel.getRfidTxt().setText("");
             addSearchPanel.getFirstnameTxt().setText("");
             addSearchPanel.getLastnameTxt().setText("");
 
+            //enable the Add Subject Button
             subjectPanel.getSubjectListPanel().getAddSubjectButton().setEnabled(true);
             subjectPanel.getSubjectListPanel().getSubjectList().setModel(new DefaultListModel<>());
 
+            // Clean set input from the text fields
             subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText("");
             subjectPanel.getSubjectDetailPanel().getFinalGradeInfoLabel().setText("");
             subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText("");
         }
     }
 
-    private boolean checkStudentFields() {
-        boolean checkedFields = true;
-        if (addSearchPanel.getFirstnameTxt().getText().isEmpty() && addSearchPanel.getLastnameTxt().getText().isEmpty() && addSearchPanel.getRfidTxt().getText().isEmpty()) {
-            addSearchPanel.getCheckRfidLabel().setText("This field should not be empty");
-            addSearchPanel.getCheckFirstnameLabel().setText("This field should not be empty");
-            addSearchPanel.getCheckLastnameLabel().setText("This field should not be empty");
-            checkedFields = false;
-        } else if (addSearchPanel.getFirstnameTxt().getText().isEmpty()) {
-            addSearchPanel.getCheckFirstnameLabel().setText("This field should not be empty");
-            checkedFields = false;
-        } else if (addSearchPanel.getLastnameTxt().getText().isEmpty()) {
-            addSearchPanel.getCheckLastnameLabel().setText("This field should not be empty");
-            checkedFields = false;
-        } else if (addSearchPanel.getRfidTxt().getText().isEmpty()) {
-            addSearchPanel.getCheckRfidLabel().setText("This field should not be empty");
-            checkedFields = false;
-        }
-        return checkedFields;
+    /**
+     * Method that update the Student Detail information in the Panel.
+     */
+    private void updateStudentInfoPanel() {
+        studentInfoPanel.getRfidInfoLabel().setText(student.getRfid());
+        studentInfoPanel.getFirstnameInfo().setText(student.getName());
+        studentInfoPanel.getLastnameInfo().setText(student.getLastName());
     }
 
+    /**
+     * Method that check the student information fields.
+     *
+     * @return a boolean True if all fields are right, otherwise false.
+     */
+    private boolean checkStudentFields() {
+        boolean checkFirstName = checkEmptyField(addSearchPanel.getFirstnameTxt(), addSearchPanel.getCheckFirstnameLabel());
+        boolean checkLastName = checkEmptyField(addSearchPanel.getLastnameTxt(), addSearchPanel.getCheckLastnameLabel());
+        boolean checkRfid = checkEmptyField(addSearchPanel.getRfidTxt(), addSearchPanel.getCheckRfidLabel());
+        return checkFirstName && checkLastName && checkRfid;
+    }
+
+    /**
+     * Method that check the Subject field information is set.
+     *
+     * @return a boolean True if all fields are right, otherwise false.
+     */
     private boolean checkSubjectFields() {
         boolean checkedFields = true;
         NumericInputVerifier inputVerifier = new NumericInputVerifier();
@@ -146,38 +204,56 @@ public class Controller {
             subjectDialog.getCheckFinalGradeLabel().setText("Insert a valid Numeric field");
             checkedFields = false;
         }
-        if (subjectDialog.getIdTxt().getText().isEmpty()) {
-            subjectDialog.getCheckIdLabel().setText("This field should not be empty");
-            checkedFields = false;
-        }
-        if (subjectDialog.getNameTxt().getText().isEmpty()) {
-            subjectDialog.getCheckNameLabel().setText("This field should not be empty");
-            checkedFields = false;
-        }
-        if (subjectDialog.getFinalGradeTxt().getText().isEmpty()) {
-            subjectDialog.getCheckFinalGradeLabel().setText("This field should not be empty");
+        boolean checkId = checkEmptyField(subjectDialog.getIdTxt(), subjectDialog.getCheckIdLabel());
+        boolean checkName = checkEmptyField(subjectDialog.getNameTxt(), subjectDialog.getCheckNameLabel());
+        boolean checkFinalGrade = checkEmptyField(subjectDialog.getFinalGradeTxt(), subjectDialog.getCheckFinalGradeLabel());
+        return checkId && checkName && checkFinalGrade && checkedFields;
+    }
+
+    /**
+     * Method that check if a text field is empty and displays the validation error message.
+     *
+     * @param textField  Text Field component.
+     * @param checklabel Label Component that represents the validation label
+     * @return a boolean True if the text field is not empty, False otherwise.
+     */
+    private boolean checkEmptyField(JTextField textField, JLabel checklabel) {
+        boolean checkedFields = true;
+        if (textField.getText().isEmpty()) {
+            checklabel.setText("This field should not be empty");
             checkedFields = false;
         }
         return checkedFields;
     }
 
+    /**
+     * Method that implement the  key listener for a given text field Component.
+     *
+     * @param textField text field component.
+     */
     private void addKeyListenerTxtStudent(JTextField textField) {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent arg0) {
-                addSearchPanel.getCheckFirstnameLabel().setText("");
-                addSearchPanel.getCheckLastnameLabel().setText("");
-                addSearchPanel.getCheckRfidLabel().setText("");
+                cleanValidationMessage();
             }
         });
     }
 
+    /**
+     * Method that add key listener event to all text fields of the Student Panel.
+     */
     private void addEventCleanValidationMessage() {
         addKeyListenerTxtStudent(addSearchPanel.getRfidTxt());
         addKeyListenerTxtStudent(addSearchPanel.getFirstnameTxt());
         addKeyListenerTxtStudent(addSearchPanel.getLastnameTxt());
     }
 
+    /**
+     * Method that implement the  key listener for a given text field Component for Subject fields.
+     *
+     * @param textField textField text field component.
+     */
     private void addKeyListenerTxtSubject(JTextField textField) {
         textField.addKeyListener(new KeyAdapter() {
             @Override
@@ -189,12 +265,27 @@ public class Controller {
         });
     }
 
+    /**
+     * Method that Clean the validation messages for Student fields
+     */
+    private void cleanValidationMessage() {
+        addSearchPanel.getCheckFirstnameLabel().setText("");
+        addSearchPanel.getCheckLastnameLabel().setText("");
+        addSearchPanel.getCheckRfidLabel().setText("");
+    }
+
+    /**
+     * Method that add key listener event to all text fields of the Subject Dialog.
+     */
     private void addListenerCleanValidationMessage() {
         addKeyListenerTxtSubject(subjectDialog.getIdTxt());
         addKeyListenerTxtSubject(subjectDialog.getNameTxt());
         addKeyListenerTxtSubject(subjectDialog.getFinalGradeTxt());
     }
 
+    /**
+     * Method that go to the next element of the current Student.
+     */
     private void nextStudent() {
         if (studentSubjectList.getSize() > 0) {
             Node<Student> nextStudent = studentSubjectList.getNode(student);
@@ -208,6 +299,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that go to the previous element of the current student.
+     */
     private void previousStudent() {
         if (studentSubjectList.getSize() > 0) {
             Node<Student> studentNode = studentSubjectList.getNode(student);
@@ -221,6 +315,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that update the Subject List in the UI.
+     */
     private void updateSubjectListContentPanel() {
         DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {
@@ -234,6 +331,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that clean the Subject Detail Information.
+     */
     private void cleanSubjectDetail() {
         subjectPanel.getSubjectDetailPanel().getIdInfoLabel().setText("");
         subjectPanel.getSubjectDetailPanel().getNameInfoLabel().setText("");
@@ -241,6 +341,11 @@ public class Controller {
         subjectPanel.getSubjectDetailPanel().updateUI();
     }
 
+    /**
+     * Method that update the Subject Detail Information.
+     *
+     * @param subject Subject Object.
+     */
     private void updateSubjectInfoContentPanel(Subject subject) {
         DoubleLinkedList subjectList = studentSubjectList.getNode(student).getChild();
         if (subjectList != null) {

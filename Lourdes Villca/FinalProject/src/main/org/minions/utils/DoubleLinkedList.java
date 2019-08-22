@@ -16,7 +16,7 @@ public class DoubleLinkedList<T> implements ListModel {
     }
 
     /**
-     * Method that inserta an element to the first position of the double linked list.
+     * Method that insert an element to the first position of the double linked list.
      *
      * @param data the object data that will be created and added to the list.
      */
@@ -69,9 +69,10 @@ public class DoubleLinkedList<T> implements ListModel {
     }
 
     /**
+     * Method that get a Node given an Object data.
      *
-     * @param data
-     * @return
+     * @param data Object Information.
+     * @return the node that contains the object.
      */
     public Node<T> getNode(T data) {
         Node<T> currentNode = head;
@@ -84,6 +85,12 @@ public class DoubleLinkedList<T> implements ListModel {
         return null;
     }
 
+    /**
+     * Method that get an element given an index
+     *
+     * @param index the index information to get the Object.
+     * @return the object that is in the given index.
+     */
     public T getElementAtIndex(int index) {
         Node<T> currentNode = head;
         for (int i = 0; i < index; i++) {
@@ -92,6 +99,9 @@ public class DoubleLinkedList<T> implements ListModel {
         return currentNode.getValue();
     }
 
+    /**
+     * Method that delete the first element in the double linked list.
+     */
     public void deleteFirstElement() {
         if (head == null) {
             return;
@@ -105,6 +115,9 @@ public class DoubleLinkedList<T> implements ListModel {
         size--;
     }
 
+    /**
+     * Method that delete the last element from the linked list.
+     */
     public void deleteLastElement() {
         if (head == null) {
             return;
@@ -118,6 +131,11 @@ public class DoubleLinkedList<T> implements ListModel {
         size--;
     }
 
+    /**
+     * Method that delete an element given the index position.
+     *
+     * @param index position that will be deleted from the list.
+     */
     public void deleteElementAtIndex(int index) {
         Node<T> currentNode = head;
         for (int i = 0; i < index; i++) {
@@ -129,11 +147,17 @@ public class DoubleLinkedList<T> implements ListModel {
         size--;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getSize() {
         return size;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object getElementAt(int index) {
         Node currentNode = head;
@@ -143,11 +167,17 @@ public class DoubleLinkedList<T> implements ListModel {
         return currentNode.getValue();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addListDataListener(ListDataListener l) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeListDataListener(ListDataListener l) {
 
