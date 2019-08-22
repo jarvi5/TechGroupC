@@ -43,12 +43,14 @@ public class Controller {
         view.getBeforeButton().addActionListener(e -> previousStudent());
         view.getAllStudentButton().addActionListener(e -> allStudent());
         view.getViewGradesButton().addActionListener(e -> generateReportGrades());
+        view.getSaveStudentButton().addActionListener(e -> saveStudent());
 
         //section course of student
         view.getCAddBtn().addActionListener(e -> addCourse());
         view.getCEditBtn().addActionListener(e -> editCourses());
         view.getCNextBtn().addActionListener(e -> nextCourse());
         view.getCBeforeBtn().addActionListener(e -> previousCourse());
+        view.getcSaveBtn().addActionListener(e -> saveCourseStudent());
     }
 
     private void addStudent() {
@@ -61,17 +63,27 @@ public class Controller {
             JOptionPane.showMessageDialog(new JFrame(), "the student was register successful", "Dialog",
                     JOptionPane.INFORMATION_MESSAGE);
             clearInformationStudent();
+            allStudentTable.addRow(new Object[]{student.getRfid(), student.getLastName(), student.getFirstName()});
         } else {
             JOptionPane.showMessageDialog(new JFrame(), "the student already exists", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
         }
-        allStudentTable.addRow(new Object[]{student.getRfid(), student.getLastName(), student.getFirstName()});
     }
 
     private void clearInformationStudent() {
         view.getFirstNameTxt().setText("");
         view.getLastNameTxt().setText("");
         view.getRfidTxt().setText("");
+    }
+
+    private void updateStudentTable() {
+        cleanTable(allStudentTable);
+        MultiNode studentNode = allStudentList.getHeadNode();
+        while (studentNode != null) {
+            Student student = (Student) studentNode.getNode();
+            allStudentTable.addRow(new Object[]{student.getRfid(), student.getLastName(), student.getFirstName()});
+            studentNode = studentNode.getNext();
+        }
     }
 
     private void searchStudentByLastName() {
@@ -142,11 +154,12 @@ public class Controller {
 
 
     private void addCourse() {
-        int rfidstudent = Integer.parseInt(view.getRfidTxt().getText());
+        int row = view.getAllStudentTable().getSelectedRow();
+        int rfidStudent = (int) allStudentTable.getValueAt(row, 0);
         int idCourse = Integer.parseInt(view.getCIdTxt().getText());
         int gradeCourse = Integer.parseInt(view.getCFinalTxt().getText());
         String courseName = view.getCNameTxt().getText();
-        Student student = searchByRfid(rfidstudent);
+        Student student = searchByRfid(rfidStudent);
         if (student != null) {
             allStudentList.addChild(student, new Course(idCourse, courseName, gradeCourse));
             JOptionPane.showMessageDialog(new JFrame(), "the course was register successful", "Dialog",
@@ -156,7 +169,6 @@ public class Controller {
             JOptionPane.showMessageDialog(new JFrame(), "the student does not exists, please first add new " +
                     "srudent", "Dialog", JOptionPane.ERROR_MESSAGE);
         }
-        view.getRfidTxt().setText("");
         view.getCIdTxt().setText("");
         view.getCFinalTxt().setText("");
         view.getCNameTxt().setText("");
@@ -247,5 +259,51 @@ public class Controller {
             JOptionPane.showMessageDialog(new JFrame(), "Don´t found more course ", "Dialog",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void saveStudent() {
+        String firstName = view.getFirstNameTxt().getText();
+        String lastName = view.getLastNameTxt().getText();
+        int rfid = Integer.parseInt(view.getRfidTxt().getText());
+
+        MultiNode studentNode = allStudentList.getHeadNode();
+        while (studentNode != null) {
+            Student student = (Student) studentNode.getNode();
+            if (student.getRfid() == rfid) {
+                studentNode.setNode(new Student(rfid, firstName, lastName));
+                updateStudentTable();
+                break;
+            }
+            studentNode = studentNode.getNext();
+        }
+    }
+
+    private void saveCourseStudent() {
+        int row = view.getAllStudentTable().getSelectedRow();
+        int rfidStudent = (int) allStudentTable.getValueAt(row, 0);
+        int idCourse = Integer.parseInt(view.getCIdTxt().getText());
+        int gradeCourse = Integer.parseInt(view.getCFinalTxt().getText());
+        String courseName = view.getCNameTxt().getText();
+
+        MultiNode studentNode = allStudentList.getHeadNode();
+        while (studentNode != null) {
+            Student student = (Student) studentNode.getNode();
+            if (student.getRfid() == rfidStudent) {
+                Node courseNode = studentNode.getChild().getHeadNode();
+                while (courseNode != null) {
+                    Course course = (Course) courseNode.getNode();
+                    if (course.getId() == idCourse) {
+                        courseNode.setNode(new Course(idCourse, courseName, gradeCourse));
+                        break;
+                    }
+                }
+                generateReportGrades();
+                break;
+            }
+            studentNode = studentNode.getNext();
+        }
+        view.getCIdTxt().setText("");
+        view.getCFinalTxt().setText("");
+        view.getCNameTxt().setText("");
     }
 }

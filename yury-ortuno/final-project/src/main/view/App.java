@@ -8,7 +8,7 @@ public class App {
     private JTextField searchStudentTxt;
     private JButton searchButton;
     private JButton editButton;
-    private JButton updateButton;
+    private JButton saveStudentButton;
     private JButton addButton;
     private JTextField firstNameTxt;
     private JButton beforeButton;
@@ -16,7 +16,7 @@ public class App {
     private JLabel studentResult;
     private JButton CEditBtn;
     private JButton CAddBtn;
-    private JButton CUpdateBtn;
+    private JButton cSaveBtn;
     private JButton CSearchBtn;
     private JLabel courseResult;
     private JButton CNextBtn;
@@ -104,12 +104,12 @@ public class App {
         this.editButton = editButton;
     }
 
-    public JButton getUpdateButton() {
-        return updateButton;
+    public JButton getSaveStudentButton() {
+        return saveStudentButton;
     }
 
-    public void setUpdateButton(JButton updateButton) {
-        this.updateButton = updateButton;
+    public void setSaveStudentButton(JButton saveStudentButton) {
+        this.saveStudentButton = saveStudentButton;
     }
 
     public JButton getAddButton() {
@@ -168,12 +168,12 @@ public class App {
         this.CAddBtn = CAddBtn;
     }
 
-    public JButton getCUpdateBtn() {
-        return CUpdateBtn;
+    public JButton getcSaveBtn() {
+        return cSaveBtn;
     }
 
-    public void setCUpdateBtn(JButton CUpdateBtn) {
-        this.CUpdateBtn = CUpdateBtn;
+    public void setcSaveBtn(JButton cSaveBtn) {
+        this.cSaveBtn = cSaveBtn;
     }
 
     public JButton getCSearchBtn() {
